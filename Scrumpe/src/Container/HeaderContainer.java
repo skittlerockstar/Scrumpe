@@ -6,22 +6,26 @@
 
 package Container;
 
+import Container.Content.Component.Logo;
 import Container.Content.HeaderContent;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import scrumpe.UI.UIContainer;
+import scrumpe.UI.UIComponent;
 
 /**
  *
  * @author MJ. Verhoeven
  */
-class HeaderContainer extends UIContainer {
+class HeaderContainer extends UIComponent {
 
     private HeaderContent content;
     public HeaderContainer() {
         super(new BorderLayout());
         content = new HeaderContent();
+        Logo l = new Logo();
+        
         add(content,content.UIPos);
     }
+    
     
 }

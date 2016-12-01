@@ -7,12 +7,20 @@
 package Container.Content;
 
 import Container.Content.Component.Logo;
+import Utils.AssHandler;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.awt.LayoutManager2;
 import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import scrumpe.UI.UIComponent;
 
 /**
@@ -24,10 +32,14 @@ public class HeaderContent extends UIComponent {
     /**
      * Creates new form FooterContent
      */
-   
+    Logo logo;
     public HeaderContent() {
-        super(new FlowLayout());
+        super();
+        logo = new Logo(Logo.Location.CENTER);
         initComponents();
+        jLabel2.setForeground(new Color(99, 159, 255));
+        System.out.println(jLabel1.getClass().getSimpleName());
+        setPos();
     }
 
     /**
@@ -38,10 +50,34 @@ public class HeaderContent extends UIComponent {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
+        jLabel2.setText("Scrumpe");
+        add(jLabel2, new java.awt.GridBagConstraints());
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("A Scrum Practice Exam Application");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        add(jLabel1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+
+    private void setPos() {
+       // LayoutManager l =  getLayout();
+       // l.addLayoutComponent("", logo);
+    }
 
 }

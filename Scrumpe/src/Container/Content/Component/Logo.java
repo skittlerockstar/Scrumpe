@@ -9,13 +9,17 @@ package Container.Content.Component;
 import Utils.AssHandler;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
@@ -24,9 +28,11 @@ import javax.swing.JPanel;
  */
 public class Logo extends JPanel{
 
-    private BufferedImage image;
+    public enum Location{LEFT,CENTER,RIGHT};
+    private static BufferedImage image;
     private int w,h;
-
+    private int location = 0;
+    
     public int getW() {
         return w;
     }
@@ -35,20 +41,33 @@ public class Logo extends JPanel{
         return h;
     }
     public Logo() {
-       try {
-           System.out.println(AssHandler.getRootDir()+AssHandler.ASSET_DIR);
-           image = ImageIO.read(new File(AssHandler.getRootDir()+AssHandler.ASSET_DIR+"squerist.jpg"));
-           w = image.getWidth();
-           h = image.getHeight();
-       } catch (IOException ex) {
-         ex.printStackTrace();
-       }
+       this(Location.LEFT);
+    }
+    public Logo(Location location){
+        createLogo();
+        w = image.getWidth();
+        h = image.getHeight();
+        setPreferredSize(new Dimension(w, h));
+        int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        if(location == Location.CENTER) this.location = (width/2)-(w/2);
+        else if(location == Location.RIGHT) this.location = width-(w+20);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-        g.drawImage(image, 0, 0, this);
+        g.drawImage(image,location , 0, this);
+    }
+
+    public static BufferedImage createLogo() {
+        try {
+           System.out.println(AssHandler.getRootDir()+AssHandler.ASSET_DIR);
+           image = ImageIO.read(new File(AssHandler.getRootDir()+AssHandler.ASSET_DIR+"squerist.png"));
+           return image;
+       } catch (IOException ex) {
+         ex.printStackTrace();
+         return (BufferedImage) BufferedImage.UndefinedProperty;
+       }
     }
     
 }

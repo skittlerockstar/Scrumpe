@@ -6,6 +6,7 @@
 package scrumpe;
 
 import Container.MainUIContainer;
+import Utils.SystemSettings;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.SwingUtilities;
@@ -14,30 +15,33 @@ import javax.swing.SwingUtilities;
  *
  * @author Ruud
  */
-public class Scrumpe implements Runnable{
+public class Scrumpe implements Runnable {
 
     /**
      * @param args the command line arguments
      */
-     private static App app;
+    private static App app;
+
     public static void main(String[] args) {
-       
-           Scrumpe example = new Scrumpe();
+
+        Scrumpe example = new Scrumpe();
         // schedule this for the event dispatch thread (edt)
         SwingUtilities.invokeLater(example);
     }
-     public void run()
-    {
+
+    public void run() {
         app = App.getInstance();
-//        logAllComponents(App.mainFrame);
+        SystemSettings.setSettings();
+        //logAllComponents(App.mainFrame);
     }
-     public static void logAllComponents(Container x){
-        for(Component c: x.getComponents()){
+
+    public static void logAllComponents(Container x) {
+        for (Component c : x.getComponents()) {
             System.out.println(c.toString());
-            if(c instanceof Container){
-               logAllComponents((Container)c);
+            if (c instanceof Container) {
+                logAllComponents((Container) c);
             }
         }
     }
-    
+
 }

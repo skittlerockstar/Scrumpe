@@ -3,27 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Container;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JPanel;
+import scrumpe.UI.AppStyle;
 import scrumpe.UI.AppUIBase;
 
 /**
  *
  * @author MJ. Verhoeven
  */
-public class MainFrame extends AppUIBase{
+public class MainFrame extends AppUIBase {
+
     private static MainFrame instance;
     private MainUIContainer mainContainer;
-    
+
     private MainFrame() {
         setMainContainer();
+        
         setFrameDesign();
         setFrameProperties();
     }
-    
-    public static MainFrame getInstance(){
-        if(instance == null) instance = new MainFrame();
+
+    public static MainFrame getInstance() {
+        if (instance == null) {
+            instance = new MainFrame();
+        }
         return instance;
     }
 
@@ -33,18 +41,21 @@ public class MainFrame extends AppUIBase{
         //        Rectangle usableBounds = SunGraphicsEnvironment.getUsableBounds(config.getDevice());
         //        super.setUndecorated(true);
         //        super.setMaximizedBounds(usableBounds);
-        
+
         super.setExtendedState(MAXIMIZED_BOTH);
         super.pack();
         super.setVisible(true);
+        super.setBackground(Color.RED);
     }
 
-    private void setFrameDesign(){
+    private void setFrameDesign() {
         //TODO Frame Design
     }
 
     private void setMainContainer() {
-         mainContainer = new MainUIContainer();
-         add(mainContainer,mainContainer.UIPos);
+        mainContainer = new MainUIContainer();
+        add(mainContainer, mainContainer.UIPos);
     }
+
+
 }

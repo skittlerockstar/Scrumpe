@@ -24,7 +24,7 @@ public abstract class UIComponent extends JPanel implements MouseListener, Apply
     public String UIPos = BorderLayout.CENTER;
     private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5;
     public UIComponent() {
-        super();
+        super( new BorderLayout());
         setBorder(new EmptyBorder(PTOP, PLEFT, PBOTTOM, PRIGHT));
        
     }
@@ -33,19 +33,44 @@ public abstract class UIComponent extends JPanel implements MouseListener, Apply
         super(layout);
     }
 
-    
-//    In de Abstract class
     @Override
-    public Component add(Component c) {
-        //applyStyle(c);
-        
-        return super.add(c);
+    public void add(Component comp, Object constraints, int index) {
+        applyStyle(comp);
+        super.add(comp, constraints, index); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void applyStyle(Component c) {
-        //  AppTheme.applyStyle(c);
+    public void add(Component comp, Object constraints) {
+        applyStyle(comp);
+        super.add(comp, constraints); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Component add(Component comp, int index) {
+        applyStyle(comp);
+        return super.add(comp, index); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Component add(String name, Component comp) {
+        applyStyle(comp);
+        return super.add(name, comp); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Component add(Component comp) {
+        applyStyle(comp);
+        return super.add(comp); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    @Override
+    public void applyStyle(Component c) {
+           AppTheme.gI().applyStyle(c);
+           //super.add(c);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e){
