@@ -3,43 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Container;
-
-import Container.Content.LoginScreen;
-import Container.Content.MainScreen;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
+import Container.Content.*;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.border.Border;
+import java.util.HashMap;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * The main container in the UIContainer
  * @author MJ. Verhoeven
  */
 class MainContainer extends UIComponent {
 
+    public static UIComponent currentScreen;
+    private enum MainScreens {
+        Login, Main
+    };
+
+    private HashMap<Enum<MainScreens>, UIComponent> mainScreens;
+
     public MainContainer() {
         super(new GridBagLayout());
+        setAttr();
+        loadContainer(MainScreens.Login);
         setBackground(AppStyle.TRANSLUCENT);
-        LoginScreen ls = new LoginScreen();
-        add(ls,new GridBagConstraints());
-        
-//        setLayout(new BorderLayout());
-//        MainScreen s = new MainScreen();
-//        add(s,BorderLayout.CENTER);
-//        s.setBackground(new Color(0.7f, 0.7f, 0.7f, 0.0f));
-       
-        
     }
-    
+
+    private void setAttr() {
+        mainScreens = new HashMap<>();
+        mainScreens.put(MainScreens.Login, new LoginScreen());
+        mainScreens.put(MainScreens.Main, new MainScreen());
+    }
+
+    private void loadContainer(MainScreens screen) {
+        removeAll();
+        currentScreen = mainScreens.get(screen);
+        setLayout(currentScreen.getNewLayout());
+        add(currentScreen,currentScreen.getUIPos());
+    }
+
 }

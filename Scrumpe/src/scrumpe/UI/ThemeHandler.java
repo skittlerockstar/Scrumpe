@@ -5,67 +5,68 @@
  */
 package scrumpe.UI;
 
-import Utils.TypeHandler;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.List;
-import java.awt.RenderingHints;
-import java.awt.color.ColorSpace;
 import java.awt.event.MouseListener;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import org.w3c.dom.events.MouseEvent;
-import static scrumpe.Scrumpe.logAllComponents;
 
 /**
- *
+ * used to apply themes to UI components
+ * TODO Needs cleaning
  * @author MJ. Verhoeven
  */
-class AppTheme implements MouseListener {
+class ThemeHandler implements MouseListener {
 
-    public enum CLAZZ {
-
+    /**
+     * All UI components in SWING for checking components
+     */
+    private enum CLAZZ {
         JPanel, JTabbedPane, JSplitPane, JScrollPane, JToolBar, JDesktopPane, JInternalFrame, JLayeredPane, JLabel, JButton, JToggleButton, JCheckBox, JRadioButton, ButtonGroup, JComboBox, JList, JTextField, JTextArea, JScrollBar, JSlider, JProgressBar, JFormattedTextField, JPasswordField, JSpinner, JSeparator, JTextPane, JEditorPane, JTree, JTable, JMenuBar, JMenu, JMenuItem, JCheckBoxMenuItem, JRadioButtonMenuItem, JPopupMenu, JDialog, JFrame, JColorChooser, JFileChooser, JOptionPane
     }
-    private static AppTheme instance;
+    private static ThemeHandler instance; //singleton
 
-    public static AppTheme gI() {
-        if (instance == null) {
-            instance = new AppTheme();
-        }
+    /**
+     * get singleton instance
+     * @return 
+     */
+    public static ThemeHandler gI() {
+        if (instance == null) 
+            instance = new ThemeHandler(); 
         return instance;
     }
 
-    private AppTheme() {
+    private ThemeHandler() {}
 
-    }
-
-    public void applyStyle(Component c) {
-        if (c instanceof JPanel) {
-            Container cont = (Container) c;
-            System.out.println(c.toString());
+    
+    /**
+     * Walk through container and apply style on any UI Component
+     * @param container 
+     */
+    public void applyStyleIn(Component container) {
+        if (container instanceof JPanel) {
+            Container cont = (Container) container;
             for (Component x : cont.getComponents()) {
-                applyStyle(x);
+                applyStyleIn(x);
             }
         } else {
-            applyCompStyle(c);
+            applyCompStyle(container);
         }
     }
 
-    private void applyCompStyle(Component c) {
-        CLAZZ type = CLAZZ.valueOf(c.getClass().getSimpleName());
+    /**
+     * Apply Style to any Component
+     * @param compToDecorate 
+     */
+    private void applyCompStyle(Component compToDecorate) {
+        CLAZZ type = CLAZZ.valueOf(compToDecorate.getClass().getSimpleName());
         switch (type) {
             case JButton:
-                styleButton((JButton)c);
-                c.addMouseListener(this);
+                styleButton((JButton)compToDecorate);
+                compToDecorate.addMouseListener(this);
             default:
-                setDefaults(c);
+                setDefaults(compToDecorate);
                 break;
         }
     }

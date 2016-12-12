@@ -6,16 +6,11 @@
 
 package Container.Content;
 
-import Container.MainFrame;
-import Container.MainUIContainer;
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.MouseEvent;
-import scrumpe.App;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * content of the footer - Swing design file
  * @author MJ. Verhoeven
  */
 public class FooterContent extends UIComponent {
@@ -47,20 +42,4 @@ public class FooterContent extends UIComponent {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
 }

@@ -11,6 +11,10 @@ package Utils;
  */
 public class SystemSettings {
 
+    /**
+     * Turn on anti-aliasing for fonts
+     * TODO create more settings
+     */
     public static void setSettings() {
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");

@@ -4,37 +4,37 @@
  * and open the template in the editor.
  */
 package Container;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JPanel;
-import scrumpe.UI.AppStyle;
 import scrumpe.UI.AppUIBase;
 
 /**
+ * Main JFrame. Used to create the JFrame and setup the rest of UI. Singleton.
  *
  * @author MJ. Verhoeven
  */
 public class MainFrame extends AppUIBase {
-
-    private static MainFrame instance;
+    private static MainFrame mainFrameInstance;
     private MainUIContainer mainContainer;
-
     private MainFrame() {
         setMainContainer();
-        
         setFrameDesign();
         setFrameProperties();
     }
 
+    /**
+     * get singleton instance
+     * @return
+     */
+
     public static MainFrame getInstance() {
-        if (instance == null) {
-            instance = new MainFrame();
+        if (mainFrameInstance == null) {
+            mainFrameInstance = new MainFrame();
         }
-        return instance;
+        return mainFrameInstance;
     }
 
+    /**
+     * Used to set the Frame fullscreen and visible
+     */
     private void setFrameProperties() {
         // only used for fullscreen undecorated frame. makes sure the taskbar isn't overlapped.
         //        GraphicsConfiguration config = super.getGraphicsConfiguration();
@@ -45,17 +45,18 @@ public class MainFrame extends AppUIBase {
         super.setExtendedState(MAXIMIZED_BOTH);
         super.pack();
         super.setVisible(true);
-        super.setBackground(Color.RED);
     }
 
     private void setFrameDesign() {
         //TODO Frame Design
     }
 
+    /**
+     * creates and sets the uicontainer panel in the main JFrame
+     */
     private void setMainContainer() {
         mainContainer = new MainUIContainer();
         add(mainContainer, mainContainer.UIPos);
     }
-
 
 }

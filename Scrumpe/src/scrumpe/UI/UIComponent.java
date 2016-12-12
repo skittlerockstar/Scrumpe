@@ -8,25 +8,23 @@ package scrumpe.UI;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javafx.scene.paint.Color;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 /**
- *
+ *  Base class for all UI Components in app
  * @author MJ. Verhoeven
  */
-public abstract class UIComponent extends JPanel implements MouseListener, ApplyStyle{
+public abstract class UIComponent extends JPanel implements ApplyStyle{
 
     public String UIPos = BorderLayout.CENTER;
     private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5;
+    
     public UIComponent() {
         super( new BorderLayout());
         setBorder(new EmptyBorder(PTOP, PLEFT, PBOTTOM, PRIGHT));
-       
     }
     
     public UIComponent(LayoutManager layout) {
@@ -63,39 +61,38 @@ public abstract class UIComponent extends JPanel implements MouseListener, Apply
         return super.add(comp); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    
+    /**
+     *
+     * @param c
+     */
     @Override
     public void applyStyle(Component c) {
-           AppTheme.gI().applyStyle(c);
+           ThemeHandler.gI().applyStyleIn(c);
            //super.add(c);
     }
 
-
-    @Override
-    public void mouseClicked(MouseEvent e){
-        e.getComponent().setBackground(java.awt.Color.DARK_GRAY);
-        System.out.println(e.getComponent().toString());
+    /**
+     * returns position of the childclass to fit the container
+     * @return
+     */
+    public Object getUIPos() {
+        if(getLayout() instanceof GridBagLayout == false){
+            return UIPos;
+        }else{
+        return new GridBagConstraints();
+        }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-      System.out.println(e.getComponent().toString());
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-       System.out.println(e.getComponent().toString());
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-      System.out.println(e.getComponent().toString());
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-       System.out.println(e.getComponent().toString());
+    /**
+     * returns the layout used by the child class to fit the container
+     * @return
+     */
+    public LayoutManager getNewLayout(){
+        try {
+            return getLayout().getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            return null;
+        }
     }
     
     

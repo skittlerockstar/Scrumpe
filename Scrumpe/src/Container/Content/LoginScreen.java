@@ -7,37 +7,27 @@
 package Container.Content;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.MouseListener;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import scrumpe.UI.AppStyle;
-import scrumpe.UI.AppUIBase;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * Creates new form LoginScreen 
  * @author MJ. Verhoeven
  */
-public class LoginScreen extends UIComponent implements MouseListener{
-
-    /**
-     * Creates new form LoginScreen
-     */
+public class LoginScreen extends UIComponent{
+   
     public LoginScreen() {
         super();
         initComponents();
         Border margin = new EmptyBorder(10,10,10,10);
         setBorder(margin);
-        jTextField3.setBorder(AppStyle.BUTTON_BORDER);
-        jPasswordField1.setBorder(AppStyle.BUTTON_BORDER);
-        jButton5.setBorder(AppStyle.BUTTON_BORDER);
-        jButton5.setBackground(Color.white);
-        
+        //TODO  applystyle on borders
+//        jTextField3.setBorder(AppStyle.BUTTON_BORDER);
+//        jPasswordField1.setBorder(AppStyle.BUTTON_BORDER);
+//        jButton5.setBorder(AppStyle.BUTTON_BORDER);
+//        jButton5.setBackground(Color.white);
     }
 
     /**

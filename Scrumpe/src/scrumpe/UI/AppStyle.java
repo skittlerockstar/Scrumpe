@@ -13,7 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 /**
- *
+ * static class that contains the app Styles
  * @author MJ. Verhoeven
  */
 public class AppStyle {
@@ -34,7 +34,11 @@ public class AppStyle {
     private static final Color BUTTON_BORDER_COLOR = MAIN_COLOR_DARK;
     public static final Border BUTTON_BORDER = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(BUTTON_BORDER_COLOR),BorderFactory.createEmptyBorder(5,15,5,15));
     
-  public static Border createThemeBorder(){
+    /**
+     *
+     * @return
+     */
+    public static Border createThemeBorder(){
      return BorderFactory.createCompoundBorder( 
                 BorderFactory.createLineBorder(new Color(66, 134, 244 ,200), 1, true)
                 ,BorderFactory.createEmptyBorder(5,5,5,5)

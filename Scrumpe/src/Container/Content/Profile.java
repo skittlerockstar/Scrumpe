@@ -7,7 +7,7 @@
 package Container.Content;
 
 /**
- *
+ * Creates a new profile component for in the header container
  * @author MJ. Verhoeven
  */
 public class Profile extends javax.swing.JPanel {

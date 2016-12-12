@@ -13,5 +13,10 @@ import java.awt.Component;
  * @author MJ. Verhoeven
  */
 public interface ApplyStyle {
+
+    /**
+     *
+     * @param c
+     */
     void applyStyle(Component c);
 }

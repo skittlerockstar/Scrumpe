@@ -7,11 +7,16 @@
 package Utils;
 
 /**
- *
+ * class for handling assets. get it? Ass Handler. haha. no? I'll just let myself out.
  * @author MJ. Verhoeven
  */
 public class AssHandler {
     public static final String ASSET_DIR = "assets\\";
+
+    /**
+     *
+     * @return
+     */
     public static String getRootDir(){
        return System.getProperty("user.dir")+"\\src\\";
     }

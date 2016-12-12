@@ -6,8 +6,12 @@
 
 package Container.Content.Component;
 
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JButton;
+
 /**
- *
+ *  navigation component in header file
  * @author MJ. Verhoeven
  */
 public class Navigation extends javax.swing.JPanel {
@@ -15,10 +19,30 @@ public class Navigation extends javax.swing.JPanel {
     /**
      * Creates new form Navigation
      */
-    public Navigation() {
+    List<JButton> navButtons = new ArrayList<>();
+    private static Navigation instance;
+    private static Class currentScreen;
+    private Navigation() {
         initComponents();
     }
 
+    /**
+     *
+     * @return
+     */
+    public static Navigation getInstance(){
+        if(instance == null){
+            instance = new Navigation();
+        }
+        return instance;
+    }
+    private void setNavigation(){
+        this.removeAll();
+        add(new JButton("Records"));
+        add(new JButton("Help"));
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

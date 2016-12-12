@@ -6,20 +6,18 @@
 package Container;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
-import scrumpe.Scrumpe;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * The container in the mainframe which contains the header, main and footer container.
  * @author MJ. Verhoeven
  */
 public class MainUIContainer extends UIComponent {
 
-    public UIComponent UIHeader, UIMain, UIFooter;
+    private UIComponent UIHeader,UIMain,UIFooter;
     private JPanel spaceHolderL,spaceHolderR;
     public MainUIContainer() {
         super(new BorderLayout());
@@ -27,7 +25,10 @@ public class MainUIContainer extends UIComponent {
         setSpaceHolder();
         super.setBackground(AppStyle.BG_COLOR_DARK);
     }
-
+    
+    /**
+     * add 3 main components : header, main and footer.
+     */
     private void createContent() {
         UIHeader = new HeaderContainer();
         UIMain = new MainContainer();
@@ -38,6 +39,10 @@ public class MainUIContainer extends UIComponent {
         add(UIFooter, BorderLayout.PAGE_END);
     }
 
+    /**
+     * sidebars to compensate space.
+     * TODO need to make this responsive
+     */
     private void setSpaceHolder() {
         spaceHolderL = new JPanel();
         spaceHolderR = new JPanel();

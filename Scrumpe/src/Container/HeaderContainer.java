@@ -9,11 +9,10 @@ package Container;
 import Container.Content.Component.Logo;
 import Container.Content.HeaderContent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * Header in the UIContainer
  * @author MJ. Verhoeven
  */
 class HeaderContainer extends UIComponent {

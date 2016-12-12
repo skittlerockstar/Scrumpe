@@ -7,32 +7,16 @@
 package Container.Content;
 
 import Container.Content.Component.Logo;
-import Utils.AssHandler;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
-import java.awt.LayoutManager2;
-import java.awt.event.MouseEvent;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * Content of the footer - Swing design file
  * @author MJ. Verhoeven
  */
 public class HeaderContent extends UIComponent {
 
-    /**
-     * Creates new form FooterContent
-     */
-    Logo logo;
+    private Logo logo; // used for logo
     public HeaderContent() {
         super();
         logo = new Logo(Logo.Location.CENTER);
@@ -76,8 +60,6 @@ public class HeaderContent extends UIComponent {
     // End of variables declaration//GEN-END:variables
 
     private void setPos() {
-       // LayoutManager l =  getLayout();
-       // l.addLayoutComponent("", logo);
     }
 
 }

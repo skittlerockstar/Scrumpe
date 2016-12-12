@@ -7,21 +7,24 @@
 package scrumpe;
 
 import Container.MainFrame;
-import Container.MainUIContainer;
-
 /**
- *
+ * Entry point for Main Application. Singleton.
  * @author MJ. Verhoeven
  */
 public class App {
-    private static App instance;
-    public static MainFrame mainFrame;
+    private static App instance; //this
+    private static MainFrame mainFrame; // main frame instance
     
     private App() {
+        //new MainFrame singleton
         mainFrame = MainFrame.getInstance();
     }
     
-    public static App getInstance(){
+    /**
+     * Get app singleton
+     * @return
+     */
+    public static App getInstance(){ 
         if(instance == null) instance = new App();
         return instance;
     }

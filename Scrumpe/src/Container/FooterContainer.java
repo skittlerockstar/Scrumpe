@@ -8,15 +8,13 @@ package Container;
 
 import Container.Content.FooterContent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * Footer in the UIContainer 
  * @author MJ. Verhoeven
  */
 class FooterContainer extends UIComponent {
-
     private FooterContent content;
     public FooterContainer() {
         super(new BorderLayout());

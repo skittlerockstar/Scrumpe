@@ -6,24 +6,18 @@
 
 package Container.Content;
 
-import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
-import scrumpe.Scrumpe;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
 
 /**
- *
+ * The mainscreen after the login page
  * @author MJ. Verhoeven
  */
 public class MainScreen extends UIComponent {
 
-    /**
-     * Creates new form MainScreen
-     */
     public MainScreen() {
         initComponents();
-       
     }
 
     /**

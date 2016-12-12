@@ -5,7 +5,6 @@
  */
 package scrumpe;
 
-import Container.MainUIContainer;
 import Utils.SystemSettings;
 import java.awt.Component;
 import java.awt.Container;
@@ -13,30 +12,35 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author Ruud
+ * @author Max Verhoeven
  */
 public class Scrumpe implements Runnable {
+    private static App app; // application singleton instance
 
     /**
-     * @param args the command line arguments
+     *  Application entrypoint
+     * @param args
      */
-    private static App app;
-
     public static void main(String[] args) {
-
         Scrumpe example = new Scrumpe();
-        // schedule this for the event dispatch thread (edt)
         SwingUtilities.invokeLater(example);
     }
-
+    /**
+     *  instantiate app
+     *  create system settings
+     */
     public void run() {
         app = App.getInstance();
         SystemSettings.setSettings();
-        //logAllComponents(App.mainFrame);
     }
 
-    public static void logAllComponents(Container x) {
-        for (Component c : x.getComponents()) {
+    /**
+     * Used to walk all components in given container and print them out.
+     * TODO turn off in final build
+     * @param givenContainer
+     */
+        public static void logAllComponents(Container givenContainer) {
+        for (Component c : givenContainer.getComponents()) {
             System.out.println(c.toString());
             if (c instanceof Container) {
                 logAllComponents((Container) c);
