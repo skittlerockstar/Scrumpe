@@ -5,12 +5,25 @@
  */
 package scrumpe.UI;
 
+import Container.Content.MainScreen;
+import java.awt.Button;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
  * used to apply themes to UI components
@@ -23,7 +36,7 @@ class ThemeHandler implements MouseListener {
      * All UI components in SWING for checking components
      */
     private enum CLAZZ {
-        JPanel, JTabbedPane, JSplitPane, JScrollPane, JToolBar, JDesktopPane, JInternalFrame, JLayeredPane, JLabel, JButton, JToggleButton, JCheckBox, JRadioButton, ButtonGroup, JComboBox, JList, JTextField, JTextArea, JScrollBar, JSlider, JProgressBar, JFormattedTextField, JPasswordField, JSpinner, JSeparator, JTextPane, JEditorPane, JTree, JTable, JMenuBar, JMenu, JMenuItem, JCheckBoxMenuItem, JRadioButtonMenuItem, JPopupMenu, JDialog, JFrame, JColorChooser, JFileChooser, JOptionPane
+        JViewport,ScrollBar, JPanel, JTabbedPane, JSplitPane, JScrollPane, JToolBar, JDesktopPane, JInternalFrame, JLayeredPane, JLabel, JButton, JToggleButton, JCheckBox, JRadioButton, ButtonGroup, JComboBox, JList, JTextField, JTextArea, JScrollBar, JSlider, JProgressBar, JFormattedTextField, JPasswordField, JSpinner, JSeparator, JTextPane, JEditorPane, JTree, JTable, JMenuBar, JMenu, JMenuItem, JCheckBoxMenuItem, JRadioButtonMenuItem, JPopupMenu, JDialog, JFrame, JColorChooser, JFileChooser, JOptionPane
     }
     private static ThemeHandler instance; //singleton
 
@@ -45,14 +58,18 @@ class ThemeHandler implements MouseListener {
      * @param container 
      */
     public void applyStyleIn(Component container) {
-        if (container instanceof JPanel) {
-            Container cont = (Container) container;
-            for (Component x : cont.getComponents()) {
-                applyStyleIn(x);
-            }
-        } else {
-            applyCompStyle(container);
-        }
+//        if(container instanceof UIComponent){
+//            return;
+//        }
+//        if (container instanceof JPanel || container instanceof JScrollPane || container instanceof JViewport) {
+//            Container cont = (Container) container;
+//             setPaneStyle(container);
+//            for (Component x : cont.getComponents()) {
+//                applyStyleIn(x);
+//            }
+//        } else {
+//            applyCompStyle(container);
+//        }
     }
 
     /**
@@ -65,14 +82,15 @@ class ThemeHandler implements MouseListener {
             case JButton:
                 styleButton((JButton)compToDecorate);
                 compToDecorate.addMouseListener(this);
+                break;
+            case ScrollBar:
+                setScrollBarStyle((JScrollBar)compToDecorate);
+                break;
             default:
-                setDefaults(compToDecorate);
+                
                 break;
         }
-    }
-
-    private void setButtonStyle(Component c) {
-    
+        setDefaults(compToDecorate);
     }
 
     private void setButtonHoverStyle(Component c) {
@@ -106,8 +124,10 @@ class ThemeHandler implements MouseListener {
     }
 
     private void styleButton(JButton c) {
-        c.setBackground(AppStyle.BUTTON_BG);
-        c.setBorder(AppStyle.BUTTON_BORDER);
+       // c.setBackground(AppStyle.BUTTON_BG);
+//        UIManager.put("Button.background", Color.red);
+        
+        c.setBorder(AppStyle.createThemeBorder(AppStyle.BorderPos.OUTSIDE,AppStyle.DEF_PAD,AppStyle.MAIN_COLOR_DARK));
         c.setFocusPainted(false);
     }
 
@@ -115,12 +135,33 @@ class ThemeHandler implements MouseListener {
         int size = c.getFont().getSize();
         if(size > 20){
             c.setForeground(AppStyle.MAIN_COLOR_DARK);
+        }else{
+                 c.setForeground(AppStyle.TEXT_COLOR_DARK);
         }
         c.setFont(new Font(AppStyle.TEXT_FONT, AppStyle.FONT_STYLE, size));
     }
 
     private void setDefaults(Component c) {
         setFont(c);
+    }
+    private void setDefaultBorder(Component c) {
+        if(c instanceof JComponent){
+            JComponent j = (JComponent) c;
+            j.setBorder(AppStyle.createThemeBorder());
+        }
+    }
+     private void setPaneStyle(Component container) {
+    }
+
+    private void setScrollBarStyle(JScrollBar jScrollBar) {
+        jScrollBar.setBackground(Color.white);
+        jScrollBar.setPreferredSize(new Dimension(15, jScrollBar.getPreferredSize().height));
+        jScrollBar.setBorder(BorderFactory.createEmptyBorder());
+       Component[] asdf= jScrollBar.getComponents();
+       for(Component k : asdf){
+           System.err.println(k.getClass().getSimpleName());
+       }
+        
     }
 
 }

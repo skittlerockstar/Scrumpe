@@ -14,6 +14,7 @@ import scrumpe.UI.AppUIBase;
 public class MainFrame extends AppUIBase {
     private static MainFrame mainFrameInstance;
     private MainUIContainer mainContainer;
+    
     private MainFrame() {
         setMainContainer();
         setFrameDesign();

@@ -6,48 +6,27 @@
 
 package Container.Content.Component;
 
-import java.awt.FlowLayout;
-import java.util.List;
-import java.util.ArrayList;
-import javax.swing.JButton;
+import java.awt.BorderLayout;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
 
 /**
- *  navigation component in header file
+ *
  * @author MJ. Verhoeven
  */
-public class Navigation extends UIComponent {
+public class ContentHeader extends UIComponent {
 
+    String screenName;
     /**
-     * Creates new form Navigation
+     * Creates new form ContentHeader
      */
-    List<JButton> navButtons = new ArrayList<>();
-    private static Navigation instance;
-    private static Class currentScreen;
-    Navigation() {
+    public ContentHeader(String screenName) {
         super();
         initComponents();
         setNavigation();
+        screenTitle.setText(screenName);
     }
 
-    /**
-     *
-     * @return
-     */
-    public static Navigation getInstance(){
-        if(instance == null){
-            instance = new Navigation();
-        }
-        return instance;
-    }
-    private void setNavigation(){
-        this.removeAll();
-        add(new JButton("Records"));
-        add(new JButton("Help"));
-    }
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,17 +36,33 @@ public class Navigation extends UIComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout();
-        flowLayout1.setAlignOnBaseline(true);
-        setLayout(flowLayout1);
+        jPanel1 = new javax.swing.JPanel();
+        screenTitle = new javax.swing.JLabel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(AppStyle.TRANSLUCENT);
+
+        screenTitle.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        screenTitle.setText("Home");
+        screenTitle.setToolTipText("");
+        jPanel1.add(screenTitle);
+
+        add(jPanel1, java.awt.BorderLayout.LINE_START);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel screenTitle;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void applyCustomStyle() {
         setBackground(AppStyle.TRANSLUCENT);
+    }
+
+    private void setNavigation() {
+        add(new Navigation(),BorderLayout.LINE_END);
     }
 }

@@ -138,5 +138,9 @@ public class LoginScreen extends UIComponent{
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void applyCustomStyle() {
+    }
+
 
 }

@@ -47,13 +47,17 @@ public class MainUIContainer extends UIComponent {
         spaceHolderL = new JPanel();
         spaceHolderR = new JPanel();
 
-        spaceHolderL.setPreferredSize(new Dimension(200, getPreferredSize().height));
-        spaceHolderR.setPreferredSize(new Dimension(200, getPreferredSize().height));
+        spaceHolderL.setPreferredSize(new Dimension(100, getPreferredSize().height));
+        spaceHolderR.setPreferredSize(new Dimension(100, getPreferredSize().height));
 
         add(spaceHolderL, BorderLayout.LINE_START);
         add(spaceHolderR, BorderLayout.LINE_END);
 
         spaceHolderL.setBackground(AppStyle.TRANSLUCENT);
         spaceHolderR.setBackground(AppStyle.TRANSLUCENT);
+    }
+
+    @Override
+    public void applyCustomStyle() {
     }
 }

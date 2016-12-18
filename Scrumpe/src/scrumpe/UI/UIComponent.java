@@ -6,11 +6,14 @@
 
 package scrumpe.UI;
 
+import Container.Content.Component.Course;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import java.awt.PopupMenu;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 /**
@@ -19,8 +22,8 @@ import javax.swing.border.EmptyBorder;
  */
 public abstract class UIComponent extends JPanel implements ApplyStyle{
 
-    public String UIPos = BorderLayout.CENTER;
-    private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5;
+    public String UIPos = BorderLayout.CENTER; //Default layoutposition
+    private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5; //Default padding
     
     public UIComponent() {
         super( new BorderLayout());
@@ -29,8 +32,15 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
     
     public UIComponent(LayoutManager layout) {
         super(layout);
+        if(layout instanceof FlowLayout){
+        FlowLayout f = (FlowLayout) getLayout();
+        f.setHgap(0);
+        f.setVgap(0);
+            setBorder(AppStyle.createPadding(0, 0, 0, 0));
+        }
     }
-
+    
+    
     @Override
     public void add(Component comp, Object constraints, int index) {
         applyStyle(comp);
@@ -60,7 +70,6 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
         applyStyle(comp);
         return super.add(comp); //To change body of generated methods, choose Tools | Templates.
     }
-
     /**
      *
      * @param c
@@ -68,7 +77,10 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
     @Override
     public void applyStyle(Component c) {
            ThemeHandler.gI().applyStyleIn(c);
-           //super.add(c);
+           if(c instanceof UIComponent){
+               UIComponent comp = (UIComponent)c;
+               comp.applyCustomStyle();
+           }
     }
 
     /**
@@ -94,9 +106,5 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
             return null;
         }
     }
-    
-    
-    
-    
-    
+
 }

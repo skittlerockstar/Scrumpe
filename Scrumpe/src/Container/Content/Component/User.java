@@ -4,22 +4,18 @@
  * and open the template in the editor.
  */
 
-package Container.Content;
-
-import java.awt.FlowLayout;
-import scrumpe.UI.UIComponent;
+package Container.Content.Component;
 
 /**
- * content of the footer - Swing design file
+ *
  * @author MJ. Verhoeven
  */
-public class FooterContent extends UIComponent {
+public class User extends javax.swing.JPanel {
 
     /**
-     * Creates new form FooterContent
+     * Creates new form User
      */
-    public FooterContent() {
-         super(new FlowLayout(FlowLayout.LEFT));
+    public User() {
         initComponents();
     }
 
@@ -32,18 +28,19 @@ public class FooterContent extends UIComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-
-        jLabel1.setText("© Squerist 2016");
-        add(jLabel1);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void applyCustomStyle() {
-    }
 }

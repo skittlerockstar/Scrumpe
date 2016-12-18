@@ -62,4 +62,8 @@ public class HeaderContent extends UIComponent {
     private void setPos() {
     }
 
+    @Override
+    public void applyCustomStyle() {
+    }
+
 }

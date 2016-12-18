@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,9 +7,20 @@
 
 package Container.Content;
 
+import Container.Content.Component.Admin.UserList;
+import Container.Content.Component.ContentHeader;
+import Container.Content.Component.Course;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.ScrollPaneConstants;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
+import scrumpe.UI.WrapLayout;
 
 /**
  * The mainscreen after the login page
@@ -16,8 +28,17 @@ import scrumpe.UI.UIComponent;
  */
 public class MainScreen extends UIComponent {
 
+    List<Course> courses = new ArrayList<>(); 
+    int courseCollumns = 4;
     public MainScreen() {
+        super();
         initComponents();
+        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        addContentHeader();
+        addCourses();
+        jScrollPane1.setViewportBorder(AppStyle.createPadding(0, 5, 0, 5));
+        jScrollPane1.setBorder(AppStyle.createPadding());
+        addAdminPanel();
     }
 
     /**
@@ -29,86 +50,75 @@ public class MainScreen extends UIComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        bodyContainer = new javax.swing.JPanel();
+        descriptionContainer = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        courseContainer = new javax.swing.JPanel();
 
         setBackground(AppStyle.TRANSLUCENT);
         setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBackground(AppStyle.TRANSLUCENT);
-        jPanel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)
-        );
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        bodyContainer.setBackground(AppStyle.BG_COLOR_LIGHT);
+        bodyContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setBackground(AppStyle.TRANSLUCENT);
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0);
-        flowLayout1.setAlignOnBaseline(true);
-        jPanel4.setLayout(flowLayout1);
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel1.setText("Home");
-        jPanel4.add(jLabel1);
-
-        jPanel2.add(jPanel4, java.awt.BorderLayout.WEST);
-
-        jPanel6.setBackground(AppStyle.TRANSLUCENT);
-
-        jButton2.setText("jButton2");
-        jButton2.setAlignmentY(1.0F);
-        jPanel6.add(jButton2);
-
-        jButton3.setText("jButton3");
-        jButton3.setAlignmentY(1.0F);
-        jPanel6.add(jButton3);
-
-        jButton4.setText("jButton4");
-        jButton4.setAlignmentY(1.0F);
-        jPanel6.add(jButton4);
-
-        jPanel2.add(jPanel6, java.awt.BorderLayout.EAST);
-
-        add(jPanel2, java.awt.BorderLayout.PAGE_START);
-
-        jPanel5.setBackground(AppStyle.BG_COLOR_LIGHT);
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jPanel7.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(AppStyle.BG_COLOR_DARK)));
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        descriptionContainer.setLayout(new javax.swing.BoxLayout(descriptionContainer, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel2.setText("<html>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a tempus urna. Mauris faucibus, arcu eu pellentesque sodales, odio tortor ullamcorper enim, sed sollicitudin ligula mauris quis nisi. Aenean feugiat neque leo, quis tempus massa pretium eu. Vivamus felis sapien, scelerisque ac massa maximus, laoreet cursus ex. Ut posuere nibh vel pellentesque tempus. Cras non iaculis odio. Vestibulum vel accumsan enim, a rutrum massa.</html>");
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel7.add(jLabel2, java.awt.BorderLayout.CENTER);
+        jLabel2.setName("test"); // NOI18N
+        descriptionContainer.add(jLabel2);
+        jLabel2.getAccessibleContext().setAccessibleDescription("");
 
-        jPanel5.add(jPanel7, java.awt.BorderLayout.PAGE_START);
+        bodyContainer.add(descriptionContainer, java.awt.BorderLayout.PAGE_START);
 
-        jPanel3.setBackground(AppStyle.TRANSLUCENT);
-        jPanel3.setMaximumSize(new java.awt.Dimension(1, 1));
-        jPanel5.add(jPanel3, java.awt.BorderLayout.CENTER);
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setViewportView(courseContainer);
 
-        add(jPanel5, java.awt.BorderLayout.CENTER);
+        bodyContainer.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(bodyContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel bodyContainer;
+    private javax.swing.JPanel courseContainer;
+    private javax.swing.JPanel descriptionContainer;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    private void addCourses() {
+        for (int i = 0; i < 40; i++) {
+            Course c = new Course("Random course");
+            courses.add(c);
+        }
+        courseContainer.setLayout(new WrapLayout());
+        for(Course x:courses){
+            x.setLayout(new WrapLayout());
+            courseContainer.add(x);
+            super.applyStyle(x);
+        }
+    }
+
+    private void addAdminPanel() {
+        add(new UserList(),BorderLayout.LINE_END);
+    }
+
+    @Override
+    public void applyCustomStyle() {
+        
+        descriptionContainer.setBorder(AppStyle.createThemeBorder(AppStyle.BorderPos.INSIDE));
+        jLabel2.setOpaque(true);
+        jLabel2.setBackground(Color.white);
+        System.out.println(jLabel2.toString());
+    }
+
+    private void addContentHeader() {
+        add(new ContentHeader("Home"),BorderLayout.PAGE_START);
+    }
+
+
+    
 }

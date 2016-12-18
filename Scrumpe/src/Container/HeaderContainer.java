@@ -21,9 +21,12 @@ class HeaderContainer extends UIComponent {
     public HeaderContainer() {
         super(new BorderLayout());
         content = new HeaderContent();
-        Logo l = new Logo();
-        
+//        Logo l = new Logo();
         add(content,content.UIPos);
+    }
+
+    @Override
+    public void applyCustomStyle() {
     }
     
     

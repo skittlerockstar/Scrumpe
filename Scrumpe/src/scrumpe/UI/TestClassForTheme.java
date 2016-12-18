@@ -6,18 +6,19 @@
 
 package scrumpe.UI;
 
-import java.awt.Component;
+import com.sun.prism.paint.Color;
+import java.util.Enumeration;
+import javax.swing.JButton;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 /**
  *
  * @author MJ. Verhoeven
  */
-public interface ApplyStyle {
-
-    /**
-     *
-     * @param c
-     */
-    void applyStyle(Component c);
-    void applyCustomStyle();
+public class TestClassForTheme {
+    
+    public static void applyTheme(){
+    }
+    
 }

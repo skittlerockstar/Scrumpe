@@ -6,11 +6,10 @@
 package Utils;
 
 /**
- *
+ * Settings for the application e.g. anti-aliasing
  * @author MJ. Verhoeven
  */
 public class SystemSettings {
-
     /**
      * Turn on anti-aliasing for fonts
      * TODO create more settings

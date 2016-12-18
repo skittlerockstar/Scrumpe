@@ -21,5 +21,9 @@ class FooterContainer extends UIComponent {
         content = new FooterContent();
         add(content,content.UIPos);
     }
+
+    @Override
+    public void applyCustomStyle() {
+    }
     
 }

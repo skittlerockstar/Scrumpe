@@ -17,6 +17,10 @@ import scrumpe.UI.UIComponent;
 class MainContainer extends UIComponent {
 
     public static UIComponent currentScreen;
+
+    @Override
+    public void applyCustomStyle() {
+    }
     private enum MainScreens {
         Login, Main
     };
@@ -26,7 +30,7 @@ class MainContainer extends UIComponent {
     public MainContainer() {
         super(new GridBagLayout());
         setAttr();
-        loadContainer(MainScreens.Login);
+        loadContainer(MainScreens.Main);
         setBackground(AppStyle.TRANSLUCENT);
     }
 
