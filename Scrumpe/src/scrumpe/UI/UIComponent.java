@@ -24,7 +24,6 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
 
     public String UIPos = BorderLayout.CENTER; //Default layoutposition
     private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5; //Default padding
-    
     public UIComponent() {
         super( new BorderLayout());
         setBorder(new EmptyBorder(PTOP, PLEFT, PBOTTOM, PRIGHT));

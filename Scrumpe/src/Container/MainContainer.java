@@ -22,7 +22,7 @@ class MainContainer extends UIComponent {
     public void applyCustomStyle() {
     }
     private enum MainScreens {
-        Login, Main
+        Login, Main, Course, Results, Records, Help, AdminHelp, CourseEditor, ActiveCourse
     };
 
     private HashMap<Enum<MainScreens>, UIComponent> mainScreens;
@@ -30,7 +30,7 @@ class MainContainer extends UIComponent {
     public MainContainer() {
         super(new GridBagLayout());
         setAttr();
-        loadContainer(MainScreens.Main);
+        loadContainer(MainScreens.ActiveCourse);
         setBackground(AppStyle.TRANSLUCENT);
     }
 
@@ -38,6 +38,10 @@ class MainContainer extends UIComponent {
         mainScreens = new HashMap<>();
         mainScreens.put(MainScreens.Login, new LoginScreen());
         mainScreens.put(MainScreens.Main, new MainScreen());
+        mainScreens.put(MainScreens.Course, new Course());
+        mainScreens.put(MainScreens.Results, new ResultsScreen());
+        mainScreens.put(MainScreens.Records, new Records());
+        mainScreens.put(MainScreens.ActiveCourse, new ActiveCourse());
     }
 
     private void loadContainer(MainScreens screen) {

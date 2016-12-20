@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Container.Content.Component.Admin;
 
+import DataComponents.User;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import scrumpe.UI.AppStyle;
-import scrumpe.UI.ApplyStyle;
 import scrumpe.UI.UIComponent;
 import scrumpe.UI.WrapLayout;
 
@@ -17,13 +22,19 @@ import scrumpe.UI.WrapLayout;
  */
 public class UserList extends UIComponent {
 
+    List<User> tempList = new ArrayList<>();
+
     /**
      * Creates new form UserList
      */
     public UserList() {
         super();
         initComponents();
-        jScrollPane1.setBorder(AppStyle.createPadding(10,10,10,10));
+       // jScrollPane1.setBorder(AppStyle.createPadding(10, 10, 10, 10));
+        userContainer.setLayout(new WrapLayout(FlowLayout.LEFT,0,5));
+        userContainer.setBorder(AppStyle.createPadding(0,0,0,20));
+        createMockUserList();
+//        setPreferredSize(new Dimension(250, getPreferredSize().height));
     }
 
     /**
@@ -37,35 +48,67 @@ public class UserList extends UIComponent {
 
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        userContainer = new javax.swing.JPanel();
+        userListContainer = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
         jTextField1.setText("jTextField1");
         add(jTextField1, java.awt.BorderLayout.PAGE_START);
 
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
+        userListContainer.setLayout(new javax.swing.BoxLayout(userListContainer, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(200, 100));
-        jPanel1.add(jPanel2);
+        javax.swing.GroupLayout userContainerLayout = new javax.swing.GroupLayout(userContainer);
+        userContainer.setLayout(userContainerLayout);
+        userContainerLayout.setHorizontalGroup(
+            userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainerLayout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(userListContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
+        );
+        userContainerLayout.setVerticalGroup(
+            userContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userContainerLayout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addComponent(userListContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
 
-        jScrollPane1.setViewportView(jPanel1);
+        jScrollPane1.setViewportView(userContainer);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel userContainer;
+    private javax.swing.JPanel userListContainer;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void applyCustomStyle() {
+    }
+
+    private void createMockUserList() {
+        for (int i = 0; i < 40; i++) {
+            User u = new User("bob", "bobbinson"+i*20, "Bob@bob.bob", "password1234");
+            tempList.add(u);
+        }
+        for (User user : tempList) {
+            javax.swing.JLabel userNameField = new JLabel(user.getFirstName() + " " + user.getLastName());
+            JButton editUser = new JButton("Edit");
+            JButton deleteUser = new JButton("Delete");
+            JPanel j = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            j.setBorder(AppStyle.createPadding(1, 1, 1, 1));
+            j.add(userNameField);
+            j.add(editUser);
+            j.add(deleteUser);
+            userListContainer.add(j);
+        }
     }
 }

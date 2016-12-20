@@ -47,8 +47,8 @@ public class MainUIContainer extends UIComponent {
         spaceHolderL = new JPanel();
         spaceHolderR = new JPanel();
 
-        spaceHolderL.setPreferredSize(new Dimension(100, getPreferredSize().height));
-        spaceHolderR.setPreferredSize(new Dimension(100, getPreferredSize().height));
+        spaceHolderL.setPreferredSize(new Dimension(75, getPreferredSize().height));
+        spaceHolderR.setPreferredSize(new Dimension(75, getPreferredSize().height));
 
         add(spaceHolderL, BorderLayout.LINE_START);
         add(spaceHolderR, BorderLayout.LINE_END);

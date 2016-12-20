@@ -10,23 +10,20 @@ package Container.Content;
 import Container.Content.Component.Admin.UserList;
 import Container.Content.Component.ContentHeader;
 import Container.Content.Component.Course;
+import Container.Content.Component.IContentHeader;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.ScrollPaneConstants;
 import scrumpe.UI.AppStyle;
 import scrumpe.UI.UIComponent;
 import scrumpe.UI.WrapLayout;
-
 /**
  * The mainscreen after the login page
  * @author MJ. Verhoeven
  */
-public class MainScreen extends UIComponent {
+public class MainScreen extends UIComponent implements IContentHeader{
 
     List<Course> courses = new ArrayList<>(); 
     int courseCollumns = 4;
@@ -103,7 +100,7 @@ public class MainScreen extends UIComponent {
     }
 
     private void addAdminPanel() {
-        add(new UserList(),BorderLayout.LINE_END);
+        bodyContainer.add(new UserList(),BorderLayout.LINE_END);
     }
 
     @Override
@@ -115,10 +112,10 @@ public class MainScreen extends UIComponent {
         System.out.println(jLabel2.toString());
     }
 
-    private void addContentHeader() {
-        add(new ContentHeader("Home"),BorderLayout.PAGE_START);
+    @Override
+    public void addContentHeader() {
+          add(new ContentHeader("Home"),BorderLayout.PAGE_START);
     }
-
 
     
 }
