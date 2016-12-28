@@ -5,6 +5,7 @@
  */
 package Container;
 
+import Container.Content.Component.TempNavigation;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JPanel;
@@ -33,10 +34,11 @@ public class MainUIContainer extends UIComponent {
         UIHeader = new HeaderContainer();
         UIMain = new MainContainer();
         UIFooter = new FooterContainer();
-
+        UIComponent TempNavigation = new TempNavigation();
         add(UIHeader, BorderLayout.PAGE_START);
         add(UIMain, BorderLayout.CENTER);
         add(UIFooter, BorderLayout.PAGE_END);
+        add(TempNavigation, BorderLayout.PAGE_END);
     }
 
     /**
@@ -58,6 +60,7 @@ public class MainUIContainer extends UIComponent {
     }
 
     @Override
-    public void applyCustomStyle() {
+    public void initCustomComponents() {
     }
+
 }

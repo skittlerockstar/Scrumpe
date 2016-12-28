@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 package Container.Content;
-
+import scrumpe.UI.MainUI;
 import Container.Content.Component.ContentHeader;
-import Container.Content.Component.IContentHeader;
 import DataComponents.Answer;
 import DataComponents.Course;
 import DataComponents.Question;
@@ -20,14 +19,12 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
-import scrumpe.UI.AppStyle;
-import scrumpe.UI.UIComponent;
 
 /**
  *
  * @author Max Verhoeven
  */
-public class ActiveCourse extends UIComponent implements IContentHeader, ActionListener {
+public class CourseScreen extends MainUI implements  ActionListener {
 
     Course activeCourse;
     Question activeQuestion;
@@ -43,7 +40,8 @@ public class ActiveCourse extends UIComponent implements IContentHeader, ActionL
     /**
      * Creates new form ActiveCourse
      */
-    public ActiveCourse() {
+    public CourseScreen() {
+        super("Course X",true);
         initComponents();
         initCourse(TestCourseFactory.createTestCourse());
         initCustomComponents();
@@ -132,24 +130,13 @@ public class ActiveCourse extends UIComponent implements IContentHeader, ActionL
         this.activeAnswers = activeQuestion.getAnswers();
     }
 
-    private void initCustomComponents() {
+    @Override
+    public void initCustomComponents() {
         nextQuestion.addActionListener(this);
         nextQuestion.setActionCommand(NEXT_ACTION);
-
         previousQuestion.addActionListener(this);
         previousQuestion.setActionCommand(PREVIOUS_ACTION);
-
-        setBackground(AppStyle.TRANSLUCENT);
-        addContentHeader();
-    }
-
-    @Override
-    public void applyCustomStyle() {
-    }
-
-    @Override
-    public void addContentHeader() {
-        add(new ContentHeader(activeCourse.getCourseTitle()), BorderLayout.BEFORE_FIRST_LINE);
+        super.initCustomComponents();
     }
     //</editor-fold>
 
@@ -288,4 +275,6 @@ public class ActiveCourse extends UIComponent implements IContentHeader, ActionL
             
         }
     }
+
+
 }

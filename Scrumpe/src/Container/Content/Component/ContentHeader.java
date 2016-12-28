@@ -23,6 +23,7 @@ public class ContentHeader extends UIComponent {
     public ContentHeader(String screenName) {
         super();
         initComponents();
+        setBackground(AppStyle.TRANSLUCENT);
         setNavigation();
         screenTitle.setText(screenName);
     }
@@ -57,12 +58,16 @@ public class ContentHeader extends UIComponent {
     private javax.swing.JLabel screenTitle;
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void applyCustomStyle() {
         setBackground(AppStyle.TRANSLUCENT);
     }
 
     private void setNavigation() {
         add(new Navigation(),BorderLayout.LINE_END);
+    }
+
+    @Override
+    public void initCustomComponents() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

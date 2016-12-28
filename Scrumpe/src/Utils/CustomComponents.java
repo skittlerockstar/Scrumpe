@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Container.Content.Component;
+package Utils;
 
 /**
  *
  * @author Max Verhoeven
  */
-public interface IContentHeader {
-    
-    void addContentHeader();
+public interface CustomComponents {
+    void initCustomComponents();
 }

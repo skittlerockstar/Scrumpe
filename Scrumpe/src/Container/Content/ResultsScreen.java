@@ -6,24 +6,24 @@
 package Container.Content;
 
 import Container.Content.Component.ContentHeader;
-import Container.Content.Component.IContentHeader;
 import java.awt.BorderLayout;
 import scrumpe.UI.AppStyle;
+import scrumpe.UI.MainUI;
 import scrumpe.UI.UIComponent;
 
 /**
  *
  * @author Max Verhoeven
  */
-public class ResultsScreen extends UIComponent implements IContentHeader{
+public class ResultsScreen extends MainUI {
 
     /**
      * Creates new form ResultsScreen
      */
     public ResultsScreen() {
+        super("Course X results",true);
         initComponents();
-        setBackground(AppStyle.TRANSLUCENT);
-        addContentHeader();
+        initCustomComponents();
     }
 
     /**
@@ -101,12 +101,8 @@ public class ResultsScreen extends UIComponent implements IContentHeader{
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void applyCustomStyle() {
-    }
 
-    @Override
-    public void addContentHeader() {
-           add(new ContentHeader("Home"),BorderLayout.PAGE_START);
-    }
+
+
+
 }

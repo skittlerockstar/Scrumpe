@@ -3,27 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Container.Content;
 
-import Container.Content.Component.Logo;
-import java.awt.Color;
-import scrumpe.UI.UIComponent;
+import scrumpe.UI.MainUI;
 
 /**
- * Content of the footer - Swing design file
- * @author MJ. Verhoeven
+ *
+ * @author Max Verhoeven
  */
-public class HeaderContent extends UIComponent {
+public class HelpScreen extends MainUI {
 
-    private Logo logo; // used for logo
-    public HeaderContent() {
-        super();
-        logo = new Logo(Logo.Location.CENTER);
-        initComponents();
-        jLabel2.setForeground(new Color(99, 159, 255));
-        System.out.println(jLabel1.getClass().getSimpleName());
-        setPos();
+    /**
+     * Creates new form Help
+     */
+    public HelpScreen() {
+        super("Help",true);
+          initComponents();
+        super.initCustomComponents();
     }
 
     /**
@@ -36,34 +32,26 @@ public class HeaderContent extends UIComponent {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
-        jLabel2.setText("Scrumpe");
-        add(jLabel2, new java.awt.GridBagConstraints());
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("A Scrum Practice Exam Application");
+        jLabel1.setText("jLabel1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         add(jLabel1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 
-    private void setPos() {
-    }
-
-    @Override
-    public void applyCustomStyle() {
-    }
 
 }

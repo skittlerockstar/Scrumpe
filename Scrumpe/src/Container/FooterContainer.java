@@ -6,7 +6,7 @@
 
 package Container;
 
-import Container.Content.FooterContent;
+import Container.Content.Component.FooterContent;
 import java.awt.BorderLayout;
 import scrumpe.UI.UIComponent;
 
@@ -23,7 +23,7 @@ class FooterContainer extends UIComponent {
     }
 
     @Override
-    public void applyCustomStyle() {
+    public void initCustomComponents() {
     }
     
 }

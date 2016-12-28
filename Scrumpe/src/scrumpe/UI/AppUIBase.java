@@ -7,6 +7,8 @@
 package scrumpe.UI;
 
 import Container.MainFrame;
+import java.awt.Dimension;
+import java.awt.HeadlessException;
 import javax.swing.JFrame;
 
 /**
@@ -20,4 +22,9 @@ public abstract class AppUIBase extends JFrame{
      * @see MainFrame
      */
     public static AppStyle appStyle;
+
+    public AppUIBase() {
+        super.setMinimumSize(new Dimension(800, 600));
+    }
+    
 }

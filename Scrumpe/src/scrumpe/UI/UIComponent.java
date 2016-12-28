@@ -7,6 +7,7 @@
 package scrumpe.UI;
 
 import Container.Content.Component.Course;
+import Utils.CustomComponents;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -20,9 +21,10 @@ import javax.swing.border.EmptyBorder;
  *  Base class for all UI Components in app
  * @author MJ. Verhoeven
  */
-public abstract class UIComponent extends JPanel implements ApplyStyle{
+public abstract class UIComponent extends JPanel implements ApplyStyle, CustomComponents{
 
     public String UIPos = BorderLayout.CENTER; //Default layoutposition
+    public GridBagConstraints UIConstr;
     private final int PTOP=5,PLEFT=5,PBOTTOM=5,PRIGHT=5; //Default padding
     public UIComponent() {
         super( new BorderLayout());
@@ -73,12 +75,11 @@ public abstract class UIComponent extends JPanel implements ApplyStyle{
      *
      * @param c
      */
-    @Override
     public void applyStyle(Component c) {
            ThemeHandler.gI().applyStyleIn(c);
            if(c instanceof UIComponent){
                UIComponent comp = (UIComponent)c;
-               comp.applyCustomStyle();
+               //comp.applyCustomStyle();
            }
     }
 

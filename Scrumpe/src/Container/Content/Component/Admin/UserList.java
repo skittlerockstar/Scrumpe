@@ -7,6 +7,7 @@ package Container.Content.Component.Admin;
 
 import DataComponents.User;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -51,10 +52,11 @@ public class UserList extends UIComponent {
         userContainer = new javax.swing.JPanel();
         userListContainer = new javax.swing.JPanel();
 
-        setLayout(new java.awt.BorderLayout());
+        setMinimumSize(new java.awt.Dimension(280, 26));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
         jTextField1.setText("jTextField1");
-        add(jTextField1, java.awt.BorderLayout.PAGE_START);
+        add(jTextField1);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -74,12 +76,12 @@ public class UserList extends UIComponent {
             .addGroup(userContainerLayout.createSequentialGroup()
                 .addGap(79, 79, 79)
                 .addComponent(userListContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(userContainer);
 
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -89,10 +91,6 @@ public class UserList extends UIComponent {
     private javax.swing.JPanel userContainer;
     private javax.swing.JPanel userListContainer;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void applyCustomStyle() {
-    }
 
     private void createMockUserList() {
         for (int i = 0; i < 40; i++) {
@@ -110,5 +108,16 @@ public class UserList extends UIComponent {
             j.add(deleteUser);
             userListContainer.add(j);
         }
+    }
+
+    @Override
+    public void initCustomComponents() {
+        UIConstr = new java.awt.GridBagConstraints();
+        UIConstr.gridx = 1;
+        UIConstr.gridy = 1;
+        UIConstr.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        UIConstr.fill = java.awt.GridBagConstraints.BOTH;
+        UIConstr.anchor = java.awt.GridBagConstraints.NORTH;
+        UIConstr.weighty = 1.0;
     }
 }

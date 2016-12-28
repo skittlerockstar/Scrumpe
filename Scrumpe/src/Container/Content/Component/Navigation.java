@@ -28,6 +28,7 @@ public class Navigation extends UIComponent {
     Navigation() {
         super();
         initComponents();
+        setBackground(AppStyle.TRANSLUCENT);
         setNavigation();
     }
 
@@ -66,8 +67,11 @@ public class Navigation extends UIComponent {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void applyCustomStyle() {
         setBackground(AppStyle.TRANSLUCENT);
+    }
+
+    @Override
+    public void initCustomComponents() {
     }
 }

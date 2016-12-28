@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package Container;
+
+import javax.swing.UIManager;
 import scrumpe.UI.AppUIBase;
 
 /**
@@ -12,9 +14,9 @@ import scrumpe.UI.AppUIBase;
  * @author MJ. Verhoeven
  */
 public class MainFrame extends AppUIBase {
-    private static MainFrame mainFrameInstance;
+
     private MainUIContainer mainContainer;
-    
+
     private MainFrame() {
         setMainContainer();
         setFrameDesign();
@@ -23,14 +25,16 @@ public class MainFrame extends AppUIBase {
 
     /**
      * get singleton instance
+     *
      * @return
      */
-
     public static MainFrame getInstance() {
-        if (mainFrameInstance == null) {
-            mainFrameInstance = new MainFrame();
-        }
-        return mainFrameInstance;
+        return SingletonHolder.INSTANCE;
+    }
+
+    private static class SingletonHolder {
+
+        public static final MainFrame INSTANCE = new MainFrame();
     }
 
     /**
@@ -50,6 +54,10 @@ public class MainFrame extends AppUIBase {
 
     private void setFrameDesign() {
         //TODO Frame Design
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+        }
     }
 
     /**

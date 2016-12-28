@@ -25,14 +25,11 @@ import scrumpe.UI.TestClassForTheme;
  * @author MJ. Verhoeven
  */
 public class App {
-    private static App instance; //this
-    private static MainFrame mainFrame; // main frame instance
-    
+    public static MainFrame mainFrame; // main frame instance
     private App() {
         //new MainFrame singleton
         TestClassForTheme.applyTheme();
         mainFrame = MainFrame.getInstance();
-        
     }
     
     /**
@@ -40,8 +37,9 @@ public class App {
      * @return
      */
     public static App getInstance(){ 
-        if(instance == null) instance = new App();
-        return instance;
+        return SingletonHolder.INSTANCE;
+    }private static class SingletonHolder { 
+        public static final App INSTANCE = new App();
     }
 
 }

@@ -108,7 +108,6 @@ public class Course  extends UIComponent {
     private javax.swing.JButton startCourse;
     // End of variables declaration//GEN-END:variables
 
-    @Override
     public void applyCustomStyle() {
         setBackground(Color.white);
         //TODO figure out why gaps are still 5 after constructor
@@ -119,6 +118,10 @@ public class Course  extends UIComponent {
         courseTitleContainer.setBackground(AppStyle.TRANSLUCENT);
         CourseControlls.setBackground(AppStyle.TRANSLUCENT);
         courseTitle.setFont(new Font(AppStyle.TEXT_FONT, AppStyle.FONT_STYLE, 20));
+    }
+
+    @Override
+    public void initCustomComponents() {
     }
     
 }

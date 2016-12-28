@@ -6,28 +6,28 @@
 
 package Container.Content;
 
-import java.awt.Color;
+import Container.MainContainer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import scrumpe.UI.AppStyle;
-import scrumpe.UI.UIComponent;
+import scrumpe.UI.MainUI;
 
 /**
  * Creates new form LoginScreen 
  * @author MJ. Verhoeven
  */
-public class LoginScreen extends UIComponent{
-   
+public class LoginScreen extends MainUI implements ActionListener{
+   private static final String LOGIN_ACTION="login",FORGOTPASS_ACTION="forgotPass";
     public LoginScreen() {
-        super();
+       super("Login Screen",false);
         initComponents();
+        addListeners();
         Border margin = new EmptyBorder(10,10,10,10);
         setBorder(margin);
-        //TODO  applystyle on borders
-//        jTextField3.setBorder(AppStyle.BUTTON_BORDER);
-//        jPasswordField1.setBorder(AppStyle.BUTTON_BORDER);
-//        jButton5.setBorder(AppStyle.BUTTON_BORDER);
-//        jButton5.setBackground(Color.white);
+        setBackground(AppStyle.BG_COLOR_LIGHT);
+        initCustomComponents();
     }
 
     /**
@@ -40,13 +40,12 @@ public class LoginScreen extends UIComponent{
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        userNameField = new javax.swing.JTextField();
+        loginBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        forgotPassBtn = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(240, 240, 240));
         setAlignmentY(1.0F);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
@@ -54,7 +53,21 @@ public class LoginScreen extends UIComponent{
         layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
         setLayout(layout);
 
-        jPasswordField1.setText("Password");
+        passwordField.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.ipady = 3;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 4, 5, 4);
+        add(passwordField, gridBagConstraints);
+
+        userNameField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        userNameField.setText("Username");
+        userNameField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -64,52 +77,18 @@ public class LoginScreen extends UIComponent{
         gridBagConstraints.ipady = 3;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 4, 5, 4);
-        add(jPasswordField1, gridBagConstraints);
+        add(userNameField, gridBagConstraints);
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTextField3.setText("Username");
-        jTextField3.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
+        loginBtn.setText("Login");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 3;
         gridBagConstraints.ipady = 3;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 4, 5, 4);
-        add(jTextField3, gridBagConstraints);
-
-        jButton5.setText("Login");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 3;
-        gridBagConstraints.ipady = 3;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 4, 5, 4);
-        add(jButton5, gridBagConstraints);
-
-        jLabel3.setText("Forgot password");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.weightx = 0.1;
-        add(jLabel3, gridBagConstraints);
+        add(loginBtn, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("Welcome to Scrumpe!");
@@ -119,27 +98,47 @@ public class LoginScreen extends UIComponent{
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
         add(jLabel2, gridBagConstraints);
+
+        forgotPassBtn.setText("Forgot password?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        add(forgotPassBtn, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton forgotPassBtn;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton loginBtn;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField userNameField;
     // End of variables declaration//GEN-END:variables
-
     @Override
-    public void applyCustomStyle() {
+    public void actionPerformed(ActionEvent e) {
+        switch(e.getActionCommand()){
+            case LOGIN_ACTION:
+                doLogin();
+                break;
+            case FORGOTPASS_ACTION:
+                goToForgotPass();
+                break;
+        }
+    }
+
+    private void addListeners() {
+        loginBtn.addActionListener(this);
+        loginBtn.setActionCommand(LOGIN_ACTION);
+        forgotPassBtn.addActionListener(this);
+        forgotPassBtn.setActionCommand(FORGOTPASS_ACTION);
+    }
+
+    private void doLogin() {
+        MainContainer.changeScreen(MainContainer.MainScreens.Main);
+    }
+
+    private void goToForgotPass() {
     }
 
 

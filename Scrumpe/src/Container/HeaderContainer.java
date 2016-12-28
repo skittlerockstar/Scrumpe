@@ -7,7 +7,7 @@
 package Container;
 
 import Container.Content.Component.Logo;
-import Container.Content.HeaderContent;
+import Container.Content.Component.HeaderContent;
 import java.awt.BorderLayout;
 import scrumpe.UI.UIComponent;
 
@@ -26,8 +26,7 @@ class HeaderContainer extends UIComponent {
     }
 
     @Override
-    public void applyCustomStyle() {
+    public void initCustomComponents() {
     }
-    
-    
+
 }
