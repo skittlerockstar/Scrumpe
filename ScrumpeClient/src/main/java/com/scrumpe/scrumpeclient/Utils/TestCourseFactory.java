@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package com.scrumpe.scrumpeclient.Utils;
-import com.scrumpe.scrumpeclient.DB.Answer;
-import com.scrumpe.scrumpeclient.DB.Course;
-import com.scrumpe.scrumpeclient.DB.Question;
+import com.scrumpe.scrumpeclient.DB.Entity.Answer;
+import com.scrumpe.scrumpeclient.DB.Entity.Course;
+import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import java.util.ArrayList;
 import java.util.List;
 

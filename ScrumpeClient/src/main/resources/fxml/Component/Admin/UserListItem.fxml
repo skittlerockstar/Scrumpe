@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<HBox maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screens.Component.Admin.UserListItemController">
+<HBox maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.UserListItemController">
    <children>
       <Label text="FirstName">
          <padding>

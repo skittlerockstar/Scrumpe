@@ -4,19 +4,11 @@
  * and open the template in the editor.
  */
 package com.scrumpe.scrumpeclient;
-import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
-import com.scrumpe.scrumpeclient.DB.DBManager;
-import com.scrumpe.scrumpeclient.DB.User;
-import com.scrumpe.scrumpeclient.Utils.Escurity;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.mongodb.morphia.Key;
 
 /**
  *
@@ -49,10 +41,6 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-
-    private void testM() {
-       
     }
     
 }

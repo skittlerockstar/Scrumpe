@@ -7,7 +7,7 @@ package com.scrumpe.scrumpeclient.DB;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import com.scrumpe.scrumpeclient.DB.User;
+import com.scrumpe.scrumpeclient.DB.Entity.User;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;

@@ -7,8 +7,8 @@ package com.scrumpe.scrumpeclient.DB.DAO;
 
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.DB.DBManager;
-import com.scrumpe.scrumpeclient.DB.User;
-import com.scrumpe.scrumpeclient.Utils.DebugUtils;
+import com.scrumpe.scrumpeclient.DB.Entity.User;
+import com.scrumpe.scrumpeclient.Utils.Log;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,5 +46,8 @@ public class UserDAO extends BasicDAO<User, String> {
            return loggedInUser;
        }
        return u;
+    }
+    public void logOut(){
+        loggedInUser = null;
     }
 }
