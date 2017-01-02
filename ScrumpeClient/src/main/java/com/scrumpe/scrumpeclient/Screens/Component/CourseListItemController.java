@@ -17,6 +17,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import com.scrumpe.scrumpeclient.ComponentController;
+import com.scrumpe.scrumpeclient.ScreenManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
 
 /**
  * FXML Controller class
@@ -25,6 +31,12 @@ import com.scrumpe.scrumpeclient.ComponentController;
  */
 public class CourseListItemController extends ComponentController {
 
+    @FXML
+    private Node startCourse;
+    private int id;
+    public void setId(int i){
+        id =i;
+    }
     /**
      * Initializes the controller class.
      */
@@ -37,6 +49,10 @@ public class CourseListItemController extends ComponentController {
     public void setupLayout() {
        
         FlowPane.setMargin(componentRoot, new Insets(5));
+    }
+    @FXML
+    private void startC(ActionEvent event){
+            ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.ActiveCourse);
     }
     
 }

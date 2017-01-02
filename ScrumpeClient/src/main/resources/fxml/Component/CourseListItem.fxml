@@ -32,7 +32,7 @@
       </GridPane>
       <HBox alignment="CENTER_RIGHT" VBox.vgrow="NEVER">
          <children>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Start Course" />
+            <Button fx:id="startCourse" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#startC" text="Start Course" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

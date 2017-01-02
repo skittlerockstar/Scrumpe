@@ -21,6 +21,7 @@ import com.scrumpe.scrumpeclient.Screens.Component.NavigationController;
  */
 public abstract class MainScreenController extends UIComponent {
     protected String description;
+    protected boolean init = false;
     protected HashMap<MainScreen,String> navigation= new HashMap<>();
     public abstract void setNavigation();
     public abstract void setDescription();
@@ -44,7 +45,14 @@ public abstract class MainScreenController extends UIComponent {
 
     @Override
     public void setup(Node current) {
-        super.setup(current); //To change body of generated methods, choose Tools | Templates.
+       super.setup(current); //To change body of generated methods, choose Tools | Templates.
+       if(!init){ 
+           loadComponents();
+           init = true;
+       }
+    }
+
+    private void loadComponents() {
         setDescription();
         setNavigation();
         if(description !=null){

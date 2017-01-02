@@ -16,7 +16,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField alignment="TOP_CENTER">
+      <TextField fx:id="emailField" alignment="TOP_CENTER">
          <opaqueInsets>
             <Insets top="10.0" />
          </opaqueInsets>
@@ -24,7 +24,7 @@
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </TextField>
-      <PasswordField>
+      <PasswordField fx:id="passField">
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>

@@ -26,6 +26,8 @@ import com.scrumpe.scrumpeclient.ScreenManager;
 public class ContainerController implements Initializable {
     
     @FXML
+    public Label loggedInUser;
+    @FXML
     private Label label;
     @FXML
     private BorderPane root;

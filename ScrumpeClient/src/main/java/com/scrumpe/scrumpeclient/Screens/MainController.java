@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import com.scrumpe.scrumpeclient.ComponentFactory;
 import com.scrumpe.scrumpeclient.MainScreenController;
 import com.scrumpe.scrumpeclient.ScreenManager.MainScreen;
+import com.scrumpe.scrumpeclient.Screens.Component.CourseListItemController;
 import com.scrumpe.scrumpeclient.UIComponent;
 
 /**
@@ -43,7 +44,7 @@ public class MainController extends MainScreenController {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, "Init main");
     }
 
     @Override
@@ -63,7 +64,7 @@ public class MainController extends MainScreenController {
     public void setupLayout() {
         try {
             HBox.setHgrow(componentRoot, Priority.ALWAYS);
-            addCourses();
+           if(!init){ addCourses();}
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,12 +72,12 @@ public class MainController extends MainScreenController {
 
     private void addCourses() throws IOException {
         for (int i = 0; i < 10; i++) {
-            //TODO move to ComponentManager;
             FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
-            //
             courseListItems.add(n);
             UIComponent u = n.getController();
             u.setup(n.getRoot());
+            CourseListItemController c  = n.getController();
+            c.setId(i);
             courseContainer.getChildren().add(n.getRoot());
         }
 
