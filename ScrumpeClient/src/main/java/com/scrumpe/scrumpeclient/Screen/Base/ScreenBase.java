@@ -5,6 +5,8 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Base;
 
+import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
+import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import java.util.HashMap;
@@ -16,6 +18,14 @@ import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.MainDescriptionController;
 import com.scrumpe.scrumpeclient.Screen.Component.NavigationController;
+import com.scrumpe.scrumpeclient.Utils.Log;
+import java.util.logging.Level;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -23,16 +33,29 @@ import com.scrumpe.scrumpeclient.Screen.Component.NavigationController;
  */
 public abstract class ScreenBase extends UIComponent {
     protected String description;
+    protected String title;
     protected boolean init = false;
-    protected HashMap<MainScreen,String> navigation= new HashMap<>();
+    protected HashMap<MainScreen,Button> navigation= new HashMap<>();
+    private HBox headerRoot = new HBox();
     public abstract void setNavigation();
     public abstract void setDescription();
+    public abstract void setTitle();
     public abstract void setAdminComponents();
     
+    public void loadTitle(){
+        if(title !=null){
+           FXMLLoader loader = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.ScreenTitle, true);
+           Label headerTitle = (Label) ((Pane)loader.getRoot()).getChildren().get(0);
+           headerTitle.setText(title);
+           HBox.setHgrow(loader.getRoot(), Priority.ALWAYS);
+           headerRoot.getChildren().add(0,loader.getRoot());
+        }
+    }
     public void loadNavigation(){
         if(navigation.size() > 0){
             FXMLLoader loader = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.Navigation, true);
-            ((Pane)componentRoot).getChildren().add(0,loader.getRoot());
+           HBox.setHgrow(loader.getRoot(), Priority.SOMETIMES);
+            headerRoot.getChildren().add(headerRoot.getChildren().size(),loader.getRoot());
             NavigationController navigationController = loader.getController();
             navigationController.setNavItems(navigation);
         }
@@ -56,13 +79,27 @@ public abstract class ScreenBase extends UIComponent {
 
     private void loadComponents() {
         setDescription();
+        setTitle();
         setNavigation();
+        
         if(description !=null){
             loadDescription();
         }
+        loadHeader();
+        loadTitle();
         loadNavigation();
-        if(true){
+        if(UserDAO.getLoggedInUser() !=null){
+            if(UserDAO.getLoggedInUser().isIsAdmin()){
             setAdminComponents();
+            }
+        }
+    }
+
+    private void loadHeader() {
+        if(title !=null || navigation.size() > 0){
+        VBox.setVgrow(headerRoot, Priority.NEVER);
+        VBox.setMargin(headerRoot, new Insets(0,0,10,0));
+        componentRoot.getChildren().add(0,headerRoot);
         }
     }
     

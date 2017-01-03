@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
+<VBox maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" style=": ;" stylesheets="@../../styles/mainScreenStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
@@ -23,11 +24,14 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Title" />
+            <Label fx:id="courseTitle" text="Title" GridPane.columnSpan="2">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
             <Label text="Completed" GridPane.rowIndex="1" />
             <Label text="Status" GridPane.rowIndex="2" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="0%" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Not Passed" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <HBox alignment="CENTER_RIGHT" VBox.vgrow="NEVER">
@@ -42,4 +46,9 @@
    <opaqueInsets>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </opaqueInsets>
+   <styleClass>
+      <String fx:value="courseListItem" />
+      <String fx:value="mainColor2" />
+      <String fx:value="radius" />
+   </styleClass>
 </VBox>

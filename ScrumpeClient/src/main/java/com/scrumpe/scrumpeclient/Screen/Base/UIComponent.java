@@ -5,7 +5,9 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Base;
 
+import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.Screen.OverlayScreen.PopUpNotificationController;
+import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.sun.istack.internal.logging.Logger;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -30,31 +32,16 @@ import javafx.stage.StageStyle;
  */
 public abstract class UIComponent implements Initializable{
     protected Pane componentRoot;
-    final private Stage popUp = new Stage();
-    private Scene popUpScene;
+    protected DBManager data;
+    
     public abstract void setupLayout();
     public void setup(Node current){
+        data = DBManager.getInstance();
         componentRoot = (Pane) current;
         setupLayout();        
     }
     public void throwError(String message){
-//       Stage root =  MainApp.getRootStage();
-//       PopUpNotificationController pnc = f.getController();
-//       pnc.setMessage(message);
-//       if(popUpScene == null){
-//        pnc.setStage(popUp);
-//        popUp.initStyle(StageStyle.UNDECORATED);
-//        popUp.initStyle(StageStyle.TRANSPARENT);
-//        popUp.initModality(Modality.APPLICATION_MODAL);
-//        popUp.initOwner(MainApp.getRootStage());   
-//        popUpScene = new Scene(f.getRoot(),root.getWidth() , root.getHeight());
-//        popUpScene.setFill(null);
-//        popUp.setScene(popUpScene);
-//       }else{
-//           popUp.setWidth(root.getWidth());
-//           popUp.setHeight(root.getHeight());
-//       }
-//       popUp.show();
+        ScreenManager.getInstance().showNotification(message, true);
     }
     
 }

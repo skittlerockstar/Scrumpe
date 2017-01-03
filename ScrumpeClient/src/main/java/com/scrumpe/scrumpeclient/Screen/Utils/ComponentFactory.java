@@ -27,7 +27,7 @@ import javafx.stage.WindowEvent;
  */
 public class ComponentFactory {
     public enum ComponentType{
-        CourseListItem,MainDescription,Navigation,UserList,UserListItem
+        CourseListItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
     }
     private static final String XML_ROOT_DIR = "/fxml/Component/";
     private static final String XML_ADMIN_DIR = "/fxml/Component/Admin/";
@@ -36,6 +36,7 @@ public class ComponentFactory {
         components.put(ComponentType.CourseListItem, XML_ROOT_DIR+"CourseListItem.fxml");
         components.put(ComponentType.MainDescription, XML_ROOT_DIR+"MainDescription.fxml");
         components.put(ComponentType.Navigation, XML_ROOT_DIR+"NavPanel.fxml");
+        components.put(ComponentType.ScreenTitle, XML_ROOT_DIR+"ScreenTitle.fxml");
         components.put(ComponentType.UserList, XML_ADMIN_DIR+"UserList.fxml");
         components.put(ComponentType.UserListItem, XML_ADMIN_DIR+"UserListItem.fxml");
     }
@@ -48,7 +49,9 @@ public class ComponentFactory {
             try {
                 load.load();
                 ComponentBase controller = load.getController();
-                controller.setup(load.getRoot());
+                if(controller !=null){
+                    controller.setup(load.getRoot());
+                }
             } catch (IOException ex) {
                 System.err.println(ex.toString());
                 Logger.getLogger(ComponentFactory.class.getName()).log(Level.SEVERE, null, ex);

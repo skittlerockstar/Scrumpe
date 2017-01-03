@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,11 +9,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.ContainerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="mainColor3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.ContainerController">
    <children>
       <BorderPane fx:id="root" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <AnchorPane prefHeight="30.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="30.0" styleClass="mainColor" BorderPane.alignment="CENTER" />
          </bottom>
          <center>
             <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
@@ -24,18 +25,18 @@
             <AnchorPane style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
          </right>
          <top>
-            <AnchorPane BorderPane.alignment="CENTER">
+            <AnchorPane styleClass="mainColor" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" style="-fx-background-color: gray;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
                         <VBox alignment="CENTER" fillWidth="false" maxWidth="300.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label graphicTextGap="10.0" text="Scrumpe" textAlignment="CENTER">
+                              <Label graphicTextGap="10.0" styleClass="lightText" text="Scrumpe" textAlignment="CENTER">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
                               </Label>
-                              <Label text="A scrum practice exam application" textAlignment="CENTER">
+                              <Label styleClass="lightText" text="A scrum practice exam application" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -46,7 +47,7 @@
                   </HBox>
                   <VBox alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label fx:id="loggedInUser" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5; -fx-background-radius: 7;" text="Not LoggedIn">
+                        <Label fx:id="loggedInUser" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5; -fx-background-radius: 7;" styleClass="darkText" text="Not LoggedIn">
                            <padding>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </padding>
@@ -60,6 +61,10 @@
             </AnchorPane>
          </top>
       </BorderPane>
-      <AnchorPane fx:id="overlay" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane fx:id="overlay" prefHeight="200.0" prefWidth="200.0" styleClass="overlayContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
+   <stylesheets>
+      <URL value="@../styles/rootStyle.css" />
+      <URL value="@../styles/appTheme.css" />
+   </stylesheets>
 </AnchorPane>

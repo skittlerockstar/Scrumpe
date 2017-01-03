@@ -6,49 +6,76 @@
 package com.scrumpe.scrumpeclient.DB.Entity;
 
 import java.io.Serializable;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Reference;
 
 /**
  *
  * @author Max Verhoeven
  */
 
-public class Record implements Serializable {
+public class Record  extends BaseEntity  {
+    
+    @Reference
+    private ObjectId userId;
+    @Reference
+    private ObjectId courseId;
+    @Property("courseVersion")
+    private int courseVersion;
+    @Property("didFinnish")
+    private boolean finished;
+    @Property("minScore")
+    private int minScore;
+    @Property("score")
+    private int score;
 
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    private Long recordId;
-    private Long userId;
-    public Long getId() {
-        return id;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public int getMinScore() {
+        return minScore;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Record)) {
-            return false;
-        }
-        Record other = (Record) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setMinScore(int minScore) {
+        this.minScore = minScore;
     }
 
-    @Override
-    public String toString() {
-        return "com.scrumpe.scrumpeclient.Utils.TempDataComponents.Record[ id=" + id + " ]";
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    public ObjectId getUserId() {
+        return userId;
+    }
+
+    public void setUserId(ObjectId userId) {
+        this.userId = userId;
+    }
+
+    public ObjectId getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(ObjectId courseId) {
+        this.courseId = courseId;
+    }
+
+    public int getCourseVersion() {
+        return courseVersion;
+    }
+
+    public void setCourseVersion(int courseVersion) {
+        this.courseVersion = courseVersion;
     }
     
 }

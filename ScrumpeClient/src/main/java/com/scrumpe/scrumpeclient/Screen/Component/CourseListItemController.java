@@ -5,24 +5,19 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Component;
 
-import java.awt.FlowLayout;
+import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
+import com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import org.bson.types.ObjectId;
 
 /**
  * FXML Controller class
@@ -33,9 +28,12 @@ public class CourseListItemController extends ComponentBase {
 
     @FXML
     private Node startCourse;
-    private int id;
-    public void setId(int i){
-        id =i;
+    private Course course;
+    @FXML
+    private Label courseTitle;
+    public void setCourse(Course i){
+        course =i;
+        courseTitle.setText(i.getCourseTitle());
     }
     /**
      * Initializes the controller class.
@@ -47,12 +45,12 @@ public class CourseListItemController extends ComponentBase {
 
     @Override
     public void setupLayout() {
-       
         FlowPane.setMargin(componentRoot, new Insets(5));
     }
     @FXML
     private void startC(ActionEvent event){
-            ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.ActiveCourse);
+         CourseActiveController ac = (CourseActiveController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.ActiveCourse);
+         ac.setCurrentCourse(course);
     }
     
 }

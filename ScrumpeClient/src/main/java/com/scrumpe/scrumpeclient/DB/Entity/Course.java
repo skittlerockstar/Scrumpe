@@ -6,23 +6,20 @@
 package com.scrumpe.scrumpeclient.DB.Entity;
 import java.io.Serializable;
 import java.util.List;
+import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Reference;
 
 /**
  *
  * @author Max Verhoeven
  */
 
-public class Course implements Serializable {
+public class Course extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-    private Long id;
+    @Property("title")
     private String courseTitle;
+    @Reference
     private List<Question> questions;
-    
-    public Course(String title,List<Question> testQuestions) {
-        this.courseTitle = title;
-        this.questions = testQuestions;
-    }
     public String getCourseTitle() {
         return courseTitle;
     }
@@ -38,38 +35,4 @@ public class Course implements Serializable {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Course)) {
-            return false;
-        }
-        Course other = (Course) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "DataComponents.Course[ id=" + id + " ]";
-    }
-    
 }

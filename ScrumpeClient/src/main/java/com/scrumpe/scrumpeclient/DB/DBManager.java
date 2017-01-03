@@ -7,15 +7,11 @@ package com.scrumpe.scrumpeclient.DB;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import com.scrumpe.scrumpeclient.DB.Entity.User;
-import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.TypeVariable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
 
@@ -25,15 +21,19 @@ import org.mongodb.morphia.dao.BasicDAO;
  * @author Max Verhoeven
  */
 public class DBManager {
-    public static DBManager instance;
-    public MongoClient mongoClient;
-    public MongoDatabase mongoDatabase;
-    public Morphia morphia ;
-    public Datastore datastore;
-    public static final String CON_STRING = "mongodb://localhost";
-    public static final String CON_DEBUG_STRING = "mongodb://localhost";
-    public static final String DATABASE = "Scrumpe";
-    public static final String MAP_PACKAGE ="com.scrumpe.scrumpeclient.DB";
+    private static DBManager instance;
+    private MongoClient mongoClient;
+    private MongoDatabase mongoDatabase;
+    private Morphia morphia ;
+    private Datastore datastore;
+    private static final String CON_STRING = "mongodb://localhost";
+    private static final String CON_DEBUG_STRING = "mongodb://localhost";
+    private static final String DATABASE = "Scrumpe";
+    private static final String MAP_PACKAGE ="com.scrumpe.scrumpeclient.DB";
+
+    public Datastore getDatastore() {
+        return datastore;
+    }
     
     public static DBManager getInstance(){
         if(instance == null){
@@ -61,5 +61,7 @@ public class DBManager {
         } 
         return object;
     }
-    
+    public void close(){
+        
+    }
 }

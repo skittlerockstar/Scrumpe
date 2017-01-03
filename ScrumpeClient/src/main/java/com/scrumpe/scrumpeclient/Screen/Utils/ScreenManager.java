@@ -8,6 +8,7 @@ package com.scrumpe.scrumpeclient.Screen.Utils;
 import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.OverlayBase;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
+import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Utils.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -99,36 +101,49 @@ public class ScreenManager {
         Pane base = root.load();
         rootMainContainer = ((BorderPane) base.getChildren().get(0)).getCenter();
         popUpRoot = (AnchorPane) base.getChildren().get(1);
+        popUpRoot.setMouseTransparent(true);
     }
 
     private void loadPopUpScreens() {
         // Load Loading screen
         FXMLLoader loadingScreen = overlayScreenList.get(OverlayScreen.Loading);
-        popUpRoot.getChildren().add(loadingScreen.getRoot());
+        ((Pane)root.getRoot()).getChildren().add(loadingScreen.getRoot());
         ((OverlayBase) loadingScreen.getController()).setup(loadingScreen.getRoot());
         
         // Load Error Notification screen
         FXMLLoader errorNotification = overlayScreenList.get(OverlayScreen.Notification);
-        popUpRoot.getChildren().add(errorNotification.getRoot());
+         ((Pane)root.getRoot()).getChildren().add(errorNotification.getRoot());
         ((OverlayBase) errorNotification.getController()).setup(errorNotification.getRoot());
         
     }
 
-    public void loadScreen(MainScreen screen) {
+    public UIComponent loadScreen(MainScreen screen) {
+        UIComponent controller = null;
         try {
             Pane rootCenterPane = ((Pane) rootMainContainer);
             rootCenterPane.getChildren().clear();
             FXMLLoader toLoad = screenList.get(screen);
             Pane node = toLoad.getRoot();
             rootCenterPane.getChildren().add(node);
-            ScreenBase controller = toLoad.getController();
+            controller = toLoad.getController();
             controller.setup(node);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        return controller;
     }
 
     public void showLoadingScreen(boolean val) {
-        popUpRoot.setVisible(val);
+       Pane loadingScreenRoot = overlayScreenList.get(OverlayScreen.Loading).getRoot();
+       loadingScreenRoot.setVisible(val);
+       loadingScreenRoot.setMouseTransparent(!val);
+    }
+    public void showNotification(String message, boolean val) {
+       Pane notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getRoot();
+       Label l = (Label) MainApp.getRootStage().getScene().lookup("#errorText");
+       l.setText(message);
+       notificationRoot.setVisible(val);
+       notificationRoot.setMouseTransparent(!val);
     }
 }

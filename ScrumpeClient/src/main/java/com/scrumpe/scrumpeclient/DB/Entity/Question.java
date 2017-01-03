@@ -6,6 +6,9 @@
 package com.scrumpe.scrumpeclient.DB.Entity;
 import java.io.Serializable;
 import java.util.List;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Reference;
 
 
 /**
@@ -13,28 +16,25 @@ import java.util.List;
  * @author Max Verhoeven
  */
 
-public class Question implements Serializable {
+public class Question extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-    private Long id;
+    @Property("question")
     private String question;
+    
+    @Reference
     private List<Answer> answers;
-    private Long[] correctAnswerIds;
+    
+    @Property("correctAnswers")
+    private ObjectId[] correctAnswerIds;
 
-    public Long[] getCorrectAnswerIds() {
+    public ObjectId[] getCorrectAnswerIds() {
         return correctAnswerIds;
     }
 
-    public void setCorrectAnswerIds(Long[] correctAnswerIds) {
+    public void setCorrectAnswerIds(ObjectId[] correctAnswerIds) {
         this.correctAnswerIds = correctAnswerIds;
     }
 
-    public Question(Long id,String question, List<Answer> answers, Long[] correctAnswerIds) {
-        this.id = id;
-        this.question = question;
-        this.answers = answers;
-        this.correctAnswerIds = correctAnswerIds;
-    }
     public String getQuestion() {
         return question;
     }
@@ -49,38 +49,6 @@ public class Question implements Serializable {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Question)) {
-            return false;
-        }
-        Question other = (Question) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "DataComponents.Question[ id=" + id + " ]";
     }
     
 }

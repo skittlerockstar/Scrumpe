@@ -17,6 +17,8 @@ import javafx.scene.control.Button;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import static com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 /**
  * FXML Controller class
  *
@@ -32,23 +34,22 @@ public class NavigationController extends ComponentBase {
     public void initialize(URL url, ResourceBundle rb) {
 
     }    
-    public void setNavItems(HashMap<MainScreen,String> navigateTo){
-        for (Map.Entry<MainScreen, String> entry : navigateTo.entrySet()) {
+    public void setNavItems(HashMap<MainScreen,Button> navigateTo){
+        for (Map.Entry<MainScreen, Button> entry : navigateTo.entrySet()) {
             MainScreen key = entry.getKey();
-            String value = entry.getValue();
-            createNewNavItem(key,value);
+            createNewNavItem(key,entry.getValue());
         }
     }
 
-    private void createNewNavItem(MainScreen key, String value) {
-        Button b = new Button(value);
-        b.setOnAction((ActionEvent event) -> {
-            ScreenManager.getInstance().loadScreen(key);
+    private void createNewNavItem(MainScreen key, Button value) {
+        value.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                 ScreenManager.getInstance().loadScreen(key);
+            }
         });
         
-        componentRoot
-                .getChildren()
-                .add(b);
+        ((Pane)componentRoot.getChildren().get(0)).getChildren().add(value);
     }
 
     @Override

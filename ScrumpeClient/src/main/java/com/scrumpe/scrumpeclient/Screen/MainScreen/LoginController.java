@@ -5,7 +5,6 @@
  */
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
-import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
@@ -18,18 +17,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
+import com.scrumpe.scrumpeclient.Utils.Escurity;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -50,7 +43,7 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+          
     }
 
     @FXML
@@ -90,13 +83,10 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
         UserDAO userdao = (UserDAO) DBManager.getInstance().getDAO(UserDAO.class);
         String email = emailField.getText();
         String password = passField.getText();
+        email =Escurity.cleanString(email);
+        emailField.setText(email);
         User u = userdao.tryLogin(email, password);
-        if (u == null) {
-            throwError("Wrong Credentials");
-            return u;
-        } else {
-            return u;
-        }
+       return u;
     }
 
     @Override
@@ -107,7 +97,14 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
         sm.loadScreen(ScreenManager.MainScreen.Main);
         ContainerController cc = sm.getRootLoader().getController();
         cc.loggedInUser.setText("Welcome " + u.getFirstName() + " " + u.getLastName());
+        }else{
+               throwError("Wrong Credentials");
         }
         ScreenManager.getInstance().showLoadingScreen(false);
+        DBManager.getInstance().close();
+    }
+
+    @Override
+    public void setTitle() {
     }
 }

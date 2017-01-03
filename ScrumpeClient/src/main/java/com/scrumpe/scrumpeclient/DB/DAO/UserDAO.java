@@ -6,17 +6,12 @@
 package com.scrumpe.scrumpeclient.DB.DAO;
 
 import com.mongodb.MongoClient;
-import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
-import com.scrumpe.scrumpeclient.Utils.Log;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jdk.nashorn.internal.runtime.logging.DebugLogger;
+import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
 import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.QueryImpl;
 
 /**
  *
@@ -47,7 +42,8 @@ public class UserDAO extends BasicDAO<User, String> {
        }
        return u;
     }
-    public void logOut(){
+   
+    public static void logOut(){
         loggedInUser = null;
     }
 }

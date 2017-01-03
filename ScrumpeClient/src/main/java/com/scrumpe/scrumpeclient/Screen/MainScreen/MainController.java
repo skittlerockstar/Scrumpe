@@ -5,6 +5,10 @@
  */
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
+import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
+import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
+import com.scrumpe.scrumpeclient.DB.DBManager;
+import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +29,13 @@ import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
+import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import com.scrumpe.scrumpeclient.Utils.Log;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import org.mongodb.morphia.query.QueryResults;
 
 /**
  * FXML Controller class
@@ -38,19 +49,29 @@ public class MainController extends ScreenBase {
     @FXML
     HBox centerContent;
     private List<FXMLLoader> courseListItems = new ArrayList<>();
-
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, "Init main");
+
     }
 
     @Override
     public void setNavigation() {
-        navigation.put(MainScreen.Main, "Home");
-        navigation.put(MainScreen.Login, "LogOut");
+        Button home = new Button("Home");
+        Button logOut = new Button("LogOut");
+        logOut.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+               UserDAO.logOut();
+               ContainerController cc = ScreenManager.getInstance().getRootLoader().getController();
+               cc.loggedInUser.setText("Not Logged in");
+            }
+        });
+        super.navigation.put(MainScreen.Main, home);
+        super.navigation.put(MainScreen.Login, logOut);
     }
 
     @Override
@@ -64,6 +85,7 @@ public class MainController extends ScreenBase {
     public void setupLayout() {
         try {
             HBox.setHgrow(componentRoot, Priority.ALWAYS);
+            HBox.setMargin(componentRoot, new Insets(10, 0, 0, 0));
            if(!init){ addCourses();}
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,25 +93,28 @@ public class MainController extends ScreenBase {
     }
 
     private void addCourses() throws IOException {
-        for (int i = 0; i < 10; i++) {
-            FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
+        List<Course> courseTitleAndIDS = data.getDatastore().find(Course.class).project("title", true).asList();
+        for (Course course : courseTitleAndIDS) {
+        FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
             courseListItems.add(n);
             UIComponent u = n.getController();
             u.setup(n.getRoot());
             CourseListItemController c  = n.getController();
-            c.setId(i);
+            c.setCourse(course);
             courseContainer.getChildren().add(n.getRoot());
         }
-
     }
-
-
     @Override
     public void setAdminComponents() {
         FXMLLoader x = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.UserList, true);
         UIComponent u = x.getController();
         u.setup(x.getRoot());
         centerContent.getChildren().add(x.getRoot());
+    }
+
+    @Override
+    public void setTitle() {
+        title = "Course Selection";
     }
 
 }
