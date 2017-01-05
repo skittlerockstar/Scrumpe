@@ -14,37 +14,88 @@
    <children>
       <VBox alignment="CENTER" styleClass="mainColor2" VBox.vgrow="NEVER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <TextField fx:id="emailField" alignment="TOP_CENTER" promptText="Emailaddress">
-               <opaqueInsets>
-                  <Insets top="10.0" />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </TextField>
-            <PasswordField fx:id="passField" alignment="CENTER" promptText="Password">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </PasswordField>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Forgot Password" textAlignment="RIGHT">
-               <padding>
-                  <Insets bottom="5.0" top="5.0" />
-               </padding>
-            </Label>
-            <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleButtonAction" text="Login" VBox.vgrow="ALWAYS">
-               <effect>
-                  <Reflection />
-               </effect></Button>
+            <AnchorPane VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER" styleClass="mainColor2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="emailField" alignment="TOP_CENTER" promptText="Emailaddress">
+                           <opaqueInsets>
+                              <Insets top="10.0" />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="passField" alignment="CENTER" promptText="Password">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <Label id="forgotPassword" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onMouseClicked="#forgotPassword" text="Forgot Password" textAlignment="CENTER">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleButtonAction" text="Login" VBox.vgrow="ALWAYS">
+                           <effect>
+                              <Reflection />
+                           </effect>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                     </padding>
+                  </VBox>
+                  <AnchorPane fx:id="forgotPassContainer" disable="true" mouseTransparent="true" opacity="0.0" styleClass="mainColor" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                        <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" styleClass="lightText" text="Forgot Password" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="emailFieldPass" alignment="TOP_CENTER" promptText="Emailaddress">
+                                 <opaqueInsets>
+                                    <Insets top="10.0" />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sendPassReminder" text="Send new Password" VBox.vgrow="ALWAYS">
+                                 <effect>
+                                    <Reflection />
+                                 </effect>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                           </padding>
+                        </VBox>
+                        <Button mnemonicParsing="false" onMouseClicked="#forgotPassword" text="X" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
          </children>
          <padding>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
+         <VBox.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </VBox.margin>
       </VBox>
    </children>
 </VBox>

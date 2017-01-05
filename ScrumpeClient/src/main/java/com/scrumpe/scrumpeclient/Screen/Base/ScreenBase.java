@@ -18,6 +18,7 @@ import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.MainDescriptionController;
 import com.scrumpe.scrumpeclient.Screen.Component.NavigationController;
+import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Log;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -35,7 +36,7 @@ public abstract class ScreenBase extends UIComponent {
     protected String description;
     protected String title;
     protected boolean init = false;
-    protected HashMap<MainScreen,Button> navigation= new HashMap<>();
+    private HashMap<MainScreen,Button> navigation= new HashMap<>();
     private HBox headerRoot = new HBox();
     public abstract void setNavigation();
     public abstract void setDescription();
@@ -59,6 +60,10 @@ public abstract class ScreenBase extends UIComponent {
             NavigationController navigationController = loader.getController();
             navigationController.setNavItems(navigation);
         }
+    }
+    public void addNavItem(ScreenManager.MainScreen destination,Button b,boolean cancelDefault){
+        b.setUserData(cancelDefault);
+        navigation.put(destination, b);
     }
     
     public void loadDescription(){

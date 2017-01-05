@@ -62,16 +62,13 @@ public class MainController extends ScreenBase {
     public void setNavigation() {
         Button home = new Button("Home");
         Button logOut = new Button("LogOut");
-        logOut.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-               UserDAO.logOut();
-               ContainerController cc = ScreenManager.getInstance().getRootLoader().getController();
-               cc.loggedInUser.setText("Not Logged in");
-            }
+        logOut.setOnAction((ActionEvent event) -> {
+            UserDAO.logOut();
+            ContainerController cc = ScreenManager.getInstance().getRootLoader().getController();
+            cc.loggedInUser.setText("Not Logged in");
         });
-        super.navigation.put(MainScreen.Main, home);
-        super.navigation.put(MainScreen.Login, logOut);
+        addNavItem(MainScreen.Main, home,false);
+        addNavItem(MainScreen.Login, logOut,false);
     }
 
     @Override

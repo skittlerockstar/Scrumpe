@@ -20,16 +20,19 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class LoginController extends ScreenBase implements EventHandler<WorkerStateEvent>{
+public class LoginController extends ScreenBase implements EventHandler<WorkerStateEvent> {
 
     @FXML
     private Node root;
@@ -38,12 +41,15 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
     @FXML
     private PasswordField passField;
     private Task loginTask;
+    @FXML
+    private AnchorPane forgotPassContainer;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          
+
     }
 
     @FXML
@@ -83,22 +89,22 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
         UserDAO userdao = (UserDAO) DBManager.getInstance().getDAO(UserDAO.class);
         String email = emailField.getText();
         String password = passField.getText();
-        email =Escurity.cleanString(email);
+        email = Escurity.cleanString(email);
         emailField.setText(email);
         User u = userdao.tryLogin(email, password);
-       return u;
+        return u;
     }
 
     @Override
     public void handle(WorkerStateEvent event) {
         User u = (User) loginTask.getValue();
-        if(u != null){
-        ScreenManager sm = ScreenManager.getInstance();
-        sm.loadScreen(ScreenManager.MainScreen.Main);
-        ContainerController cc = sm.getRootLoader().getController();
-        cc.loggedInUser.setText("Welcome " + u.getFirstName() + " " + u.getLastName());
-        }else{
-               throwError("Wrong Credentials");
+        if (u != null) {
+            ScreenManager sm = ScreenManager.getInstance();
+            sm.loadScreen(ScreenManager.MainScreen.Main);
+            ContainerController cc = sm.getRootLoader().getController();
+            cc.loggedInUser.setText("Welcome " + u.getFirstName() + " " + u.getLastName());
+        } else {
+            throwError("Wrong Credentials");
         }
         ScreenManager.getInstance().showLoadingScreen(false);
         DBManager.getInstance().close();
@@ -106,5 +112,28 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
 
     @Override
     public void setTitle() {
+    }
+
+    @FXML
+    private void forgotPassword(MouseEvent event) {
+        //TODO remove if password reminder is implemented
+        throwError("Sorry, this functionality is not ready yet... please contact the administrator.");
+        //
+        //Then uncomment this
+//        if (forgotPassContainer.mouseTransparentProperty().get()) {
+//            forgotPassContainer.setDisable(false);
+//            forgotPassContainer.setOpacity(1.0);
+//            forgotPassContainer.setMouseTransparent(false);
+//        } else {
+//            forgotPassContainer.setDisable(true);
+//            forgotPassContainer.setOpacity(0.0);
+//            forgotPassContainer.setMouseTransparent(true);
+//        }
+    }
+
+    @FXML
+    private void sendPassReminder(ActionEvent event) {
+        throwError("A new password has been sent to");
+        forgotPassword(null);
     }
 }

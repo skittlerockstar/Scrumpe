@@ -43,5 +43,11 @@ public abstract class UIComponent implements Initializable{
     public void throwError(String message){
         ScreenManager.getInstance().showNotification(message, true);
     }
+    public void throwConfirmError(String message,EventHandler yes,EventHandler no ){
+        ScreenManager.getInstance().showConfirmNotification(message, true, yes,no);
+    }
+    public void closePopUp(){
+        ScreenManager.getInstance().closeNotification();
+    }
     
 }

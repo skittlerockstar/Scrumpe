@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -11,16 +12,29 @@
    <children>
       <VBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: whitesmoke;" VBox.vgrow="NEVER">
          <children>
-            <Label fx:id="errorText" text="Error" textFill="RED" wrapText="true">
+            <Label fx:id="errorText" text="Error" wrapText="true">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Label>
-            <Button fx:id="dismiss" mnemonicParsing="false" text="Dismiss">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </Button>
+            <AnchorPane VBox.vgrow="NEVER">
+               <children>
+                  <HBox fx:id="dismissBox" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="dismiss" mnemonicParsing="false" text="Okido" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="confirmBox" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="confirmYes" mnemonicParsing="false" text="Yes" />
+                        <Button fx:id="confirmNo" mnemonicParsing="false" text="No" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
          </children>
       </VBox>
    </children>

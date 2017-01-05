@@ -9,56 +9,60 @@ import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
-import com.scrumpe.scrumpeclient.DB.Entity.Record;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import java.awt.Checkbox;
 import java.net.URL;
-import java.util.EventListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.bson.types.ObjectId;
 
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class CourseActiveController extends ScreenBase implements EventHandler<ActionEvent> {
+public class CourseActiveController extends ScreenBase implements EventHandler<ActionEvent>{
 
     @FXML
-    private Node QuestionContainer;
+    private Button previousQuestionBtn, nextQuestionBtn;
+    
     @FXML
     private ProgressBar courseProgress;
     private Double progressPercentageStep;
+    
     @FXML
     private Label activeQuestion;
+    
     @FXML
     private VBox answerContainer;
     private ToggleGroup currentToggleGroup;
+    
     private Course currentCourse;
     private List<Question> questions;
     private Question currentQuestion;
     private int currentQuestionNumber = 0;
-    private Record currentCourseRecord;
+    
+    //TODO replace this with a real record in DB
+    private List<ObjectId[]> givenAnswers;
+    
+    private List<ObjectId> currentGivenAnswers = new ArrayList<>();
 
     public void setCurrentCourse(Course currentCourse) {
         CourseDAO cd = (CourseDAO) data.getDAO(CourseDAO.class);
@@ -66,25 +70,25 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
         initCourse();
     }
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
-
     @Override
     public void setNavigation() {
         Button help = new Button("Help");
         Button quit = new Button("Quit Course");
-        navigation.put(ScreenManager.MainScreen.Main, help);
-        navigation.put(ScreenManager.MainScreen.Main, quit);
+        quit.addEventHandler(MouseEvent.MOUSE_PRESSED, (event) -> {
+            throwConfirmError("Are you sure? \n All progress will be lost.", (eventt) -> {
+               ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main);
+               closePopUp();
+            },(eventtt) -> {
+                closePopUp();
+            });
+        });
+        addNavItem(ScreenManager.MainScreen.Main, help,false);
+        addNavItem(ScreenManager.MainScreen.Main, quit,true);
     }
 
     @Override
     public void setDescription() {
-       // description = " Test";
+        // description = " Test";
     }
 
     @Override
@@ -100,22 +104,35 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     private void previousQuestion(ActionEvent event) {
         currentQuestionNumber--;
         setCurrentQuestion(currentQuestionNumber);
+        setPastAnswer();
+        setButtonStates();
     }
 
     @FXML
     void nextQuestion(ActionEvent event) {
+        saveAnswer();
+        if(currentQuestionNumber == questions.size()){
+            finishCourse();
+            return;
+        }
         currentQuestionNumber++;
         setCurrentQuestion(currentQuestionNumber);
+        setPastAnswer();
+        setButtonStates();
     }
 
     private void initCourse() {
+        givenAnswers = new ArrayList<>();
+        currentGivenAnswers = new ArrayList<>();
         currentQuestionNumber = 0;
         questions = currentCourse.getQuestions();
         progressPercentageStep = (1.0 / questions.size());
         setCurrentQuestion(currentQuestionNumber);
+        setButtonStates();
     }
 
     private void setCurrentQuestion(int currentQuestionNumber) {
+        currentGivenAnswers = new ArrayList<>();
         activeQuestion.setText(questions.get(currentQuestionNumber).getQuestion());
         courseProgress.setProgress(progressPercentageStep * (currentQuestionNumber + 1));
         currentQuestion = questions.get(currentQuestionNumber);
@@ -141,12 +158,74 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     @Override
     public void handle(ActionEvent event) {
         ButtonBase b = (ButtonBase) event.getSource();
-        //TODO save in record
+        if (b instanceof CheckBox) {
+            if (((CheckBox) b).isSelected()) {
+                currentGivenAnswers.add((ObjectId) b.getUserData());
+            } else {
+                currentGivenAnswers.remove((ObjectId) b.getUserData());
+            }
+        }
+        if (b instanceof RadioButton) {
+            if (((RadioButton) b).isSelected()) {
+                currentGivenAnswers.clear();
+                currentGivenAnswers.add((ObjectId) b.getUserData());
+            }
+        }
+        setButtonStates();
     }
 
     @Override
     public void setTitle() {
-       // title = currentCourse.getCourseTitle();
+        // title = currentCourse.getCourseTitle();
     }
+
+    private void saveAnswer() {
+       ObjectId[] finalAnswers = currentGivenAnswers.toArray(new ObjectId[currentGivenAnswers.size()]);
+       if(givenAnswers.size() > currentQuestionNumber){
+        givenAnswers.set(currentQuestionNumber, finalAnswers);
+       }else{
+           givenAnswers.add(finalAnswers);
+       }
+        currentGivenAnswers.clear();
+    }
+
+    private void setPastAnswer() {
+        if(givenAnswers.size() > currentQuestionNumber){
+        ObjectId[] get = givenAnswers.get(currentQuestionNumber);
+        currentGivenAnswers.addAll(Arrays.asList(get));
+            for (Node node : answerContainer.getChildren()) {
+                ButtonBase ansBtn = (ButtonBase) node;
+                for (ObjectId objectId : get) {
+                    if (((ObjectId) ansBtn.getUserData()).equals(objectId)) {
+                        if (ansBtn instanceof CheckBox) {
+                            ((CheckBox) ansBtn).setSelected(true);
+                        } else {
+                            ((RadioButton) ansBtn).setSelected(true);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void setButtonStates() {
+        if(currentQuestionNumber == 0 ){previousQuestionBtn.setDisable(true);}
+        else{ previousQuestionBtn.setDisable(false); }
+        
+        if(currentQuestionNumber == questions.size()-1){nextQuestionBtn.setText("Finnish Course");} 
+        else{ nextQuestionBtn.setText("Next"); }
+        
+        if(currentGivenAnswers.isEmpty()){ nextQuestionBtn.setDisable(true);}
+        else{nextQuestionBtn.setDisable(false);}
+    }
+
+    private void finishCourse() {
+        //TODO Load resultScreen;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {}
+
 
 }

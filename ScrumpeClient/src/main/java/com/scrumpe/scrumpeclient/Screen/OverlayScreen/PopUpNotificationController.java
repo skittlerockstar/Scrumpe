@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -31,7 +32,9 @@ public class PopUpNotificationController  extends OverlayBase{
     private Label errorText;
     
     @FXML
-    private Button dismiss;
+    private Button dismiss,confirmYes,confirmNo;
+    @FXML
+    private HBox dismissBox,confirmBox;
     private Stage stage;
     /**
      * Initializes the controller class.

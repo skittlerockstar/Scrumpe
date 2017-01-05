@@ -7,21 +7,19 @@ package com.scrumpe.scrumpeclient.Screen.Utils;
 
 import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.OverlayBase;
-import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Utils.Log;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 /**
@@ -29,6 +27,7 @@ import javafx.scene.layout.Pane;
  * @author Max Verhoeven
  */
 public class ScreenManager {
+
 
     public enum MainScreen {
         Login, Main, ActiveCourse
@@ -142,8 +141,26 @@ public class ScreenManager {
     public void showNotification(String message, boolean val) {
        Pane notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getRoot();
        Label l = (Label) MainApp.getRootStage().getScene().lookup("#errorText");
+       MainApp.getRootStage().getScene().lookup("#dismissBox").setVisible(true);
+       MainApp.getRootStage().getScene().lookup("#confirmBox").setVisible(false);
        l.setText(message);
        notificationRoot.setVisible(val);
        notificationRoot.setMouseTransparent(!val);
+    }
+    public void showConfirmNotification(String message, boolean val, EventHandler yes,EventHandler no) {
+       Pane notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getRoot();
+       Label l = (Label) MainApp.getRootStage().getScene().lookup("#errorText");
+       MainApp.getRootStage().getScene().lookup("#dismissBox").setVisible(false);
+       MainApp.getRootStage().getScene().lookup("#confirmBox").setVisible(true);
+        Button yesBtn = (Button) MainApp.getRootStage().getScene().lookup("#confirmYes");
+        Button noBtn = (Button) MainApp.getRootStage().getScene().lookup("#confirmNo");
+        yesBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,yes);
+        noBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,no);
+       l.setText(message);
+       notificationRoot.setVisible(val);
+       notificationRoot.setMouseTransparent(!val);
+    }
+    public void closeNotification(){
+        showNotification("", false);
     }
 }

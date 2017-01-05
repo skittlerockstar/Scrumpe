@@ -42,13 +42,11 @@ public class NavigationController extends ComponentBase {
     }
 
     private void createNewNavItem(MainScreen key, Button value) {
-        value.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                 ScreenManager.getInstance().loadScreen(key);
-            }
+        if(!(boolean)value.getUserData()){
+        value.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            ScreenManager.getInstance().loadScreen(key);
         });
-        
+        }
         ((Pane)componentRoot.getChildren().get(0)).getChildren().add(value);
     }
 

@@ -63,8 +63,8 @@
                            <children>
                               <AnchorPane HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="previousQuestion" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#previousQuestion" text="Previous" AnchorPane.leftAnchor="0.0" />
-                                    <Button fx:id="nextQuestion" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextQuestion" text="Next" AnchorPane.rightAnchor="0.0" />
+                                    <Button fx:id="previousQuestionBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#previousQuestion" text="Previous" AnchorPane.leftAnchor="0.0" />
+                                    <Button fx:id="nextQuestionBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextQuestion" text="Next" AnchorPane.rightAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
