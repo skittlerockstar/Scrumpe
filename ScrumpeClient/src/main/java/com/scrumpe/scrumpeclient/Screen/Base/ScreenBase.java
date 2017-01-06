@@ -6,9 +6,7 @@
 package com.scrumpe.scrumpeclient.Screen.Base;
 
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
-import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
-import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,13 +17,9 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.MainDescriptionController;
 import com.scrumpe.scrumpeclient.Screen.Component.NavigationController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import com.scrumpe.scrumpeclient.Utils.Log;
-import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**

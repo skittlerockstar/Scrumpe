@@ -111,11 +111,11 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     @FXML
     void nextQuestion(ActionEvent event) {
         saveAnswer();
+        currentQuestionNumber++;
         if(currentQuestionNumber == questions.size()){
             finishCourse();
             return;
         }
-        currentQuestionNumber++;
         setCurrentQuestion(currentQuestionNumber);
         setPastAnswer();
         setButtonStates();
@@ -221,7 +221,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void finishCourse() {
-        //TODO Load resultScreen;
+       ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
     }
 
     @Override

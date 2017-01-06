@@ -30,7 +30,7 @@ public class ScreenManager {
 
 
     public enum MainScreen {
-        Login, Main, ActiveCourse
+        Login, Main, ActiveCourse,CourseResults
     }
     public enum OverlayScreen{
         Loading,Notification
@@ -74,6 +74,7 @@ public class ScreenManager {
     public void setScreenResources() throws Exception {
         screenList.put(MainScreen.Login, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Login.fxml")));
         screenList.put(MainScreen.Main, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Main.fxml")));
+        screenList.put(MainScreen.CourseResults, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "CourseResults.fxml")));
         screenList.put(MainScreen.ActiveCourse, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "CourseActive.fxml")));
         
         overlayScreenList.put(OverlayScreen.Loading, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "LoadingScreen.fxml")));
@@ -96,7 +97,7 @@ public class ScreenManager {
     }
 
     private void setRoot() throws Exception {
-        root = new FXMLLoader(MainApp.class.getResource(SCREEN_ROOT_DIR + "Container.fxml"));
+        root = new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Container.fxml"));
         Pane base = root.load();
         rootMainContainer = ((BorderPane) base.getChildren().get(0)).getCenter();
         popUpRoot = (AnchorPane) base.getChildren().get(1);
@@ -106,7 +107,10 @@ public class ScreenManager {
     private void loadPopUpScreens() {
         // Load Loading screen
         FXMLLoader loadingScreen = overlayScreenList.get(OverlayScreen.Loading);
-        ((Pane)root.getRoot()).getChildren().add(loadingScreen.getRoot());
+        ((Pane)root.getRoot())
+                .getChildren()
+                .add(
+                        loadingScreen.getRoot());
         ((OverlayBase) loadingScreen.getController()).setup(loadingScreen.getRoot());
         
         // Load Error Notification screen

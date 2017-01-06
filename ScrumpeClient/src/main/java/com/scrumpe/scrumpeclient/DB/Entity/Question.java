@@ -20,7 +20,8 @@ public class Question extends BaseEntity {
 
     @Property("question")
     private String question;
-    
+    @Property
+    private String explanation;
     @Reference
     private List<Answer> answers;
     
