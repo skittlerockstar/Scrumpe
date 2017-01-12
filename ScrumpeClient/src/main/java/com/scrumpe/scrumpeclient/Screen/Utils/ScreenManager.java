@@ -74,7 +74,7 @@ public class ScreenManager {
     public void setScreenResources() throws Exception {
         screenList.put(MainScreen.Login, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Login.fxml")));
         screenList.put(MainScreen.Main, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Main.fxml")));
-        screenList.put(MainScreen.CourseResults, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "CourseResults.fxml")));
+        screenList.put(MainScreen.CourseResults, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "CourseResult.fxml")));
         screenList.put(MainScreen.ActiveCourse, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "CourseActive.fxml")));
         
         overlayScreenList.put(OverlayScreen.Loading, new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "LoadingScreen.fxml")));

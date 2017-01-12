@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -12,6 +13,9 @@
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
-      <Label fx:id="description" text="Label" />
+      <Label fx:id="description" text="Label">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
    </children>
 </VBox>

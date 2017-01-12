@@ -48,3 +48,7 @@ Button:hover{
     -fx-background-radius:4px;
     -fx-border-radius:4px;
 }
+
+.TESTGREEN{
+    -fx-background-color: green;
+}

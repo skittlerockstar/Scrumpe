@@ -10,6 +10,7 @@ import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
+import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.net.URL;
 import java.util.ArrayList;
@@ -221,7 +222,9 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void finishCourse() {
-       ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
+     CourseResultsController u =(CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
+     u.setResults(currentCourse, givenAnswers);
+     u.showResults();
     }
 
     @Override
