@@ -74,7 +74,7 @@ public class DBManager {
         }
     }
 
-    public <T extends BasicDAO> Object getDAO(final Class<T> daoClass) {
+    public <T extends BasicDAO> T getDAO(final Class<T> daoClass) {
         Constructor<?> ctor;
         Class<?> x = (Class<?>) ((ParameterizedType) daoClass.getGenericSuperclass()).getActualTypeArguments()[0];
         Object object = null;
@@ -84,7 +84,7 @@ public class DBManager {
         } catch (Exception ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
-        return object;
+        return (T)object;
     }
 
     public void close() {

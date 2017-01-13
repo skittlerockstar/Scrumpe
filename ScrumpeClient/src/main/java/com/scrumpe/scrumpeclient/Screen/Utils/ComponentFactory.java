@@ -6,27 +6,18 @@
 package com.scrumpe.scrumpeclient.Screen.Utils;
 
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
-import com.scrumpe.scrumpeclient.Screen.OverlayScreen.LoadingScreenController;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 /**
  *
  * @author Max Verhoeven
  */
 public class ComponentFactory {
-    public enum ComponentType{
+    public static enum ComponentType{
         CourseListItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
     }
     private static final String XML_ROOT_DIR = "/fxml/Component/";
@@ -40,6 +31,7 @@ public class ComponentFactory {
         components.put(ComponentType.UserList, XML_ADMIN_DIR+"UserList.fxml");
         components.put(ComponentType.UserListItem, XML_ADMIN_DIR+"UserListItem.fxml");
     }
+    
     public static FXMLLoader createComponent(Object context,ComponentType type){
         return createComponent(context,type,false);
     }

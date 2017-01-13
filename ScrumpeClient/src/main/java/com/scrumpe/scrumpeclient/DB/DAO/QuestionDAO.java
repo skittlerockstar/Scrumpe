@@ -7,12 +7,8 @@ package com.scrumpe.scrumpeclient.DB.DAO;
 
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
-import com.scrumpe.scrumpeclient.DB.Entity.User;
-import com.scrumpe.scrumpeclient.Utils.Escurity;
-import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
-import org.mongodb.morphia.query.Query;
 
 /**
  *

@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
+import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
@@ -18,13 +19,9 @@ import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
-import com.scrumpe.scrumpeclient.Utils.LessRT;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -36,7 +33,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Max Verhoeven
  */
-public class LoginController extends ScreenBase implements EventHandler<WorkerStateEvent> {
+public class LoginController extends ScreenBase implements DAOCallBack<User> {
 
     @FXML
     private Node root;
@@ -58,17 +55,8 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
-        ScreenManager.getInstance().showLoadingScreen(true);
-        loginTask = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                return tryLogin();
-            }
-        };
-        loginTask.setOnSucceeded(this);
-        Thread th = new Thread(loginTask);
-        th.setDaemon(true);
-        th.start();
+        UserDAO uDAO = data.getDAO(UserDAO.class);
+        uDAO.tryLogin(this,emailField.getText(), passField.getText());
     }
 
     @Override
@@ -88,32 +76,6 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
     public void setAdminComponents() {
 
     }
-
-    private User tryLogin() {
-        UserDAO userdao = (UserDAO) DBManager.getInstance().getDAO(UserDAO.class);
-        String email = emailField.getText();
-        String password = passField.getText();
-        email = Escurity.cleanString(email);
-        emailField.setText(email);
-        User u = userdao.tryLogin(email, password);
-        return u;
-    }
-
-    @Override
-    public void handle(WorkerStateEvent event) {
-        User u = (User) loginTask.getValue();
-        if (u != null) {
-            ScreenManager sm = ScreenManager.getInstance();
-            sm.loadScreen(ScreenManager.MainScreen.Main);
-            ContainerController cc = sm.getRootLoader().getController();
-            cc.loggedInUser.setText("Welcome " + u.getFirstName() + " " + u.getLastName());
-        } else {
-            throwError("Wrong Credentials");
-        }
-        ScreenManager.getInstance().showLoadingScreen(false);
-        DBManager.getInstance().close();
-    }
-
     @Override
     public void setTitle() {
     }
@@ -121,24 +83,28 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
     @FXML
     private void forgotPassword(MouseEvent event) {
             //TODO remove if password reminder is implemented
-
         throwError("Sorry, this functionality is not ready yet... please contact the administrator.");
-        //
-        //Then uncomment this
-//        if (forgotPassContainer.mouseTransparentProperty().get()) {
-//            forgotPassContainer.setDisable(false);
-//            forgotPassContainer.setOpacity(1.0);
-//            forgotPassContainer.setMouseTransparent(false);
-//        } else {
-//            forgotPassContainer.setDisable(true);
-//            forgotPassContainer.setOpacity(0.0);
-//            forgotPassContainer.setMouseTransparent(true);
-//        }
     }
 
     @FXML
     private void sendPassReminder(ActionEvent event) {
         throwError("A new password has been sent to");
         forgotPassword(null);
+    }
+
+    @Override
+    public void dbResult(User result) {
+       if (result != null) {
+            ScreenManager sm = ScreenManager.getInstance();
+            sm.loadScreen(ScreenManager.MainScreen.Main);
+            ContainerController cc = sm.getRootLoader().getController();
+            cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
+        } else {
+            throwError("Wrong Credentials");
+        }
+    }
+
+    @Override
+    public void dbResults(List<User> results) {
     }
 }

@@ -6,13 +6,9 @@
 package com.scrumpe.scrumpeclient.Screen.OverlayScreen;
 
 import com.scrumpe.scrumpeclient.Screen.Base.OverlayBase;
-import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 /**
  * FXML Controller class
@@ -34,7 +30,7 @@ public class LoadingScreenController extends OverlayBase{
        AnchorPane.setTopAnchor(componentRoot, 0.0);
        AnchorPane.setRightAnchor(componentRoot, 0.0);
        AnchorPane.setLeftAnchor(componentRoot, 0.0);
-        componentRoot.setVisible(false);
+       componentRoot.setVisible(false);
     }
     
 }

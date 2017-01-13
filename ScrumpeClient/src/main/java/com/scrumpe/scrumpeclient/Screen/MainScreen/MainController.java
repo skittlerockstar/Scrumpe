@@ -6,6 +6,7 @@
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
+import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
@@ -18,31 +19,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import com.scrumpe.scrumpeclient.Utils.Log;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import org.mongodb.morphia.query.QueryResults;
 
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class MainController extends ScreenBase {
+public class MainController extends ScreenBase implements DAOCallBack<Course>{
 
     @FXML
     private FlowPane courseContainer;
@@ -73,7 +68,7 @@ public class MainController extends ScreenBase {
 
     @Override
     public void setDescription() {
-        super.description = "Welcome to Version 0.1 of Scrump! There's not very much to except to take courses at the moment. \n simply select a course to start.";
+        super.screenDescription = "Welcome to Version 0.1 of Scrump! There's not very much to except to take courses at the moment. \n simply select a course to start.";
     }
 
     @Override
@@ -88,16 +83,8 @@ public class MainController extends ScreenBase {
     }
 
     private void addCourses() throws IOException {
-        List<Course> courseTitleAndIDS = data.getDatastore().find(Course.class).project("title", true).asList();
-        for (Course course : courseTitleAndIDS) {
-        FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
-            courseListItems.add(n);
-            UIComponent u = n.getController();
-            u.setup(n.getRoot());
-            CourseListItemController c  = n.getController();
-            c.setCourse(course);
-            courseContainer.getChildren().add(n.getRoot());
-        }
+        CourseDAO  courseDAO = data.getDAO(CourseDAO.class);
+        courseDAO.getCourses(this);
     }
     @Override
     public void setAdminComponents() {
@@ -110,6 +97,24 @@ public class MainController extends ScreenBase {
     @Override
     public void setTitle() {
         title = "Course Selection";
+    }
+
+    @Override
+    public void dbResults(List<Course> results) {
+        for (Course course : results) {
+        FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
+            courseListItems.add(n);
+            UIComponent u = n.getController();
+            u.setup(n.getRoot());
+            CourseListItemController c  = n.getController();
+            c.setCourse(course);
+            courseContainer.getChildren().add(n.getRoot());
+        }
+    }
+
+    @Override
+    public void dbResult(Course result) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

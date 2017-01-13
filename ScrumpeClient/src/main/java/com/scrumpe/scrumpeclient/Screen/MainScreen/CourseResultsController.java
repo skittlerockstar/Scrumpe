@@ -65,7 +65,7 @@ public class CourseResultsController extends ScreenBase  {
 
     @Override
     public void setDescription() {
-        description = "These are your results";
+        screenDescription = "These are your results";
     }
 
     @Override
