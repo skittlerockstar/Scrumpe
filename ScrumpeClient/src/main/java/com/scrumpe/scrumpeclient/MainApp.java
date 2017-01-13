@@ -5,6 +5,9 @@
  */
 package com.scrumpe.scrumpeclient;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import com.scrumpe.scrumpeclient.Utils.LessRT;
+import com.scrumpe.scrumpeclient.Utils.Log;
+import java.util.logging.Level;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +29,7 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        LessRT.LoadLess(MainApp.class);
         rootStage = stage;
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();

@@ -67,10 +67,14 @@
             </AnchorPane>
          </top>
       </BorderPane>
-      <AnchorPane fx:id="overlay" prefHeight="200.0" prefWidth="200.0" styleClass="overlayContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane fx:id="overlay" prefHeight="200.0" prefWidth="200.0" styleClass="overlayContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button layoutX="119.0" layoutY="128.0" mnemonicParsing="false" text="Button" />
+         </children></AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../styles/rootStyle.css" />
-      <URL value="@../styles/appTheme.css" />
+      <URL value="@../styles/css/rootStyle.css" />
+      <URL value="@../styles/css/appTheme.css" />
+      <URL value="@../styles/css/newstyle.css" />
    </stylesheets>
 </AnchorPane>

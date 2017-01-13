@@ -41,7 +41,7 @@ public class CourseResultsController extends ScreenBase  {
     private Course takenCourse;
     private List<ObjectId[]> givenAnswers;
     @FXML
-    private Label score, requiredScore, resultQuestion;
+    private Label score, requiredScore, resultQuestion,explanation;
     @FXML
     private VBox resultSummaryList, resultAnswersContainer;
     @FXML
@@ -54,7 +54,6 @@ public class CourseResultsController extends ScreenBase  {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @Override
@@ -88,8 +87,8 @@ public class CourseResultsController extends ScreenBase  {
 
     public void showResults() {
         generateQuestionList();
-        generateScore();
-
+        
+        showQuestionResult(takenCourse.getQuestions().get(0));
         //resultsContainer.getChildren().add(new Label())
     }
 
@@ -99,10 +98,46 @@ public class CourseResultsController extends ScreenBase  {
             Label l = new Label(q.getQuestion());
             l.setUserData(q);
             items.add(l);
-            l.setOnMouseReleased(changeQuestionResult);
+            
         }
         questionList.setItems(items);
-
+        generateScore();
+        questionList.setCellFactory(new Callback<ListView<Label>, ListCell<Label>>(){
+ 
+            @Override
+            public ListCell<Label> call(ListView<Label> p) {
+                 
+                ListCell<Label> cell = new ListCell<Label>(){
+ 
+                    @Override
+                    protected void updateItem(Label t, boolean bln) {
+                        super.updateItem(t, bln);
+                        if (t != null) {
+                            setText(t.getText());
+                            setUserData(t.getUserData());
+                            setStyle(t.getStyle());
+                            setOnMouseClicked(changeQuestionResult);
+                            setPrefHeight(USE_COMPUTED_SIZE);
+                            setOnMousePressed((MouseEvent event) -> {
+                                change();
+                            });
+                            setWidth(p.getWidth());
+                        }
+                    }
+                    public void change(){
+                       for(Node n : p.getChildrenUnmodifiable()){
+                           n.setDisable(false);
+                       }
+                        setDisabled(true);
+                        
+                    }
+ 
+                };
+                 
+                return cell;
+            }
+        });
+ 
     }
 
     private void generateScore() {
@@ -158,7 +193,7 @@ public class CourseResultsController extends ScreenBase  {
     }
     
     EventHandler changeQuestionResult = (EventHandler<MouseEvent>) (MouseEvent event) -> {
-        Label source = (Label) event.getSource();
+        Node source = (Node) event.getSource();
         showQuestionResult((Question)source.getUserData());
     };
 

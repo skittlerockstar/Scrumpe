@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" style=": ;" stylesheets="@../../styles/mainScreenStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
+<VBox maxHeight="100.0" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" style=": ;" stylesheets="@../../styles/css/mainScreenStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>

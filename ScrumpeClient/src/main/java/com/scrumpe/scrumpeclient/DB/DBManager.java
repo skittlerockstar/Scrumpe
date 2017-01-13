@@ -25,25 +25,26 @@ import org.mongodb.morphia.dao.BasicDAO;
 public class DBManager {
 
     private final boolean DEBUG = false;
-    
+
     private static DBManager instance;
     private final MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private final Morphia morphia;
     private final Datastore datastore;
-    
-    private static final String CON_HOST_DEB = "localhost";
-    private static final String CON_HOST = "ds157078.mlab.com";
-    private static final int CON_PORT_DEB = 27017;
-    private static final int CON_PORT = 57078;
-    private static final String CON_U = "scrumpe";
-    private static final String CON_U_DEB = "";
-    private static final String CON_P = "scrumpe";
-    private static final String CON_P_DEB = "";
-    private static final String DATABASE = "scrumpe";
-    private static final String DATABASE_DEB = "Scrumpe";
-    private static final String MAP_PACKAGE = "com.scrumpe.scrumpeclient.DB";
-    private static final String MAP_PACKAGE_DEB = "com.scrumpe.scrumpeclient.DB.Entity";
+
+    private static final String CON_HOST_DEB = "localhost",
+            CON_HOST = "ds157078.mlab.com",
+            CON_U = "scrumpe",
+            CON_U_DEB = "",
+            CON_P = "scrumpe",
+            CON_P_DEB = "",
+            DATABASE = "scrumpe",
+            DATABASE_DEB = "Scrumpe",
+            MAP_PACKAGE = "com.scrumpe.scrumpeclient.DB",
+            MAP_PACKAGE_DEB = "com.scrumpe.scrumpeclient.DB.Entity";
+
+    private static final int CON_PORT_DEB = 27017,
+                             CON_PORT  = 57078;
 
     public Datastore getDatastore() {
         return datastore;
@@ -66,16 +67,13 @@ public class DBManager {
             ServerAddress sa = new ServerAddress(CON_HOST, CON_PORT);
             MongoCredential mc = MongoCredential.createCredential(CON_U, DATABASE, CON_P.toCharArray());
             mongoClient = new MongoClient(new ArrayList<ServerAddress>() {
-                {
-                    add(sa);
-                }
-            }, new ArrayList<MongoCredential>() {
-                {
-                    add(mc);
-                }
+                { add(sa);}
+            },
+            new ArrayList<MongoCredential>() {
+                {add(mc);}
             });
             morphia = new Morphia();
-            
+
             morphia.mapPackage(MAP_PACKAGE);
             datastore = morphia.createDatastore(mongoClient, DATABASE);
         }
