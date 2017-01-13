@@ -29,7 +29,6 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        LessRT.LoadLess(MainApp.class);
         rootStage = stage;
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();

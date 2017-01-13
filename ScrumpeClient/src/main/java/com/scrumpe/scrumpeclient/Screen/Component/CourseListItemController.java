@@ -49,6 +49,7 @@ public class CourseListItemController extends ComponentBase {
     }
     @FXML
     private void startC(ActionEvent event){
+        ScreenManager.getInstance().showLoadingScreen(true);
          CourseActiveController ac = (CourseActiveController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.ActiveCourse);
          ac.setCurrentCourse(course);
     }

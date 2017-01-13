@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,36 +40,55 @@ import org.bson.types.ObjectId;
  *
  * @author Max Verhoeven
  */
-public class CourseActiveController extends ScreenBase implements EventHandler<ActionEvent>{
+public class CourseActiveController extends ScreenBase implements EventHandler<ActionEvent> {
 
     @FXML
     private Button previousQuestionBtn, nextQuestionBtn;
-    
+
     @FXML
     private ProgressBar courseProgress;
     private Double progressPercentageStep;
-    
+
     @FXML
     private Label activeQuestion;
-    
+
     @FXML
     private VBox answerContainer;
     private ToggleGroup currentToggleGroup;
-    
+
     private Course currentCourse;
     private List<Question> questions;
     private Question currentQuestion;
     private int currentQuestionNumber = 0;
-    
+
     //TODO replace this with a real record in DB
     private List<ObjectId[]> givenAnswers;
-    
+
     private List<ObjectId> currentGivenAnswers = new ArrayList<>();
 
     public void setCurrentCourse(Course currentCourse) {
+        Task loadCourse = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                return tryLoadCourse(currentCourse);
+            }
+        };
+        loadCourse.setOnSucceeded((event) -> {
+            ScreenManager.getInstance().showLoadingScreen(false);
+            componentRoot.setVisible(true);
+            initCourse();
+        });
+        Thread th = new Thread(loadCourse);
+        th.setDaemon(true);
+        th.start();
+
+        //  initCourse();
+    }
+
+    private Object tryLoadCourse(Course currentCourse) {
         CourseDAO cd = (CourseDAO) data.getDAO(CourseDAO.class);
         this.currentCourse = cd.findOne("_id", currentCourse.getId());
-        initCourse();
+        return this.currentCourse;
     }
 
     @Override
@@ -77,14 +97,14 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
         Button quit = new Button("Quit Course");
         quit.addEventHandler(MouseEvent.MOUSE_PRESSED, (event) -> {
             throwConfirmError("Are you sure? \n All progress will be lost.", (eventt) -> {
-               ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main);
-               closePopUp();
-            },(eventtt) -> {
+                ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main);
+                closePopUp();
+            }, (eventtt) -> {
                 closePopUp();
             });
         });
-        addNavItem(ScreenManager.MainScreen.Main, help,false);
-        addNavItem(ScreenManager.MainScreen.Main, quit,true);
+        addNavItem(ScreenManager.MainScreen.Main, help, false);
+        addNavItem(ScreenManager.MainScreen.Main, quit, true);
     }
 
     @Override
@@ -113,7 +133,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     void nextQuestion(ActionEvent event) {
         saveAnswer();
         currentQuestionNumber++;
-        if(currentQuestionNumber == questions.size()){
+        if (currentQuestionNumber == questions.size()) {
             finishCourse();
             return;
         }
@@ -130,6 +150,8 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
         progressPercentageStep = (1.0 / questions.size());
         setCurrentQuestion(currentQuestionNumber);
         setButtonStates();
+        super.title = currentCourse.getCourseTitle();
+        super.loadTitle();
     }
 
     private void setCurrentQuestion(int currentQuestionNumber) {
@@ -177,23 +199,23 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
 
     @Override
     public void setTitle() {
-        // title = currentCourse.getCourseTitle();
+        title = null;
     }
 
     private void saveAnswer() {
-       ObjectId[] finalAnswers = currentGivenAnswers.toArray(new ObjectId[currentGivenAnswers.size()]);
-       if(givenAnswers.size() > currentQuestionNumber){
-        givenAnswers.set(currentQuestionNumber, finalAnswers);
-       }else{
-           givenAnswers.add(finalAnswers);
-       }
+        ObjectId[] finalAnswers = currentGivenAnswers.toArray(new ObjectId[currentGivenAnswers.size()]);
+        if (givenAnswers.size() > currentQuestionNumber) {
+            givenAnswers.set(currentQuestionNumber, finalAnswers);
+        } else {
+            givenAnswers.add(finalAnswers);
+        }
         currentGivenAnswers.clear();
     }
 
     private void setPastAnswer() {
-        if(givenAnswers.size() > currentQuestionNumber){
-        ObjectId[] get = givenAnswers.get(currentQuestionNumber);
-        currentGivenAnswers.addAll(Arrays.asList(get));
+        if (givenAnswers.size() > currentQuestionNumber) {
+            ObjectId[] get = givenAnswers.get(currentQuestionNumber);
+            currentGivenAnswers.addAll(Arrays.asList(get));
             for (Node node : answerContainer.getChildren()) {
                 ButtonBase ansBtn = (ButtonBase) node;
                 for (ObjectId objectId : get) {
@@ -211,24 +233,34 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void setButtonStates() {
-        if(currentQuestionNumber == 0 ){previousQuestionBtn.setDisable(true);}
-        else{ previousQuestionBtn.setDisable(false); }
-        
-        if(currentQuestionNumber == questions.size()-1){nextQuestionBtn.setText("Finnish Course");} 
-        else{ nextQuestionBtn.setText("Next"); }
-        
-        if(currentGivenAnswers.isEmpty()){ nextQuestionBtn.setDisable(true);}
-        else{nextQuestionBtn.setDisable(false);}
+        if (currentQuestionNumber == 0) {
+            previousQuestionBtn.setDisable(true);
+        } else {
+            previousQuestionBtn.setDisable(false);
+        }
+
+        if (currentQuestionNumber == questions.size() - 1) {
+            nextQuestionBtn.setText("Finnish Course");
+        } else {
+            nextQuestionBtn.setText("Next");
+        }
+
+        if (currentGivenAnswers.isEmpty()) {
+            nextQuestionBtn.setDisable(true);
+        } else {
+            nextQuestionBtn.setDisable(false);
+        }
+
     }
 
     private void finishCourse() {
-     CourseResultsController u =(CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
-     u.setResults(currentCourse, givenAnswers);
-     u.showResults();
+        CourseResultsController u = (CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
+        u.setResults(currentCourse, givenAnswers);
+        u.showResults();
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
-
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 
 }

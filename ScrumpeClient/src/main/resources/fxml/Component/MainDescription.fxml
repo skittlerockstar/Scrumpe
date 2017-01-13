@@ -10,12 +10,12 @@
 
 <VBox maxWidth="1.7976931348623157E308" styleClass="mainColor2" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.MainDescriptionController">
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
    <children>
-      <Label fx:id="description" text="Label">
+      <Label fx:id="description" graphicTextGap="1.0" text="Label">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Label>
    </children>
 </VBox>

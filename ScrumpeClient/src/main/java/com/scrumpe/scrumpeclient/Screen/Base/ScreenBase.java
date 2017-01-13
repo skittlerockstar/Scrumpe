@@ -29,6 +29,7 @@ import javafx.scene.layout.VBox;
 public abstract class ScreenBase extends UIComponent {
     protected String description;
     protected String title;
+    private Label screenTitle;
     protected boolean init = false;
     private HashMap<MainScreen,Button> navigation= new HashMap<>();
     private HBox headerRoot = new HBox();
@@ -39,11 +40,15 @@ public abstract class ScreenBase extends UIComponent {
     
     public void loadTitle(){
         if(title !=null){
+            if(screenTitle == null){
            FXMLLoader loader = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.ScreenTitle, true);
-           Label headerTitle = (Label) ((Pane)loader.getRoot()).getChildren().get(0);
-           headerTitle.setText(title);
+           screenTitle = (Label) ((Pane)loader.getRoot()).getChildren().get(0);
+           screenTitle.setText(title);
            HBox.setHgrow(loader.getRoot(), Priority.ALWAYS);
            headerRoot.getChildren().add(0,loader.getRoot());
+            }else{
+                screenTitle.setText(title);
+            }
         }
     }
     public void loadNavigation(){

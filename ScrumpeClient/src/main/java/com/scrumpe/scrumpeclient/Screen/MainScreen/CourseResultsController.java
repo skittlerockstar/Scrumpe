@@ -47,13 +47,15 @@ public class CourseResultsController extends ScreenBase  {
     @FXML
     
     private ListView questionList;
-    private Label yourAnswer = new Label("◉");
-    private Label correctAnswer = new Label("◉");
+    private Label yourAnswer = new Label("Your Answer");
+    private Label correctAnswer = new Label("Correct Answer");
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        yourAnswer.getStyleClass().add("yourAnswer");
+        correctAnswer.getStyleClass().add("correctAnswer");
     }
 
     @Override
@@ -204,11 +206,17 @@ public class CourseResultsController extends ScreenBase  {
         int indexOfQ = takenCourse.getQuestions().indexOf(question);
         resultQuestion.setText(question.getQuestion());
         ObjectId[] oIds = givenAnswers.get(indexOfQ);
+        ObjectId[] cIds = question.getCorrectAnswerIds();
          resultAnswersContainer.getChildren().clear();
         for (Answer a : q) {
             HBox answerContainer = new HBox();
-           
+            answerContainer.getStyleClass().add("resultAnswers");
             answerContainer.getChildren().add(new Label(a.getAnswer()));
+            for (ObjectId cid : cIds) {
+                if(cid.equals(a.getId())){
+                answerContainer.getChildren().add(correctAnswer);
+                }
+            }
             for (ObjectId oid : oIds) {
                 if(oid.equals(a.getId())){
                 answerContainer.getChildren().add(yourAnswer);

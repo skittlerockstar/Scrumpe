@@ -18,6 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import com.scrumpe.scrumpeclient.Utils.LessRT;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,5 +44,5 @@ public class ContainerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    
-    
+
 }

@@ -73,9 +73,7 @@ public class MainController extends ScreenBase {
 
     @Override
     public void setDescription() {
-        super.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin viverra vestibulum libero a euismod. Aenean egestas tellus sed mi vehicula, sed pretium arcu congue. Fusce et aliquam odio. Sed eu arcu vel nulla placerat pharetra. Praesent id pellentesque elit. Sed non nisi sodales, gravida mauris id, molestie neque. Curabitur luctus lobortis nulla, sed lacinia lectus interdum nec. Phasellus ut est id turpis iaculis tempor non in massa. Duis eleifend ante in bibendum luctus.\n" +
-"\n" +
-"Etiam gravida, velit a finibus fermentum, quam est luctus nibh, at interdum magna nisl non odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut hendrerit ante at nisi hendrerit tincidunt. Proin cursus et sem sed auctor. Ut vitae lacinia libero. Nam mattis tristique nulla sagittis ornare. Phasellus lobortis convallis finibus. Vestibulum vitae malesuada lacus. Curabitur efficitur, purus eget efficitur finibus, risus lacus vestibulum mi, eu venenatis nibh diam sed massa. Vestibulum blandit tincidunt neque ut tincidunt. Cras interdum felis lacus, a volutpat urna consectetur ac.";
+        super.description = "Welcome to Version 0.1 of Scrump! There's not very much to except to take courses at the moment. \n simply select a course to start.";
     }
 
     @Override

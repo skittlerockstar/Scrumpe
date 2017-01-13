@@ -14,6 +14,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
@@ -23,7 +24,6 @@ import org.mongodb.morphia.dao.BasicDAO;
  * @author Max Verhoeven
  */
 public class DBManager {
-
     private final boolean DEBUG = false;
 
     private static DBManager instance;
@@ -31,17 +31,11 @@ public class DBManager {
     private MongoDatabase mongoDatabase;
     private final Morphia morphia;
     private final Datastore datastore;
-
-    private static final String CON_HOST_DEB = "localhost",
-            CON_HOST = "ds157078.mlab.com",
-            CON_U = "scrumpe",
-            CON_U_DEB = "",
-            CON_P = "scrumpe",
-            CON_P_DEB = "",
-            DATABASE = "scrumpe",
-            DATABASE_DEB = "Scrumpe",
-            MAP_PACKAGE = "com.scrumpe.scrumpeclient.DB",
-            MAP_PACKAGE_DEB = "com.scrumpe.scrumpeclient.DB.Entity";
+    static Preferences preferences = 
+      Preferences.userNodeForPackage(DBManager.class);
+    private static String CON_HOST_DEB ,CON_HOST ,CON_U ,CON_U_DEB ,CON_P ,
+                          CON_P_DEB ,DATABASE ,DATABASE_DEB ,MAP_PACKAGE ,
+                          MAP_PACKAGE_DEB;
 
     private static final int CON_PORT_DEB = 27017,
                              CON_PORT  = 57078;
@@ -52,6 +46,7 @@ public class DBManager {
 
     public static DBManager getInstance() {
         if (instance == null) {
+            setupCredentials();
             instance = new DBManager();
         }
         return instance;
@@ -94,5 +89,17 @@ public class DBManager {
 
     public void close() {
 
+    }
+    private static void setupCredentials() {
+            CON_HOST_DEB =  preferences.get("CON_HOST_DEB", null); // localhost
+            CON_HOST = preferences.get("CON_HOST", null);//"ds157078.mlab.com";
+            CON_U = preferences.get("CON_U", null);//"scrumpe";
+            CON_U_DEB = preferences.get("CON_U_DEB", null);// "";
+            CON_P = preferences.get("CON_P", null);//"scrumpe";
+            CON_P_DEB = preferences.get("CON_P_DEB", null);//"";
+            DATABASE = preferences.get("DATABASE", null);//"scrumpe";
+            DATABASE_DEB = preferences.get("DATABASE_DEB", null);//"Scrumpe";
+            MAP_PACKAGE = preferences.get("MAP_PACKAGE", null);//"com.scrumpe.scrumpeclient.DB";
+            MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB.Entity";
     }
 }

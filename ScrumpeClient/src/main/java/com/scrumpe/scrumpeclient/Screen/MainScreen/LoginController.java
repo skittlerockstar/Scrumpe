@@ -18,6 +18,10 @@ import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
+import com.scrumpe.scrumpeclient.Utils.LessRT;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.Event;
@@ -116,7 +120,8 @@ public class LoginController extends ScreenBase implements EventHandler<WorkerSt
 
     @FXML
     private void forgotPassword(MouseEvent event) {
-        //TODO remove if password reminder is implemented
+            //TODO remove if password reminder is implemented
+
         throwError("Sorry, this functionality is not ready yet... please contact the administrator.");
         //
         //Then uncomment this
