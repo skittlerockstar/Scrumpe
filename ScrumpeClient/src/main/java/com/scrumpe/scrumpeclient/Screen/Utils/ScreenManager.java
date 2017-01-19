@@ -8,6 +8,7 @@ package com.scrumpe.scrumpeclient.Screen.Utils;
 import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.OverlayBase;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
+import com.scrumpe.scrumpeclient.Utils.Lang;
 import com.scrumpe.scrumpeclient.Utils.Log;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,10 +86,12 @@ public class ScreenManager {
         try {
             for (Map.Entry<MainScreen, FXMLLoader> entry : screenList.entrySet()) {
                 FXMLLoader value = entry.getValue();
+                value.setResources(Lang.getLangSet());
                 value.load();
             }
              for (Map.Entry<OverlayScreen, FXMLLoader> entry : overlayScreenList.entrySet()) {
                 FXMLLoader value = entry.getValue();
+                value.setResources(Lang.getLangSet());
                 value.load();
             }
         } catch (Exception e) {

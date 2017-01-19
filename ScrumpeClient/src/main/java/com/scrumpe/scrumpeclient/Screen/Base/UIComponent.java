@@ -7,6 +7,7 @@ package com.scrumpe.scrumpeclient.Screen.Base;
 
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;

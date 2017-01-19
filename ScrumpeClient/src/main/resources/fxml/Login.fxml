@@ -36,7 +36,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </PasswordField>
-                        <Label id="forgotPassword" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onMouseClicked="#forgotPassword" text="Forgot Password" textAlignment="CENTER">
+                        <Label id="forgotPassword" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onMouseClicked="#forgotPassword" text="%forgot_pass_label" textAlignment="CENTER">
                            <padding>
                               <Insets bottom="5.0" />
                            </padding>
