@@ -15,8 +15,8 @@
    <children>
       <GridPane VBox.vgrow="NEVER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="121.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="79.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="SOMETIMES" />
@@ -29,14 +29,14 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label text="Completed" visible="false" GridPane.rowIndex="2" />
-            <Label text="Status" visible="false" GridPane.rowIndex="3" />
-            <Label text="0%" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Not Passed" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.rowIndex="1" />
+            <Label text="Number of Questions" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+            <Label text="Required to pass:" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+            <Label fx:id="questionCount" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="asdf" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" />
+            <Label fx:id="minimumScore" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="asdf" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
+            <Label fx:id="courseDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" wrapText="true" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
          </children>
       </GridPane>
-      <HBox alignment="CENTER_RIGHT" VBox.vgrow="NEVER">
+      <HBox fx:id="controls" alignment="CENTER_RIGHT" spacing="5.0" VBox.vgrow="NEVER">
          <children>
             <Button fx:id="startCourse" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#startC" text="Start Course" />
          </children>

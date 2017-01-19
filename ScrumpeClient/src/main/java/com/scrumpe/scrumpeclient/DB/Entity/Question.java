@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.Entity;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Property;
@@ -20,8 +21,16 @@ public class Question extends BaseEntity {
 
     @Property("question")
     private String question;
-    @Property
+    @Property("description")
     private String explanation;
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
     @Reference
     private List<Answer> answers;
     
@@ -50,6 +59,11 @@ public class Question extends BaseEntity {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" + "question=" + question + ", explanation=" + explanation + ", answers=" + answers + ", correctAnswerIds=" + Arrays.toString(correctAnswerIds) + '}';
     }
     
 }

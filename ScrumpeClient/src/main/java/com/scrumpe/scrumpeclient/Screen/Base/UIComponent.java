@@ -10,8 +10,8 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
-import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory.ComponentType;
 /**
  *
  * @author Max Verhoeven
@@ -19,12 +19,19 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory.ComponentType;
 public abstract class UIComponent implements Initializable{
     protected Pane componentRoot;
     protected DBManager data;
-    
+    protected TitledPane componentRootAsTitlePane;
     public abstract void setupLayout();
     public void setup(Node current){
         data = DBManager.getInstance();
-        componentRoot = (Pane) current;
-        setupLayout();        
+        if(current instanceof TitledPane){
+            componentRootAsTitlePane = (TitledPane) current;
+        }else{
+            componentRoot = (Pane) current;
+        }
+        setupLayout();  
+        if(this instanceof ComponentBase){
+           ((ComponentBase)this).setAdminComponents();
+        }
     }
     public void throwError(String message){
         ScreenManager.getInstance().showNotification(message, true);
@@ -35,5 +42,7 @@ public abstract class UIComponent implements Initializable{
     public void closePopUp(){
         ScreenManager.getInstance().closeNotification();
     }
+
+    
     
 }

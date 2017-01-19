@@ -5,30 +5,30 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Component.Admin;
 
-import java.io.IOException;
+import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
+import com.scrumpe.scrumpeclient.DB.Entity.User;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import static com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory.ComponentType;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class UserListController extends ComponentBase {
+public class UserListController extends ComponentBase implements DAOCallBack<User>{
 
     @FXML
     private ListView userList;
@@ -38,22 +38,36 @@ public class UserListController extends ComponentBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        createUserList();
     }
 
     @Override
     public void setupLayout() {
         HBox.setHgrow(componentRoot, Priority.ALWAYS);
         HBox.setMargin(userList, new Insets(5));
+        createUserList();
     }
 
     private void createUserList() {
-       ObservableList<Node> items = FXCollections.observableArrayList();
-        for (int i = 0; i < 50; i++) {
-                FXMLLoader l = ComponentFactory.createComponent(this,ComponentType.UserListItem,true);
-                items.add(l.getRoot());
+        UserDAO dao = data.getDAO(UserDAO.class);
+        dao.getUsers(this);
+    }
+
+    @Override
+    public void dbResult(User result) {
+    }
+
+    @Override
+    public void dbResults(List<User> results) {
+        System.out.println(results.toArray());
+        ObservableList<Node> userlist = FXCollections.observableArrayList();
+        for (User result : results) {
+            System.err.println(result.getEmail());
+             FXMLLoader l = ComponentFactory.createComponent(this,ComponentType.UserListItem,true);
+             UserListItemController ulic = l.getController();
+             ulic.setUserData(result);
+             userlist.add(l.getRoot());
         }
-        userList.setItems(items);
+        userList.setItems(userlist);
     }
 
 }

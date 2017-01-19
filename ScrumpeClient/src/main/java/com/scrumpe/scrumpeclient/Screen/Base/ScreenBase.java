@@ -92,10 +92,12 @@ public abstract class ScreenBase extends UIComponent {
         loadHeader();
         loadTitle();
         loadNavigation();
+        System.out.println("HIER");
         if(UserDAO.getLoggedInUser() !=null){
-            if(!UserDAO.getLoggedInUser().isIsAdmin()){
+            System.out.println("HIER");
+           // if(!UserDAO.getLoggedInUser().isIsAdmin()){
                 setAdminComponents();
-            }
+          //  }
         }
     }
 

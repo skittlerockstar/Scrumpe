@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CEQuestionItemController">
+   <graphic>
+      <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+         <children>
+            <Label fx:id="questionLabel" maxHeight="1.7976931348623157E308" maxWidth="400.0" text="Question" />
+            <Button fx:id="deleteQBtn" mnemonicParsing="false" text="Delete Question" />
+         </children>
+      </HBox>
+   </graphic>
+   <content>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" text="Question" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextArea fx:id="questionTextField" maxHeight="1.7976931348623157E308" prefRowCount="2" wrapText="true" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </TextArea>
+                        <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+                           <children>
+                              <Button fx:id="addAnswer" mnemonicParsing="false" text="Add Answer" />
+                              <Button fx:id="deleteAllAnswers" mnemonicParsing="false" text="Delete all Answers" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox fx:id="explanationContainer" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Explanation">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextArea fx:id="explanationField" prefRowCount="2" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="answerContainer" />
+                     </children></VBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

@@ -38,6 +38,12 @@ public class PopUpNotificationController  extends OverlayBase{
       dismiss.setOnAction((ActionEvent event) -> {
           componentRoot.setVisible(false);
       });
+      confirmYes.setOnAction((ActionEvent event) -> {
+          componentRoot.setVisible(false);
+      });
+      confirmNo.setOnAction((ActionEvent event) -> {
+          componentRoot.setVisible(false);
+      });
     }    
     public void setMessage(String message){
         errorText.setText(message);

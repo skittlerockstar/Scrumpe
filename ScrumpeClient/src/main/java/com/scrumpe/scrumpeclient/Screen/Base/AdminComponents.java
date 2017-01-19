@@ -5,16 +5,10 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Base;
 
-import javafx.scene.Node;
-
 /**
  *
  * @author Max Verhoeven
  */
-public abstract class ComponentBase extends UIComponent{
-    public void setAdminComponents(){
-        if(this instanceof AdminComponents){
-            ((AdminComponents)this).setAdminParts();
-        }
-    }
+public interface AdminComponents {
+    void setAdminParts();
 }

@@ -24,7 +24,7 @@ import org.mongodb.morphia.dao.BasicDAO;
  * @author Max Verhoeven
  */
 public class DBManager {
-    private final boolean DEBUG = false;
+    private final boolean DEBUG = true;
 
     private static DBManager instance;
     private final MongoClient mongoClient;
@@ -54,6 +54,7 @@ public class DBManager {
 
     private DBManager() {
         if (DEBUG) {
+            DATABASE = "Scrumpe";
             mongoClient = new MongoClient("localhost", 27017);
             morphia = new Morphia();
             morphia.mapPackage(MAP_PACKAGE);
@@ -68,9 +69,9 @@ public class DBManager {
                 {add(mc);}
             });
             morphia = new Morphia();
-
             morphia.mapPackage(MAP_PACKAGE);
             datastore = morphia.createDatastore(mongoClient, DATABASE);
+           
         }
     }
 
@@ -100,6 +101,6 @@ public class DBManager {
             DATABASE = preferences.get("DATABASE", null);//"scrumpe";
             DATABASE_DEB = preferences.get("DATABASE_DEB", null);//"Scrumpe";
             MAP_PACKAGE = preferences.get("MAP_PACKAGE", null);//"com.scrumpe.scrumpeclient.DB";
-            MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB.Entity";
+            MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB";
     }
 }

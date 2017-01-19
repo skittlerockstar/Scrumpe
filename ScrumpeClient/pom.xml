@@ -115,5 +115,10 @@
             <artifactId>lesscss</artifactId>
             <version>1.7.0.1.1</version>
         </dependency>
+        <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml</artifactId>
+          <version>3.15</version>
+        </dependency>
     </dependencies>
 </project>

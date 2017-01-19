@@ -8,7 +8,6 @@ package com.scrumpe.scrumpeclient.Screen.MainScreen;
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
 import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
-import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import java.io.IOException;
 import java.net.URL;
@@ -27,24 +26,31 @@ import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
+import com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class MainController extends ScreenBase implements DAOCallBack<Course>{
+public class MainController extends ScreenBase implements DAOCallBack<Course> {
 
     @FXML
     private FlowPane courseContainer;
     @FXML
     HBox centerContent;
     private List<FXMLLoader> courseListItems = new ArrayList<>();
-    
+    private static CourseEditorController courseEditorScreen;
+
+    public static CourseEditorController getCourseEditorScreen() {
+        return courseEditorScreen;
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -55,15 +61,13 @@ public class MainController extends ScreenBase implements DAOCallBack<Course>{
 
     @Override
     public void setNavigation() {
-        Button home = new Button("Home");
-        Button logOut = new Button("LogOut");
+        Button logOut = new Button("Log out");
         logOut.setOnAction((ActionEvent event) -> {
             UserDAO.logOut();
             ContainerController cc = ScreenManager.getInstance().getRootLoader().getController();
             cc.loggedInUser.setText("Not Logged in");
         });
-        addNavItem(MainScreen.Main, home,false);
-        addNavItem(MainScreen.Login, logOut,false);
+        addNavItem(MainScreen.Login, logOut, false);
     }
 
     @Override
@@ -76,22 +80,33 @@ public class MainController extends ScreenBase implements DAOCallBack<Course>{
         try {
             HBox.setHgrow(componentRoot, Priority.ALWAYS);
             HBox.setMargin(componentRoot, new Insets(10, 0, 0, 0));
-           if(!init){ addCourses();}
+            if (!init) {
+                addCourses();
+            }
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void addCourses() throws IOException {
-        CourseDAO  courseDAO = data.getDAO(CourseDAO.class);
+        CourseDAO courseDAO = data.getDAO(CourseDAO.class);
         courseDAO.getCourses(this);
     }
+
     @Override
     public void setAdminComponents() {
         FXMLLoader x = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.UserList, true);
         UIComponent u = x.getController();
         u.setup(x.getRoot());
         centerContent.getChildren().add(x.getRoot());
+
+        if (courseEditorScreen == null) {
+            FXMLLoader courseEditor = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseEditor, true);
+            UIComponent u2 = courseEditor.getController();
+            u2.setup(courseEditor.getRoot());
+            courseEditorScreen = (CourseEditorController) u2;
+            ((AnchorPane) ScreenManager.getInstance().getRoot()).getChildren().add(1, courseEditor.getRoot());
+        }
     }
 
     @Override
@@ -102,11 +117,9 @@ public class MainController extends ScreenBase implements DAOCallBack<Course>{
     @Override
     public void dbResults(List<Course> results) {
         for (Course course : results) {
-        FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
+            FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
             courseListItems.add(n);
-            UIComponent u = n.getController();
-            u.setup(n.getRoot());
-            CourseListItemController c  = n.getController();
+            CourseListItemController c = n.getController();
             c.setCourse(course);
             courseContainer.getChildren().add(n.getRoot());
         }
@@ -114,7 +127,6 @@ public class MainController extends ScreenBase implements DAOCallBack<Course>{
 
     @Override
     public void dbResult(Course result) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

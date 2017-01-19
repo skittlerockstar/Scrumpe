@@ -96,7 +96,7 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
     public void dbResult(User result) {
        if (result != null) {
             ScreenManager sm = ScreenManager.getInstance();
-            sm.loadScreen(ScreenManager.MainScreen.Main);
+            sm.loadScreen(ScreenManager.MainScreen.Main,true);
             ContainerController cc = sm.getRootLoader().getController();
             cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
         } else {

@@ -21,6 +21,7 @@ import org.mongodb.morphia.dao.BasicDAO;
  * 
  */
 public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<WorkerStateEvent>{
+    protected static final ScreenManager screen = ScreenManager.getInstance();
     DAOCallBack current;
     Task currentTask;
     public DAO(Class<T> entityClass, MongoClient mongoClient, Morphia morphia, String dbName) {
@@ -29,15 +30,18 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
 
     @Override
     public void handle(WorkerStateEvent event) {
-        ScreenManager.getInstance().showLoadingScreen(false);
+        screen.showLoadingScreen(false);
         Object x = currentTask.getValue();
-        if(x instanceof List){
-            current.dbResults((List) currentTask.getValue());
-        }else{
-            current.dbResult(currentTask.getValue());
+        if(current!=null){
+            if(x instanceof List){
+                current.dbResults((List) currentTask.getValue());
+            }else{
+                current.dbResult(currentTask.getValue());
+            }
         }
     }
     public void accessDB(DAOCallBack source, Task task){
+        screen.showLoadingScreen(true);
         current = source;
         currentTask = task;
         task.setOnSucceeded(this);

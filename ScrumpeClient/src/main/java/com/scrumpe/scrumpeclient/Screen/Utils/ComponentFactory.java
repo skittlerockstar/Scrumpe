@@ -18,13 +18,15 @@ import javafx.fxml.FXMLLoader;
  */
 public class ComponentFactory {
     public static enum ComponentType{
-        CourseListItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
+        CourseListItem,CourseEditor,CEQuestionItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
     }
     private static final String XML_ROOT_DIR = "/fxml/Component/";
     private static final String XML_ADMIN_DIR = "/fxml/Component/Admin/";
     private static HashMap<ComponentType,String> components = new HashMap<ComponentType,String>();
     static{
         components.put(ComponentType.CourseListItem, XML_ROOT_DIR+"CourseListItem.fxml");
+        components.put(ComponentType.CourseEditor, XML_ADMIN_DIR+"CourseEditor.fxml");
+        components.put(ComponentType.CEQuestionItem, XML_ADMIN_DIR+"CEQuestionItem.fxml");
         components.put(ComponentType.MainDescription, XML_ROOT_DIR+"MainDescription.fxml");
         components.put(ComponentType.Navigation, XML_ROOT_DIR+"NavPanel.fxml");
         components.put(ComponentType.ScreenTitle, XML_ROOT_DIR+"ScreenTitle.fxml");

@@ -18,6 +18,26 @@ public class Course extends BaseEntity {
 
     @Property("title")
     private String courseTitle;
+     @Property("description")
+    private String courseDescription;
+      @Property("requiredScore")
+    private int minimumScore;
+
+    public int getMinimumScore() {
+        return minimumScore;
+    }
+
+    public void setMinimumScore(int minimumScore) {
+        this.minimumScore = minimumScore;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
+    }
     @Reference
     private List<Question> questions;
     public String getCourseTitle() {

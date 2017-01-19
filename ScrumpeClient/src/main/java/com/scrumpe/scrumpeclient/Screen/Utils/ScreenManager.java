@@ -121,11 +121,19 @@ public class ScreenManager {
     }
 
     public UIComponent loadScreen(MainScreen screen) {
+       return loadScreen(screen,false);
+    }
+    public UIComponent loadScreen(MainScreen screen,boolean reload) {
         UIComponent controller = null;
         try {
             Pane rootCenterPane = ((Pane) rootMainContainer);
             rootCenterPane.getChildren().clear();
             FXMLLoader toLoad = screenList.get(screen);
+            if(reload){
+                toLoad = new FXMLLoader(toLoad.getLocation());
+                toLoad.load();
+                screenList.replace(screen, toLoad);
+            }
             Pane node = toLoad.getRoot();
             rootCenterPane.getChildren().add(node);
             controller = toLoad.getController();

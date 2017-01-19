@@ -36,19 +36,20 @@ import org.bson.types.ObjectId;
  *
  * @author IMXNotASPider
  */
-public class CourseResultsController extends ScreenBase  {
+public class CourseResultsController extends ScreenBase {
 
     private Course takenCourse;
     private List<ObjectId[]> givenAnswers;
     @FXML
-    private Label score, requiredScore, resultQuestion,explanation;
+    private Label score, requiredScore, resultQuestion, explanation;
     @FXML
     private VBox resultSummaryList, resultAnswersContainer;
     @FXML
-    
+
     private ListView questionList;
     private Label yourAnswer = new Label("Your Answer");
     private Label correctAnswer = new Label("Correct Answer");
+
     /**
      * Initializes the controller class.
      */
@@ -89,7 +90,7 @@ public class CourseResultsController extends ScreenBase  {
 
     public void showResults() {
         generateQuestionList();
-        
+
         showQuestionResult(takenCourse.getQuestions().get(0));
         //resultsContainer.getChildren().add(new Label())
     }
@@ -100,17 +101,17 @@ public class CourseResultsController extends ScreenBase  {
             Label l = new Label(q.getQuestion());
             l.setUserData(q);
             items.add(l);
-            
+
         }
         questionList.setItems(items);
         generateScore();
-        questionList.setCellFactory(new Callback<ListView<Label>, ListCell<Label>>(){
- 
+        questionList.setCellFactory(new Callback<ListView<Label>, ListCell<Label>>() {
+
             @Override
             public ListCell<Label> call(ListView<Label> p) {
-                 
-                ListCell<Label> cell = new ListCell<Label>(){
- 
+
+                ListCell<Label> cell = new ListCell<Label>() {
+
                     @Override
                     protected void updateItem(Label t, boolean bln) {
                         super.updateItem(t, bln);
@@ -126,20 +127,19 @@ public class CourseResultsController extends ScreenBase  {
                             setWidth(p.getWidth());
                         }
                     }
-                    public void change(){
-                       for(Node n : p.getChildrenUnmodifiable()){
-                           n.setDisable(false);
-                       }
+
+                    public void change() {
+                        for (Node n : p.getChildrenUnmodifiable()) {
+                            n.setDisable(false);
+                        }
                         setDisabled(true);
-                        
                     }
- 
                 };
-                 
+
                 return cell;
             }
         });
- 
+
     }
 
     private void generateScore() {
@@ -168,6 +168,7 @@ public class CourseResultsController extends ScreenBase  {
             }
         }
         score.setText(percentage + "%");
+        requiredScore.setText(takenCourse.getMinimumScore()*step+"%");
     }
 
     private boolean checkAnswer(Answer a, ObjectId[] corAns, ObjectId[] givAns) {
@@ -193,39 +194,39 @@ public class CourseResultsController extends ScreenBase  {
         }
         return false;
     }
-    
+
     EventHandler changeQuestionResult = (EventHandler<MouseEvent>) (MouseEvent event) -> {
         Node source = (Node) event.getSource();
-        showQuestionResult((Question)source.getUserData());
+        showQuestionResult((Question) source.getUserData());
     };
 
     private void showQuestionResult(Question question) {
         resultAnswersContainer.getChildren().clear();
         List<Answer> q = question.getAnswers();
-        Log.log(getClass(), Level.SEVERE, givenAnswers.size()+"");
+        Log.log(getClass(), Level.SEVERE, givenAnswers.size() + "");
         int indexOfQ = takenCourse.getQuestions().indexOf(question);
         resultQuestion.setText(question.getQuestion());
         ObjectId[] oIds = givenAnswers.get(indexOfQ);
         ObjectId[] cIds = question.getCorrectAnswerIds();
-         resultAnswersContainer.getChildren().clear();
+        resultAnswersContainer.getChildren().clear();
+        explanation.setText(question.getExplanation());
         for (Answer a : q) {
             HBox answerContainer = new HBox();
             answerContainer.getStyleClass().add("resultAnswers");
             answerContainer.getChildren().add(new Label(a.getAnswer()));
             for (ObjectId cid : cIds) {
-                if(cid.equals(a.getId())){
-                answerContainer.getChildren().add(correctAnswer);
+                if (cid.equals(a.getId())) {
+                    answerContainer.getChildren().add(correctAnswer);
                 }
             }
             for (ObjectId oid : oIds) {
-                if(oid.equals(a.getId())){
-                answerContainer.getChildren().add(yourAnswer);
+                if (oid.equals(a.getId())) {
+                    answerContainer.getChildren().add(yourAnswer);
                 }
             }
-              resultAnswersContainer.getChildren().add(answerContainer);
+            resultAnswersContainer.getChildren().add(answerContainer);
         }
-        
-      
+
     }
-    
+
 }
