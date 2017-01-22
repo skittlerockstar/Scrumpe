@@ -8,44 +8,44 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.5);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController">
+<AnchorPane id="AnchorPane" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController">
    <children>
-      <VBox alignment="CENTER" style="-fx-background-color: rgba(0,0,0,0);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar maxWidth="700.0" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-radius: 2 2 0 0;">
+            <MenuBar maxWidth="700.0" nodeOrientation="RIGHT_TO_LEFT" >
               <menus>
                   <Menu mnemonicParsing="false">
                      <graphic>
-                        <Button fx:id="discardCourse" mnemonicParsing="false" text="Discard" />
+                        <Button fx:id="discardCourse" mnemonicParsing="false" text="%course_editor_discard" />
                      </graphic>
                   </Menu>
                 <Menu mnemonicParsing="false">
                      <graphic>
-                        <Button fx:id="saveCourse" mnemonicParsing="false" text="Save" />
+                        <Button fx:id="saveCourse" mnemonicParsing="false" text="%course_editor_save" />
                      </graphic>
                 </Menu>
               </menus>
             </MenuBar>
-            <VBox maxWidth="700.0" minHeight="500.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 0 0 2 2;">
+            <VBox maxWidth="700.0" minHeight="500.0" spacing="10.0" >
                <children>
                   <HBox spacing="5.0">
                      <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="Course Title" HBox.hgrow="NEVER">
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="%course_editor_course_title" HBox.hgrow="NEVER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="courseTitle" maxHeight="1.7976931348623157E308" promptText="Course Title">
+                        <TextField fx:id="courseTitle" maxHeight="1.7976931348623157E308" promptText="%course_editor_title_prompt">
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin>
                         </TextField>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="Minimum">
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="%course_editor_minimum_score">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="minimumScore" alignment="CENTER" maxHeight="30.0" prefColumnCount="1" prefHeight="30.0" prefWidth="50.0" text="0">
+                        <TextField fx:id="minimumScore" alignment="CENTER" maxHeight="30.0" prefColumnCount="1" prefHeight="30.0" prefWidth="50.0" promptText="%course_editor_" text="0">
                            <font>
                               <Font size="18.0" />
                            </font></TextField>
@@ -68,22 +68,22 @@
                   </HBox>
                   <VBox spacing="5.0" VBox.vgrow="NEVER">
                      <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="Course Description" HBox.hgrow="NEVER">
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" text="%course_editor_description" HBox.hgrow="NEVER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="courseDescription" maxWidth="1.7976931348623157E308" prefColumnCount="1" prefRowCount="3" promptText="Course Description" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="courseDescription" maxWidth="1.7976931348623157E308" prefColumnCount="1" prefRowCount="3" promptText="%course_editor_description_prompt" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <children>
                         <HBox spacing="5.0" VBox.vgrow="NEVER">
                            <children>
-                              <Button fx:id="addQuestionBtn" mnemonicParsing="false" text="Add Question" />
-                              <Button fx:id="deleteAllQBtn" mnemonicParsing="false" text="Delete all Questions" />
-                              <Button fx:id="uploadExcelBtn" mnemonicParsing="false" text="Upload Excel" />
-                              <TextField fx:id="searchQuestion" promptText="Search Question" />
+                              <Button fx:id="addQuestionBtn" mnemonicParsing="false" text="%course_editor_add_question" />
+                              <Button fx:id="deleteAllQBtn" mnemonicParsing="false" text="%course_editor_delete_all" />
+                              <Button fx:id="uploadExcelBtn" mnemonicParsing="false" text="%course_editor_upload_excel" />
+                              <TextField fx:id="searchQuestion" promptText="%course_editor_search_prompt" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />

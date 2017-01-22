@@ -1,0 +1,68 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 12, 2017, 2:05:41 PM
+    Author     : IMXNotASPider
+*/
+@import "vars/vars.less";
+
+.@{root}{
+    .defaultStyles();
+    .@{rootCenter}{
+       -fx-background-color:@mainColorDark;
+       .login{
+           >VBox{
+               -fx-background-color:@mainColorLight;
+           }
+       }
+    }
+    .@{rootTop}{
+       -fx-background-color:@mainColor; 
+       .styleHead();
+    }
+    .@{rootBottom}{
+        -fx-background-color:@mainColor;
+        -fx-text-fill:@mainColorLight;
+    }
+}
+.defaultStyles(){
+    VBox,HBox{
+        -fx-background-radius:4;
+    }
+    Label{-fx-text-fill:@textColor;}
+    Button{
+        -fx-text-fill:@textColorLight;
+        -fx-background-color:@mainColor;
+        -fx-cursor: pointer;
+        &:hover{
+            -fx-background-color:lighten(@mainColor,20%);
+        }
+    }
+}
+.styleHead(){
+    Label{
+        -fx-text-fill:@textColorLight;
+    }
+}
+.@{overlay}{ // overlays
+    -fx-background-color:fadeout(@mainColorDark,50%);
+    > VBox,HBox{
+    -fx-background-color:@mainColorLight; 
+    -fx-text-fill:@textColor;
+    }
+    .progress{
+        -fx-background-radius:100;
+        >ProgressIndicator {
+            -fx-progress-color: @mainColor;
+        }
+    }
+}
+.gotQuestionWrong{
+    -fx-text-fill:red;
+}
+.gotQuestionCorrect{
+    -fx-text-fill:green;
+}

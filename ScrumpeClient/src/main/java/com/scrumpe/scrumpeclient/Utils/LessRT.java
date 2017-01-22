@@ -35,8 +35,8 @@ public class LessRT {
 
     public static void Setup(Class source) {
         try {
-            URL l = source.getResource(ROOT + LESS_SOURCE + "newstyle.less");
-            URL l2 = source.getResource(ROOT + CSS_SOURCE + "newstyle.css");
+            URL l = source.getResource(ROOT + LESS_SOURCE + "mainStyle.less");
+            URL l2 = source.getResource(ROOT + CSS_SOURCE + "mainStyle.css");
             URI f = l.toURI();
             URI f2 = l2.toURI();
             lessFile = new File(f.getPath());

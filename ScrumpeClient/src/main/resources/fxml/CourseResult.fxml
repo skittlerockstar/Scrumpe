@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.CourseResultsController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" styleClass="courseResult" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.CourseResultsController">
    <children>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
@@ -16,7 +16,7 @@
                <content>
                   <HBox alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308">
                      <children>
-                        <VBox alignment="TOP_CENTER" fillWidth="false" minHeight="400.0" minWidth="400.0" spacing="10.0" style="-fx-background-color: white;" HBox.hgrow="NEVER" VBox.vgrow="NEVER">
+                        <VBox alignment="TOP_CENTER" fillWidth="false" minHeight="400.0" minWidth="400.0" spacing="10.0" HBox.hgrow="NEVER" VBox.vgrow="NEVER">
                            <children>
                               <Label fx:id="resultQuestion" text="Label" wrapText="true" VBox.vgrow="NEVER">
                                  <font>
@@ -44,7 +44,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Label text="Results">
+                              <Label text="%resultscreen_result_head">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -59,14 +59,14 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label maxWidth="1.7976931348623157E308" text="Score:" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                    <Label maxWidth="1.7976931348623157E308" text="%resultscreen_score" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding></Label>
-                                    <Label maxWidth="1.7976931348623157E308" text="Required:" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                    <Label maxWidth="1.7976931348623157E308" text="%resultscreen_required" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                        <font>
                                           <Font size="14.0" />
                                        </font>

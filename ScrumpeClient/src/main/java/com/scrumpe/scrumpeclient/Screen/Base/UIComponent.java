@@ -34,7 +34,7 @@ public abstract class UIComponent implements Initializable{
            ((ComponentBase)this).setAdminComponents();
         }
     }
-    public void throwError(String message){
+    public void presentNote(String message){
         ScreenManager.getInstance().showNotification(message, true);
     }
     public void throwConfirmError(String message,EventHandler yes,EventHandler no ){

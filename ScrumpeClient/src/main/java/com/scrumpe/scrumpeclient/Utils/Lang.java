@@ -15,7 +15,13 @@ import java.util.ResourceBundle;
 public class Lang {
     public static String currentLang = "en";
     public static final String LANG_BUNDLE = "strings.lang";
+    
     public static ResourceBundle getLangSet(){
-        return ResourceBundle.getBundle(LANG_BUNDLE, Locale.ENGLISH);
+        return getLangSet(currentLang);
+    }
+
+    private static ResourceBundle getLangSet(String lang) {
+        currentLang = lang;
+        return ResourceBundle.getBundle(LANG_BUNDLE, new Locale(lang));
     }
 }

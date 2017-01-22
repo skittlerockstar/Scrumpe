@@ -83,12 +83,12 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
     @FXML
     private void forgotPassword(MouseEvent event) {
             //TODO remove if password reminder is implemented
-        throwError("Sorry, this functionality is not ready yet... please contact the administrator.");
+        presentNote("Sorry, this functionality is not ready yet... please contact the administrator.");
     }
 
     @FXML
     private void sendPassReminder(ActionEvent event) {
-        throwError("A new password has been sent to");
+        presentNote("A new password has been sent to");
         forgotPassword(null);
     }
 
@@ -100,7 +100,7 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
             ContainerController cc = sm.getRootLoader().getController();
             cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
         } else {
-            throwError("Wrong Credentials");
+            presentNote("Wrong Credentials");
         }
     }
 

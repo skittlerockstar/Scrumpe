@@ -144,7 +144,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
 
     @Override
     public void dbResult(Course result) {
-        if (result == null) throwError("Sorry something went wrong... please contact the admin.");
+        if (result == null) presentNote("Sorry something went wrong... please contact the admin.");
         else{
             discardCourse();
             ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main, true);
@@ -178,7 +178,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         HashMap<CourseEnum, Object> course;
         course = ((file != null) ? ExcelUploader.readExcel(file) : null);
         if (course != null) insertExcelData(course); 
-        else throwError("File is not readable");
+        else presentNote("File is not readable");
     }
 
     private void deleteAllQuestions() {

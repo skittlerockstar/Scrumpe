@@ -160,11 +160,11 @@ public class CourseResultsController extends ScreenBase {
             if (!questionIsCorrect) {
 
                 Label l = (Label) listItems.get(i);
-                l.setStyle("-fx-background-color:#ff0000");
+                l.getStyleClass().add("gotQuestionWrong");
                 percentage -= step;
             } else {
                 Label l = (Label) listItems.get(i);
-                l.setStyle("-fx-background-color:#00ff00");
+                l.getStyleClass().add("gotQuestionCorrect");
             }
         }
         score.setText(percentage + "%");

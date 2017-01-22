@@ -101,6 +101,7 @@ public class ScreenManager {
 
     private void setRoot() throws Exception {
         root = new FXMLLoader(getClass().getResource(SCREEN_ROOT_DIR + "Container.fxml"));
+        root.setResources(Lang.getLangSet());
         Pane base = root.load();
         rootMainContainer = ((BorderPane) base.getChildren().get(0)).getCenter();
         popUpRoot = (AnchorPane) base.getChildren().get(1);

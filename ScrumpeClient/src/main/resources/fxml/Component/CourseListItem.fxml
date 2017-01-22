@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" style=": ;" stylesheets="@../../styles/css/mainScreenStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
@@ -29,8 +29,8 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label text="Number of Questions" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-            <Label text="Required to pass:" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+            <Label text="%course_summary_question_count" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+            <Label text="%course_summary_requirements" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
             <Label fx:id="questionCount" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="asdf" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" />
             <Label fx:id="minimumScore" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="asdf" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
             <Label fx:id="courseDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" wrapText="true" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
@@ -38,7 +38,7 @@
       </GridPane>
       <HBox fx:id="controls" alignment="CENTER_RIGHT" spacing="5.0" VBox.vgrow="NEVER">
          <children>
-            <Button fx:id="startCourse" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#startC" text="Start Course" />
+            <Button fx:id="startCourse" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#startC" text="%course_summary_start" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

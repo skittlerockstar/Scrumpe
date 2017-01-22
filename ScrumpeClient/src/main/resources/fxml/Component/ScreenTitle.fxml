@@ -10,7 +10,7 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label styleClass="lightText" text="Replace with screen title">
+      <Label text="Replace with screen title">
          <font>
             <Font size="36.0" />
          </font>

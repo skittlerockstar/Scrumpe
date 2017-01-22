@@ -6,6 +6,7 @@
 package com.scrumpe.scrumpeclient.Screen.Utils;
 
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
+import com.scrumpe.scrumpeclient.Utils.Lang;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -41,6 +42,7 @@ public class ComponentFactory {
         FXMLLoader load = new FXMLLoader(context.getClass().getResource(components.get(type)));
         if(preload){
             try {
+                load.setResources(Lang.getLangSet());
                 load.load();
                 ComponentBase controller = load.getController();
                 if(controller !=null){

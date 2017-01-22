@@ -112,7 +112,7 @@ public class CourseListItemController extends ComponentBase implements AdminComp
             public void dbResult(Course result) {
                 ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main,true);
                 ScreenManager.getInstance().showLoadingScreen(true);
-                throwError("Course Deleted!");
+                presentNote("Course Deleted!");
             }
 
             @Override
