@@ -57,4 +57,8 @@ public class PopUpNotificationController  extends OverlayBase{
        componentRoot.setVisible(false);
     }
 
+    @Override
+    public void onChanged() {
+    }
+
 }

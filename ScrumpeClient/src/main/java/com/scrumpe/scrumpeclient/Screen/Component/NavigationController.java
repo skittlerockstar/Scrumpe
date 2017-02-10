@@ -53,4 +53,10 @@ public class NavigationController extends ComponentBase {
     @Override
     public void setupLayout() {
     }
+
+    @Override
+    public void onChanged() {
+    }
+
+   
 }

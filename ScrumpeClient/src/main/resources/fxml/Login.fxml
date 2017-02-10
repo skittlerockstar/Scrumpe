@@ -12,7 +12,7 @@
 
 <VBox alignment="CENTER" styleClass="login" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.LoginController">
    <children>
-      <VBox alignment="CENTER" VBox.vgrow="NEVER">
+      <VBox alignment="CENTER" styleClass="panel" VBox.vgrow="NEVER">
          <children>
             <AnchorPane VBox.vgrow="ALWAYS">
                <children>

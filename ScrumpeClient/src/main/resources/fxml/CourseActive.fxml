@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,82 +8,77 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="courseActive" visible="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="courseActive" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController">
    <children>
-      <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER" HBox.hgrow="NEVER">
+            <VBox alignment="CENTER" fillWidth="false" HBox.hgrow="NEVER">
                <children>
-                  <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="panel" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox fx:id="QuestionContainer" alignment="CENTER" maxWidth="-Infinity" prefWidth="300.0" VBox.vgrow="NEVER">
+                        <VBox fx:id="QuestionContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="panel" VBox.vgrow="NEVER">
                            <children>
-                              <Label fx:id="activeQuestion" text="Time to fix that. Here's a start. ... Choose the Maven NetBeans Platform Application Archetype and click Next: ... Note: Follow these steps to set up the classpath correctly for using the NetBeans Platform in IntelliJ IDEA. Use the .... how to exclude certain module dependencies when using a specific cluster." wrapText="true">
+                              <Label fx:id="activeQuestion" maxWidth="1.7976931348623157E308" text="Time to fix that. Here's a start. ... Choose the Maven NetBeans Platform Application Archetype and click Next: ... Note: Follow these steps to set up the classpath correctly for using the NetBeans Platform in IntelliJ IDEA. Use the .... how to exclude certain module dependencies when using a specific cluster." wrapText="true" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
-                              <VBox fx:id="answerContainer" alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
+                              <VBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="RadioButton">
+                                    <VBox fx:id="answerContainer" maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </RadioButton>
+                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </RadioButton>
+                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </RadioButton>
+                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </RadioButton>
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="TOP_CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+                                       <children>
+                                          <ProgressBar fx:id="courseProgress" prefWidth="300.0" progress="0.0" HBox.hgrow="ALWAYS" />
+                                       </children>
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets />
                                        </VBox.margin>
-                                    </RadioButton>
-                                    <RadioButton mnemonicParsing="false" text="RadioButton">
+                                    </HBox>
+                                    <HBox alignment="TOP_CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <AnchorPane maxWidth="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Button fx:id="previousQuestionBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#previousQuestion" text="%activecourse_previous" AnchorPane.leftAnchor="0.0" />
+                                                <Button fx:id="nextQuestionBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextQuestion" text="%activecourse_next" AnchorPane.rightAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets />
                                        </VBox.margin>
-                                    </RadioButton>
-                                    <RadioButton mnemonicParsing="false" text="RadioButton">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </RadioButton>
-                                    <RadioButton mnemonicParsing="false" text="RadioButton">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </RadioButton>
+                                    </HBox>
                                  </children>
-                                 <padding>
-                                    <Insets left="30.0" />
-                                 </padding>
                               </VBox>
                            </children>
                         </VBox>
-                        <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="300.0" VBox.vgrow="NEVER">
-                           <children>
-                              <ProgressBar fx:id="courseProgress" maxWidth="1.7976931348623157E308" progress="0.0" HBox.hgrow="ALWAYS" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER" maxWidth="-Infinity" prefWidth="300.0" VBox.vgrow="NEVER">
-                           <children>
-                              <AnchorPane HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="previousQuestionBtn" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#previousQuestion" text="%activecourse_previous" AnchorPane.leftAnchor="0.0" />
-                                    <Button fx:id="nextQuestionBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextQuestion" text="%activecourse_next" AnchorPane.rightAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                     </padding>
                   </VBox>
                </children>
             </VBox>
          </children>
       </HBox>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
 </VBox>

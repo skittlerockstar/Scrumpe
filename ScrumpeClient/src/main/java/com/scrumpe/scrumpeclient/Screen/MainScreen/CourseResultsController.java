@@ -24,9 +24,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import org.bson.types.ObjectId;
@@ -39,7 +41,7 @@ import org.bson.types.ObjectId;
 public class CourseResultsController extends ScreenBase {
 
     private Course takenCourse;
-    private List<ObjectId[]> givenAnswers;
+    private List<List<ObjectId>> givenAnswers;
     @FXML
     private Label score, requiredScore, resultQuestion, explanation;
     @FXML
@@ -83,7 +85,7 @@ public class CourseResultsController extends ScreenBase {
         HBox.setHgrow(componentRoot, Priority.ALWAYS);
     }
 
-    public void setResults(Course takenCourse, List<ObjectId[]> givenAnswers) {
+    public void setResults(Course takenCourse, List<List<ObjectId>> givenAnswers) {
         this.takenCourse = takenCourse;
         this.givenAnswers = givenAnswers;
     }
@@ -117,22 +119,19 @@ public class CourseResultsController extends ScreenBase {
                         super.updateItem(t, bln);
                         if (t != null) {
                             setText(t.getText());
+                            setPrefWidth(300);
                             setUserData(t.getUserData());
-                            setStyle(t.getStyle());
+                            getStyleClass().addAll(t.getStyleClass());
                             setOnMouseClicked(changeQuestionResult);
                             setPrefHeight(USE_COMPUTED_SIZE);
                             setOnMousePressed((MouseEvent event) -> {
                                 change();
                             });
-                            setWidth(p.getWidth());
+                            //setWidth(p.getWidth());
                         }
                     }
 
                     public void change() {
-                        for (Node n : p.getChildrenUnmodifiable()) {
-                            n.setDisable(false);
-                        }
-                        setDisabled(true);
                     }
                 };
 
@@ -147,10 +146,11 @@ public class CourseResultsController extends ScreenBase {
         List<Question> qs = takenCourse.getQuestions();
         float percentage = 100;
         float step = 100 / qs.size();
+        int correctQ = 0;
         for (int i = 0; i < qs.size(); i++) {
             Question q = qs.get(i);
-            ObjectId[] corAns = q.getCorrectAnswerIds();
-            ObjectId[] givAns = givenAnswers.get(i);
+            List<ObjectId> corAns = q.getCorrectAnswerIds();
+            List<ObjectId> givAns = givenAnswers.get(i);
             boolean questionIsCorrect = true;
             for (Answer a : q.getAnswers()) {
                 if (!checkAnswer(a, corAns, givAns)) {
@@ -163,15 +163,22 @@ public class CourseResultsController extends ScreenBase {
                 l.getStyleClass().add("gotQuestionWrong");
                 percentage -= step;
             } else {
+                correctQ++;
                 Label l = (Label) listItems.get(i);
                 l.getStyleClass().add("gotQuestionCorrect");
             }
         }
-        score.setText(percentage + "%");
-        requiredScore.setText(takenCourse.getMinimumScore()*step+"%");
+        int minScore = takenCourse.getMinimumScore();
+        score.setText(correctQ+" ("+percentage + "%)");
+        if(correctQ >= minScore){
+            score.getStyleClass().add("gotQuestionCorrect");
+        }else{
+            score.getStyleClass().add("gotQuestionWrong");
+        }
+        requiredScore.setText(minScore+" ("+minScore*step+"%)");
     }
 
-    private boolean checkAnswer(Answer a, ObjectId[] corAns, ObjectId[] givAns) {
+    private boolean checkAnswer(Answer a, List<ObjectId> corAns, List<ObjectId> givAns) {
         boolean answerIsCorrect = false;
         boolean answerIsGiven = false;
         ObjectId ansId = a.getId();
@@ -206,22 +213,28 @@ public class CourseResultsController extends ScreenBase {
         Log.log(getClass(), Level.SEVERE, givenAnswers.size() + "");
         int indexOfQ = takenCourse.getQuestions().indexOf(question);
         resultQuestion.setText(question.getQuestion());
-        ObjectId[] oIds = givenAnswers.get(indexOfQ);
-        ObjectId[] cIds = question.getCorrectAnswerIds();
+        List<ObjectId> oIds = givenAnswers.get(indexOfQ);
+        List<ObjectId> cIds = question.getCorrectAnswerIds();
         resultAnswersContainer.getChildren().clear();
-        explanation.setText(question.getExplanation());
+        VBox.setVgrow(explanation, Priority.ALWAYS);
+        explanation.setWrapText(true);
+        explanation.setText("test test test test test test test test test test test test test test test test test test test test test test test test test test ");
         for (Answer a : q) {
             HBox answerContainer = new HBox();
             answerContainer.getStyleClass().add("resultAnswers");
-            answerContainer.getChildren().add(new Label(a.getAnswer()));
+            Label ans = new Label(a.getAnswer());
+            ans.setWrapText(true);
+            VBox.setVgrow(ans, Priority.ALWAYS);
+            ans.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            answerContainer.getChildren().add(ans);
             for (ObjectId cid : cIds) {
                 if (cid.equals(a.getId())) {
-                    answerContainer.getChildren().add(correctAnswer);
+                    
                 }
             }
             for (ObjectId oid : oIds) {
                 if (oid.equals(a.getId())) {
-                    answerContainer.getChildren().add(yourAnswer);
+                  
                 }
             }
             resultAnswersContainer.getChildren().add(answerContainer);

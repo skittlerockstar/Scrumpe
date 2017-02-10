@@ -39,4 +39,8 @@ public class MainDescriptionController extends ComponentBase {
     public void setDescription(String description){
         this.description.setText(description);
     }
+
+    @Override
+    public void onChanged() {
+    }
 }

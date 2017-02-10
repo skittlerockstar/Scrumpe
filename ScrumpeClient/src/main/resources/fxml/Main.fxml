@@ -12,9 +12,9 @@
    <children>
       <HBox fx:id="centerContent" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
                <content>
-                  <FlowPane fx:id="courseContainer" prefHeight="200.0" prefWidth="200.0" />
+                  <FlowPane fx:id="courseContainer" maxWidth="1.7976931348623157E308" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" prefWrapLength="0.0" rowValignment="TOP" />
                </content>
                <HBox.margin>
                   <Insets />
@@ -22,7 +22,7 @@
             </ScrollPane>
          </children>
          <VBox.margin>
-            <Insets top="5.0" />
+            <Insets />
          </VBox.margin>
       </HBox>
    </children>

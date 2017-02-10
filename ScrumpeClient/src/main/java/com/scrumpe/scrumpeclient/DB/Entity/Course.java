@@ -17,11 +17,11 @@ import org.mongodb.morphia.annotations.Reference;
 public class Course extends BaseEntity {
 
     @Property("title")
-    private String courseTitle;
+    private String courseTitle = "";
      @Property("description")
-    private String courseDescription;
+    private String courseDescription = "";
       @Property("requiredScore")
-    private int minimumScore;
+    private int minimumScore = 0;
 
     public int getMinimumScore() {
         return minimumScore;
@@ -54,5 +54,10 @@ public class Course extends BaseEntity {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" + "courseTitle=" + courseTitle + ", courseDescription=" + courseDescription + ", minimumScore=" + minimumScore + ", questions=" + questions + '}';
     }
 }

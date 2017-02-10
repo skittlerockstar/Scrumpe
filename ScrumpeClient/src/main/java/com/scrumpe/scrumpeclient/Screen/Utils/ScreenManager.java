@@ -7,12 +7,14 @@ package com.scrumpe.scrumpeclient.Screen.Utils;
 
 import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.OverlayBase;
+import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Utils.Lang;
 import com.scrumpe.scrumpeclient.Utils.Log;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -142,6 +144,7 @@ public class ScreenManager {
             rootCenterPane.getChildren().add(node);
             controller = toLoad.getController();
             controller.setup(node);
+            controller.onChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,33 +153,48 @@ public class ScreenManager {
     }
 
     public void showLoadingScreen(boolean val) {
-       Pane loadingScreenRoot = overlayScreenList.get(OverlayScreen.Loading).getRoot();
-       loadingScreenRoot.setVisible(val);
-       loadingScreenRoot.setMouseTransparent(!val);
+       UIComponent loadingScreenRoot = overlayScreenList.get(OverlayScreen.Loading).getController();
+       loadingScreenRoot.show(val);
     }
     public void showNotification(String message, boolean val) {
-       Pane notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getRoot();
+       UIComponent notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getController();
        Label l = (Label) MainApp.getRootStage().getScene().lookup("#errorText");
        MainApp.getRootStage().getScene().lookup("#dismissBox").setVisible(true);
        MainApp.getRootStage().getScene().lookup("#confirmBox").setVisible(false);
        l.setText(message);
-       notificationRoot.setVisible(val);
-       notificationRoot.setMouseTransparent(!val);
+       notificationRoot.show(val);
     }
     public void showConfirmNotification(String message, boolean val, EventHandler yes,EventHandler no) {
-       Pane notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getRoot();
+       UIComponent notificationRoot = overlayScreenList.get(OverlayScreen.Notification).getController();
        Label l = (Label) MainApp.getRootStage().getScene().lookup("#errorText");
        MainApp.getRootStage().getScene().lookup("#dismissBox").setVisible(false);
        MainApp.getRootStage().getScene().lookup("#confirmBox").setVisible(true);
         Button yesBtn = (Button) MainApp.getRootStage().getScene().lookup("#confirmYes");
         Button noBtn = (Button) MainApp.getRootStage().getScene().lookup("#confirmNo");
-        yesBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,yes);
-        noBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,no);
+        EventHandler doYes = new EventHandler() {
+           @Override
+           public void handle(Event event) {
+               yes.handle(event);
+               yesBtn.removeEventHandler(MouseEvent.MOUSE_PRESSED, this);
+           }
+       };
+         EventHandler doNo = new EventHandler() {
+           @Override
+           public void handle(Event event) {
+               no.handle(event);
+               noBtn.removeEventHandler(MouseEvent.MOUSE_PRESSED, this);
+           }
+       };
+        yesBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,doYes);
+        noBtn.addEventHandler(MouseEvent.MOUSE_PRESSED,doNo);
        l.setText(message);
-       notificationRoot.setVisible(val);
-       notificationRoot.setMouseTransparent(!val);
+       notificationRoot.show(val);
     }
     public void closeNotification(){
         showNotification("", false);
+    }
+    public <T extends ScreenBase> T getController(MainScreen screen){
+        FXMLLoader get = screenList.get(screen);
+        return get.getController();
     }
 }

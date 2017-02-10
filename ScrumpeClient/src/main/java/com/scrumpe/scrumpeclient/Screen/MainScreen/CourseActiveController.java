@@ -9,6 +9,7 @@ import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
+import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
@@ -33,6 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import org.bson.types.ObjectId;
 
 /**
@@ -62,7 +64,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     private int currentQuestionNumber = 0;
 
     //TODO replace this with a real record in DB
-    private List<ObjectId[]> givenAnswers;
+    private List<List<ObjectId>> givenAnswers;
 
     private List<ObjectId> currentGivenAnswers = new ArrayList<>();
 
@@ -157,6 +159,8 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     private void setCurrentQuestion(int currentQuestionNumber) {
         currentGivenAnswers = new ArrayList<>();
         activeQuestion.setText(questions.get(currentQuestionNumber).getQuestion());
+        activeQuestion.setWrapText(true);
+        activeQuestion.setMaxWidth(Double.MAX_VALUE);
         courseProgress.setProgress(progressPercentageStep * (currentQuestionNumber + 1));
         currentQuestion = questions.get(currentQuestionNumber);
         setCurrentAnswers(currentQuestion.getAnswers());
@@ -165,7 +169,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     private void setCurrentAnswers(List<Answer> answers) {
         answerContainer.getChildren().clear();
         currentToggleGroup = new ToggleGroup();
-        int correctAns = currentQuestion.getCorrectAnswerIds().length;
+        int correctAns = currentQuestion.getCorrectAnswerIds().size();
         for (Answer answer : answers) {
             String value = answer.getAnswer();
             ButtonBase tb = ((correctAns > 1) ? new CheckBox(value) : new RadioButton(value));
@@ -203,7 +207,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void saveAnswer() {
-        ObjectId[] finalAnswers = currentGivenAnswers.toArray(new ObjectId[currentGivenAnswers.size()]);
+        final List<ObjectId> finalAnswers = new ArrayList<>(currentGivenAnswers);
         if (givenAnswers.size() > currentQuestionNumber) {
             givenAnswers.set(currentQuestionNumber, finalAnswers);
         } else {
@@ -214,8 +218,8 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
 
     private void setPastAnswer() {
         if (givenAnswers.size() > currentQuestionNumber) {
-            ObjectId[] get = givenAnswers.get(currentQuestionNumber);
-            currentGivenAnswers.addAll(Arrays.asList(get));
+            List<ObjectId> get = givenAnswers.get(currentQuestionNumber);
+            currentGivenAnswers.addAll(get);
             for (Node node : answerContainer.getChildren()) {
                 ButtonBase ansBtn = (ButtonBase) node;
                 for (ObjectId objectId : get) {

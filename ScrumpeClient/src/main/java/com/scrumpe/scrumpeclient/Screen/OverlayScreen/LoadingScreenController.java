@@ -32,5 +32,9 @@ public class LoadingScreenController extends OverlayBase{
        AnchorPane.setLeftAnchor(componentRoot, 0.0);
        componentRoot.setVisible(false);
     }
+
+    @Override
+    public void onChanged() {
+    }
     
 }

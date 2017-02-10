@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.scrumpe.scrumpeclient.DB.DAO;
-
-import java.util.List;
+package com.scrumpe.scrumpeclient.DB;
 
 /**
  *
  * @author Max Verhoeven
  */
-public interface DAOCallBack<T> {
-    
-    void dbResult(T result);
-    void dbResults(List<T> results);
-    
+public interface IsConnectedCallback {
+    void isConnected(boolean isConnected);
 }

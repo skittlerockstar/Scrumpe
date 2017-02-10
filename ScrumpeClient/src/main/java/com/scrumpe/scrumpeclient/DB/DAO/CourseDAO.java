@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.DAO;
 
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController;
@@ -27,7 +28,7 @@ public class CourseDAO extends DAO<Course,String> {
             return super.findOneId("_id",value);
         }));
     }
-    public void getCourses(DAOCallBack<Course> callback){
+    public void getCourses(DAOCallBack<List<Course>> callback){
         accessDB(callback,taskList(() -> {
             List<Course> courseTitleAndIDS = find().asList();
             return courseTitleAndIDS;
@@ -40,7 +41,7 @@ public class CourseDAO extends DAO<Course,String> {
             return course; //To change body of generated lambdas, choose Tools | Templates.
         }));
     }
-    public void saveCourses(DAOCallBack<Course> callback,List<Course> courses){
+    public void saveCourses(DAOCallBack<List<Course>> callback,List<Course> courses){
         accessDB(callback,taskList(() -> {
             for (Course course : courses) {
                 Key<Course> save = save(course);

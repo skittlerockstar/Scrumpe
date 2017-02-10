@@ -36,7 +36,7 @@ public class MainApp extends Application implements EventHandler<KeyEvent>{
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();
         Scene scene = new Scene(root);
-        stage.setScene(scene);
+        stage.setScene(scene);  
         stage.setMinWidth(SCREEN_MIN_WIDTH);
         stage.setMinHeight(SCREEN_MIN_HEIGHT);
         stage.setMaximized(true);

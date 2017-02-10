@@ -8,6 +8,7 @@ package com.scrumpe.scrumpeclient.Screen.Base;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.util.ResourceBundle;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -31,7 +32,7 @@ public abstract class UIComponent implements Initializable{
         }
         setupLayout();  
         if(this instanceof ComponentBase){
-           ((ComponentBase)this).setAdminComponents();
+           ((ComponentBase)this).setAdminComps();
         }
     }
     public void presentNote(String message){
@@ -43,7 +44,16 @@ public abstract class UIComponent implements Initializable{
     public void closePopUp(){
         ScreenManager.getInstance().closeNotification();
     }
-
+    public abstract void onChanged();
     
-    
+    public void show(boolean b){
+        if(componentRoot !=null){
+          componentRoot.setManaged(b);
+          componentRoot.setVisible(b);
+          componentRoot.requestLayout();
+        }else{
+          componentRootAsTitlePane.setManaged(b);
+          componentRootAsTitlePane.setVisible(b);
+        }
+    }
 }

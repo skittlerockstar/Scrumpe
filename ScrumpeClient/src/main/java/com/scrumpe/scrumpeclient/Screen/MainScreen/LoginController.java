@@ -5,7 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
@@ -25,6 +25,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -50,13 +51,27 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        emailField.setOnKeyPressed((event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                try {
+                    login();
+                } catch (Exception e) {
+                }
+            }
+        });
+        passField.setOnKeyPressed((event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                try {
+                    login();
+                } catch (Exception e) {
+                }
+            }
+        });
     }
 
     @FXML
     private void handleButtonAction(ActionEvent event) throws Exception {
-        UserDAO uDAO = data.getDAO(UserDAO.class);
-        uDAO.tryLogin(this,emailField.getText(), passField.getText());
+        login();
     }
 
     @Override
@@ -76,13 +91,14 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
     public void setAdminComponents() {
 
     }
+
     @Override
     public void setTitle() {
     }
 
     @FXML
     private void forgotPassword(MouseEvent event) {
-            //TODO remove if password reminder is implemented
+        //TODO remove if password reminder is implemented
         presentNote("Sorry, this functionality is not ready yet... please contact the administrator.");
     }
 
@@ -94,9 +110,9 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
 
     @Override
     public void dbResult(User result) {
-       if (result != null) {
+        if (result != null) {
             ScreenManager sm = ScreenManager.getInstance();
-            sm.loadScreen(ScreenManager.MainScreen.Main,true);
+            sm.loadScreen(ScreenManager.MainScreen.Main, true);
             ContainerController cc = sm.getRootLoader().getController();
             cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
         } else {
@@ -104,7 +120,8 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
         }
     }
 
-    @Override
-    public void dbResults(List<User> results) {
+    private void login() throws Exception {
+        UserDAO uDAO = data.getDAO(UserDAO.class);
+        uDAO.tryLogin(this, emailField.getText(), passField.getText());
     }
 }

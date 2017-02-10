@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.scrumpe.scrumpeclient.Utils;
+package com.scrumpe.scrumpeclient.DB.DAO.Callback;
+
+import java.util.List;
 
 /**
  *
  * @author Max Verhoeven
  */
-public class FileChooser {
-    
+public interface DAOCallBack<T extends Object>{
+    void dbResult(T o);
 }

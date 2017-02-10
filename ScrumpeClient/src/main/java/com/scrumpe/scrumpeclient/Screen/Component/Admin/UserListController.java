@@ -5,7 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Component.Admin;
 
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
 import java.net.URL;
@@ -23,12 +23,13 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+
 /**
  * FXML Controller class
  *
  * @author Max Verhoeven
  */
-public class UserListController extends ComponentBase implements DAOCallBack<User>{
+public class UserListController extends ComponentBase {
 
     @FXML
     private ListView userList;
@@ -49,25 +50,24 @@ public class UserListController extends ComponentBase implements DAOCallBack<Use
 
     private void createUserList() {
         UserDAO dao = data.getDAO(UserDAO.class);
-        dao.getUsers(this);
+        getUsers(dao);
     }
 
     @Override
-    public void dbResult(User result) {
+    public void onChanged() {
     }
 
-    @Override
-    public void dbResults(List<User> results) {
-        System.out.println(results.toArray());
-        ObservableList<Node> userlist = FXCollections.observableArrayList();
-        for (User result : results) {
-            System.err.println(result.getEmail());
-             FXMLLoader l = ComponentFactory.createComponent(this,ComponentType.UserListItem,true);
-             UserListItemController ulic = l.getController();
-             ulic.setUserData(result);
-             userlist.add(l.getRoot());
-        }
-        userList.setItems(userlist);
+    private void getUsers(UserDAO dao) {
+        dao.getUsers((results) -> {
+            ObservableList<Node> userlist = FXCollections.observableArrayList();
+            for (User result : results) {
+                FXMLLoader l = ComponentFactory.createComponent(this, ComponentType.UserListItem, true);
+                UserListItemController ulic = l.getController();
+                ulic.setUserData(result);
+                userlist.add(l.getRoot());
+            }
+            userList.setItems(userlist);
+        });
     }
 
 }

@@ -7,21 +7,20 @@ package com.scrumpe.scrumpeclient.Screen.Component;
 
 import com.scrumpe.scrumpeclient.DB.DAO.AnswerDAO;
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.QuestionDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
-import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import com.scrumpe.scrumpeclient.Screen.Base.AdminComponents;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.layout.FlowPane;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
+import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController;
 import com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController;
 import com.scrumpe.scrumpeclient.Screen.MainScreen.MainController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -39,6 +38,9 @@ public class CourseListItemController extends ComponentBase implements AdminComp
     @FXML
     private Node startCourse;
     private Course course;
+    public String getCourseTitle() {
+        return courseTitle.getText();
+    }
     @FXML
     private Label courseTitle, courseDescription, questionCount, minimumScore;
     @FXML
@@ -84,7 +86,8 @@ public class CourseListItemController extends ComponentBase implements AdminComp
         controls.getChildren().add(editCourse);
         controls.getChildren().add(deleteCourse);
         editCourse.setOnAction((event) -> {
-            CourseEditorController courseEditorScreen = MainController.getCourseEditorScreen();
+            ScreenBase controller = ScreenManager.getInstance().getController(ScreenManager.MainScreen.Main);
+            CourseEditorController courseEditorScreen =((MainController)controller).courseEditorScreen;
             courseEditorScreen.editCourse(course);
         });
         deleteCourse.setOnAction((event) -> {
@@ -114,11 +117,12 @@ public class CourseListItemController extends ComponentBase implements AdminComp
                 ScreenManager.getInstance().showLoadingScreen(true);
                 presentNote("Course Deleted!");
             }
-
-            @Override
-            public void dbResults(List<Course> results) {
-            }
         }, course);
     }
+
+    @Override
+    public void onChanged() {
+    }
+
 
 }

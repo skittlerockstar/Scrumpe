@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.DAO;
 
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.util.List;
@@ -32,19 +33,19 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
     public void handle(WorkerStateEvent event) {
         screen.showLoadingScreen(false);
         Object x = currentTask.getValue();
-        if(current!=null){
-            if(x instanceof List){
-                current.dbResults((List) currentTask.getValue());
-            }else{
                 current.dbResult(currentTask.getValue());
-            }
-        }
     }
     public void accessDB(DAOCallBack source, Task task){
         screen.showLoadingScreen(true);
         current = source;
         currentTask = task;
         task.setOnSucceeded(this);
+        task.setOnCancelled((event) -> {
+        });
+        task.setOnFailed((event) -> {
+            screen.showLoadingScreen(false);
+            screen.showNotification("Failed to connect to Database. Please try again later"+event.toString(), true);
+        });
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
@@ -54,7 +55,12 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
         return new Task<T>() {
             @Override
             public T call() throws Exception {
-                return callable.call();
+                try {
+                    return callable.call();
+                } catch (Exception e) {
+                    System.out.println("DBERROR"+e.toString());
+                }
+                return null;
             }
         };
     }

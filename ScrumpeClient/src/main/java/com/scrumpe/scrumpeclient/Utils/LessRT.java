@@ -53,9 +53,7 @@ public class LessRT {
                 MainApp.getRootStage().hide();
                 MainApp.getRootStage().show();
             } catch (IOException ex) {
-                System.out.println(ex.toString());
             } catch (LessException ex) {
-                System.out.println(ex.toString());
             }
     }
     public static void replaceShit() throws IOException {

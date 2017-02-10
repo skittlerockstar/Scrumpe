@@ -5,9 +5,8 @@
  */
 package com.scrumpe.scrumpeclient.DB.Entity;
 
-import java.io.Serializable;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Transient;
 
 /**
  *
@@ -17,14 +16,20 @@ import org.mongodb.morphia.annotations.Property;
 public class Answer extends BaseEntity{
 
     @Property("answer")
-    private String answer;
-
+    private String answer = "";
+    @Transient
+    public boolean isCorrectForExcel = false;
     public String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" + "answer=" + answer + ", isCorrectForExcel=" + isCorrectForExcel + '}';
     }
  
 }

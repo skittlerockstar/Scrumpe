@@ -1,0 +1,72 @@
+
+.radius(@r1,@r2,@r3,@r4){
+    -fx-background-radius:@r1 @r2 @r3 @r4;
+    -fx-border-radius:@r1 @r2 @r3 @r4;
+}
+.radius(@r1,@r2){
+    .radius(@r1,@r2,@r1,@r2);
+}
+.radius(@rad){
+    .radius(@rad,@rad);
+}
+
+/* background color */
+
+.bg(){.bg(normal);}
+.bg(@col){
+    &when (@col = light){.bg(@mainColorLight);}
+    &when (@col = dark){.bg(@mainColorDark);}
+    &when (@col = normal){.bg(@mainColor);}
+}
+.bgL(@col,@percentage){
+    &when (@col = light){.bg(lighten(@mainColorLight,@percentage));}
+    &when (@col = dark){.bg(lighten(@mainColorDark,@percentage));}
+    &when (@col = normal){.bg(lighten(@mainColor,@percentage));}
+}
+.bgD(@col,@percentage){
+    &when (@col = light){.bg(darken(@mainColorLight,@percentage));}
+    &when (@col = dark){.bg(darken(@mainColorDark,@percentage));}
+    &when (@col = normal){.bg(darken(@mainColor,@percentage));}
+}
+.bg(@col)when(iscolor(@col)){-fx-background-color:@col;}
+
+.border(){.border(normal);}
+.border(@col){
+    &when (@col = light){.border(@mainColorLight);}
+    &when (@col = dark){.border(@mainColorDark);}
+    &when (@col = normal){.border(@mainColor);}
+}
+.borderL(@col,@percentage){
+    &when (@col = light){.border(lighten(@mainColorLight,@percentage));}
+    &when (@col = dark){.border(lighten(@mainColorDark,@percentage));}
+    &when (@col = normal){.border(lighten(@mainColor,@percentage));}
+}
+.borderD(@col,@percentage){
+    &when (@col = light){.border(darken(@mainColorLight,@percentage));}
+    &when (@col = dark){.border(darken(@mainColorDark,@percentage));}
+    &when (@col = normal){.border(darken(@mainColor,@percentage));}
+}
+.border(@col)when(iscolor(@col)){-fx-border-color:@col;}
+
+/* textColor */
+.txt(@col){
+        &when (@col = light){.txt(@textColorLight);}
+        &when (@col = dark){.txt(@textColorDark);}
+        &when (@col = normal){.txt(@textColor);}
+}.txt(){.txt(normal);}
+.txt(@col)when(iscolor(@col)){
+    Label, * Label{
+        -fx-text-fill:@col;
+    }   -fx-text-fill:@col;
+}
+
+/*padding*/
+.padding(@p){
+    .padding(@p,@p);
+}
+.padding(@p1,@p2){
+    .padding(@p1,@p2,@p1,@p2);
+}
+.padding(@p1,@p2,@p3,@p4){
+    -fx-padding:@p1 @p2 @p3 @p4;
+}

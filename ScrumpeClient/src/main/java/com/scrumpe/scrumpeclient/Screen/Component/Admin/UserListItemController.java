@@ -42,4 +42,8 @@ public class UserListItemController extends ComponentBase{
        // email.setText(u.getEmail());
         editBtn.setUserData(u);
     }
+
+    @Override
+    public void onChanged() {
+    }
 }

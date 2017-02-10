@@ -5,10 +5,11 @@
  */
 package com.scrumpe.scrumpeclient.Utils;
 
+import com.scrumpe.scrumpeclient.DB.Entity.Answer;
+import com.scrumpe.scrumpeclient.DB.Entity.Course;
+import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,101 +27,104 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Max Verhoeven
  */
 public class ExcelUploader {
-    public enum CourseEnum{
-        CourseInfo,Questions,Question,Description,Explanation,Answers,
-    }
-    public static HashMap<CourseEnum,Object> readExcel(File file) {
-        String[] courseInfo = new String[3];
-        HashMap<CourseEnum, Object> course = new HashMap<>();
-        try {
 
-            FileInputStream excelFile = new FileInputStream(file);
-            Workbook workbook = new XSSFWorkbook(excelFile);
-            Sheet datatypeSheet = workbook.getSheetAt(0);
-            courseInfo[0] = datatypeSheet.getRow(1).getCell(0).getStringCellValue();
-            courseInfo[1] = datatypeSheet.getRow(1).getCell(1).getStringCellValue();
-            courseInfo[2] = ((int)datatypeSheet.getRow(1).getCell(2).getNumericCellValue()) + "";
-            course.put(CourseEnum.CourseInfo, courseInfo);
-            course.put(CourseEnum.Questions, getQuestions(datatypeSheet));
-            return course;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static final String EXC_NO_TEMPLATE = "Excel file does not conform to the provided template.";
+    private static final String EXC_NO_STRING = " is not text, Expected a cell containing text";
+    private static final String EXC_NO_INTEGER = " is not a whole number, Expected a whole number";
+
+    public static Course readExcel(File file) throws Exception {
+        Course courseToLoad = new Course();
+        FileInputStream excelFile = new FileInputStream(file);
+        Workbook workbook = new XSSFWorkbook(excelFile);
+        Sheet datatypeSheet = workbook.getSheetAt(0);
+        if (isTemplate(datatypeSheet)) {
+            courseToLoad = setCourseInfo(datatypeSheet.getRow(1), courseToLoad);
+            courseToLoad = setQuestionInfo(datatypeSheet, courseToLoad);
+            return courseToLoad;
+        } else {
+            throw new Exception(EXC_NO_TEMPLATE);
         }
-        return null;
     }
 
-    private static Object getQuestions(Sheet datatypeSheet) {
-        List<Object> questions = new ArrayList<>();
-        Iterator i = datatypeSheet.iterator();
-        while (i.hasNext()) {
-            Row r = (Row) i.next();
-            if (r.getRowNum() > 3) {
-                if (r.getRowNum() % 2 == 0) {
-                    if(r.getCell(0).getCellTypeEnum() == CellType.BLANK){
-                        break;
-                    }
-                    HashMap<CourseEnum, Object> question = new HashMap<>();
-                    question.put(CourseEnum.Question, r.getCell(0).getStringCellValue());
-                    question.put(CourseEnum.Description, r.getCell(1).getStringCellValue());
-                    question.put(CourseEnum.Answers, getAnswers(r, datatypeSheet.getRow(r.getRowNum()+1)));
-                    questions.add(question);
+    private static Course setCourseInfo(Row row, Course course) throws Exception {
+        String courseTitle = getStringVal(row.getCell(0));
+        String courseDescription = getStringVal(row.getCell(1));
+        int courseMinimumScore = getIntVal(row.getCell(2));
+
+        course.setCourseTitle(courseTitle);
+        course.setCourseDescription(courseDescription);
+        course.setMinimumScore(courseMinimumScore);
+
+        return course;
+    }
+
+    private static Course setQuestionInfo(Sheet datatypeSheet, Course courseToLoad) throws Exception {
+        Iterator<Row> iterator = datatypeSheet.iterator();
+        List<Question> questionList = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Row next = iterator.next();
+            if (next.getRowNum() >= 4 && next.getRowNum() % 2 == 0) {
+                if (next.getCell(0).getCellTypeEnum() == CellType.BLANK) {
+                    break;
                 }
+                Question question = new Question();
+                String questionTitle = getStringVal(next.getCell(0));
+                String questionExplanation = getStringVal(next.getCell(1));
+                question.setQuestion(questionTitle);
+                question.setExplanation(questionExplanation);
+                question.setAnswers(setAnswerInfo(datatypeSheet.getRow(next.getRowNum())));
+                questionList.add(question);
             }
         }
-        
-        return questions;
+        courseToLoad.setQuestions(questionList);
+        return courseToLoad;
     }
 
-    private static Object getAnswers(Row r, Row row) {
-          HashMap<String,Boolean> answers = new HashMap<>();
-          Iterator anss = r.iterator();
-          while(anss.hasNext()){
-              Cell c = (Cell) anss.next();
-              Cell c2 = row.getCell(c.getColumnIndex());
-              if(c.getColumnIndex() > 1){
-                  String val = "";
-                  Boolean isCorrect = false;
-                  if(c.getCellTypeEnum() == CellType.STRING){
-                      val = c.getStringCellValue();
-                  }else if ( c.getCellTypeEnum() == CellType.NUMERIC){
-                      int n = (int) c.getNumericCellValue();
-                      val = n+"";
-                  }else if(c.getCellTypeEnum() == CellType.BLANK){
-                      break;
-                  }
-                 
-                  if(c2.getCellTypeEnum() == CellType.STRING){
-                      isCorrect = true;
-                  }else if ( c2.getCellTypeEnum() == CellType.NUMERIC){
-                      
-                      isCorrect = true;
-                  }else if ( c2.getCellTypeEnum() == CellType.BLANK){
-                      
-                  }
-                  answers.put(val, isCorrect);
-              }
-          }
-          return answers;
-    }
-
-    private static void printThatShit(HashMap<String, Object> course) {
-        String[] strings = (String[]) course.get("courseInfo");
-        System.err.println(strings[0]+" "+strings[1]+" "+strings[2]);
-        List<Object> qlist = (ArrayList) course.get("questions");
-        for (Object object : qlist) {
-            HashMap<String,Object> qs = (HashMap<String,Object>) object;
-            System.err.println(qs.get("question"));
-            System.err.println(qs.get("description"));
-            HashMap<String,Boolean> answers = (HashMap<String,Boolean>) qs.get("answers");
-            for (Map.Entry<String, Boolean> entry : answers.entrySet()) {
-                String key = entry.getKey();
-                Boolean value = entry.getValue();
-                System.err.println(key+" = "+ value.toString());
+    private static List<Answer> setAnswerInfo(Row row) throws Exception {
+        Iterator<Cell> iterator = row.iterator();
+        List<Answer> answerList = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Cell next = iterator.next();
+            Answer ans = new Answer();
+            if (next.getColumnIndex() > 1) {
+                if (next.getCellTypeEnum() == CellType.BLANK) {
+                    break;
+                }
+                ans.setAnswer(getStringVal(next));
+                if (row.getSheet().getRow(row.getRowNum() - 1).getCell(next.getColumnIndex()).getCellTypeEnum() != CellType.BLANK) {
+                    ans.isCorrectForExcel = true;
+                }
+                answerList.add(ans);
             }
         }
-        
+        return answerList;
     }
 
+    private static boolean isTemplate(Sheet datatypeSheet) {
+        Row row = datatypeSheet.getRow(0);
+        Cell cell = row.getCell(0);
+        String val = cell.getStringCellValue();
+        return val.equals("Course Title");
+    }
+
+    private static String getStringVal(Cell cell) throws Exception {
+        try {
+            return cell.getStringCellValue();
+        } catch (Exception e) {
+            try {
+                return cell.getNumericCellValue() + "";
+            } catch (Exception ee) {
+                throw new Exception(cell.getNumericCellValue() + " "
+                        + "Row " + (cell.getRowIndex() + 1) + ",Cell" + cell.getColumnIndex() + EXC_NO_STRING);
+            }
+        }
+    }
+
+    private static int getIntVal(Cell cell) throws Exception {
+        try {
+            return (int) cell.getNumericCellValue();
+        } catch (Exception e) {
+            throw new Exception("Row " + (cell.getRowIndex() + 1) + ",Cell" + cell.getColumnIndex() + EXC_NO_INTEGER);
+        }
+    }
 }

@@ -6,7 +6,7 @@
 package com.scrumpe.scrumpeclient.Screen.MainScreen;
 
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import java.io.IOException;
@@ -27,6 +27,7 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager.MainScreen;
 import com.scrumpe.scrumpeclient.Screen.Component.CourseListItemController;
 import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController;
+import com.scrumpe.scrumpeclient.Screen.Component.CourseControllsController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -38,16 +39,17 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Max Verhoeven
  */
-public class MainController extends ScreenBase implements DAOCallBack<Course> {
+public class MainController extends ScreenBase implements DAOCallBack<List<Course>> {
 
     @FXML
     private FlowPane courseContainer;
     @FXML
     HBox centerContent;
+    FXMLLoader courseControlls;
     private List<FXMLLoader> courseListItems = new ArrayList<>();
-    private static CourseEditorController courseEditorScreen;
+    public CourseEditorController courseEditorScreen;
 
-    public static CourseEditorController getCourseEditorScreen() {
+    public CourseEditorController getCourseEditorScreen() {
         return courseEditorScreen;
     }
 
@@ -56,7 +58,7 @@ public class MainController extends ScreenBase implements DAOCallBack<Course> {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+       
     }
 
     @Override
@@ -79,9 +81,9 @@ public class MainController extends ScreenBase implements DAOCallBack<Course> {
     public void setupLayout() {
         try {
             HBox.setHgrow(componentRoot, Priority.ALWAYS);
-            HBox.setMargin(componentRoot, new Insets(10, 0, 0, 0));
             if (!init) {
                 addCourses();
+                 
             }
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,17 +97,17 @@ public class MainController extends ScreenBase implements DAOCallBack<Course> {
 
     @Override
     public void setAdminComponents() {
-        FXMLLoader x = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.UserList, true);
-        UIComponent u = x.getController();
-        u.setup(x.getRoot());
-        centerContent.getChildren().add(x.getRoot());
-
+//        FXMLLoader x = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.UserList, true);
+//        UIComponent u = x.getController();
+//        centerContent.getChildren().add(x.getRoot());
         if (courseEditorScreen == null) {
             FXMLLoader courseEditor = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseEditor, true);
             UIComponent u2 = courseEditor.getController();
-            u2.setup(courseEditor.getRoot());
             courseEditorScreen = (CourseEditorController) u2;
+            courseEditorScreen.show(false);
             ((AnchorPane) ScreenManager.getInstance().getRoot()).getChildren().add(1, courseEditor.getRoot());
+            setCourseControlls();
+            initSearch();
         }
     }
 
@@ -115,7 +117,7 @@ public class MainController extends ScreenBase implements DAOCallBack<Course> {
     }
 
     @Override
-    public void dbResults(List<Course> results) {
+    public void dbResult(List<Course> results) {
         for (Course course : results) {
             FXMLLoader n = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseListItem, true);
             courseListItems.add(n);
@@ -123,10 +125,19 @@ public class MainController extends ScreenBase implements DAOCallBack<Course> {
             c.setCourse(course);
             courseContainer.getChildren().add(n.getRoot());
         }
+        
     }
 
-    @Override
-    public void dbResult(Course result) {
+    private void setCourseControlls() {
+        this.courseControlls = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CourseControlls,true);
+        HBox courseControllsRoot = courseControlls.getRoot();
+        componentRoot.getChildren().add(componentRoot.getChildren().size()-1,courseControllsRoot);
+        CourseControllsController ccc = courseControlls.getController();
+        ccc.setCourseEditor(courseEditorScreen);
     }
 
+    private void initSearch() {
+        CourseControllsController controller = courseControlls.getController();
+        controller.setCourses(courseListItems);
+    }
 }

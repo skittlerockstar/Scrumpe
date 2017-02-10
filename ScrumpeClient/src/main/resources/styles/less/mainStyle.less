@@ -8,61 +8,334 @@ and open the template in the editor.
     Author     : IMXNotASPider
 */
 @import "vars/vars.less";
-
+@import "vars/shortens.less";
 .@{root}{
     .defaultStyles();
     .@{rootCenter}{
-       -fx-background-color:@mainColorDark;
-       .login{
-           >VBox{
-               -fx-background-color:@mainColorLight;
-           }
-       }
+        .background();
+        .home();
+        .courseActive();
+        .courseResult();
+        .navPanel();
     }
     .@{rootTop}{
-       -fx-background-color:@mainColor; 
-       .styleHead();
+        .head();
     }
     .@{rootBottom}{
-        -fx-background-color:@mainColor;
-        -fx-text-fill:@mainColorLight;
+        .footer();
     }
 }
 .defaultStyles(){
-    VBox,HBox{
-        -fx-background-radius:4;
+    .scroll-pane:focused{
+        -fx-background-insets: 0;
     }
-    Label{-fx-text-fill:@textColor;}
+    .scroll-pane,.viewport{
+                .padding(0);
+                .list-view{
+                   .padding(0);
+                }
+                .cell{
+                   .padding(0);
+                   .bg(light);
+                   >HBox{
+                       .borderL(dark,50%);
+                       .bgL(dark,60%);
+                       -fx-border-width:0;
+                   }
+                }
+            }
+    TextField:focused{
+        -fx-background-insets: -1.4, 0, 1;
+        -fx-border-color:@mainColor;
+    }
+    *{
+        .txt();
+        -fx-font-smoothing-type: gray;
+        -fx-spacing:4;
+    }
     Button{
-        -fx-text-fill:@textColorLight;
-        -fx-background-color:@mainColor;
-        -fx-cursor: pointer;
+        .bg();
+        .txt(light);
+        -fx-cursor: hand;
         &:hover{
-            -fx-background-color:lighten(@mainColor,20%);
+            .bgL(normal,20%);
         }
     }
-}
-.styleHead(){
-    Label{
-        -fx-text-fill:@textColorLight;
+    .last-titled-pane{
+         -fx-border-width:0 0 0 0;
+    }
+    TitledPane {
+        .borderL(dark,40%);
+        -fx-label-padding:0;
+        >*{
+            .bg(light);
+            >VBox{
+                .bgD(light,10%);
+            }
+            -fx-border-width:2 0 1 0;
+        }
+        &.err>*{
+            -fx-background-color:lighten(red,40%);
+        }
+        >*{
+           .bg(light);
+        }
+       
+    }
+    MenuBar{
+        .bg();
+         .radius(5,5,0,0);
+        -fx-border-color:darken(@mainColor,10%);
+        -fx-border-width:1 1 0 1 ;
+        .menu-button{
+            .bg();
+            Button{
+                .bg(light);
+                .txt(dark);
+                &:hover{
+                    .bgL(normal,20%);
+                    .txt(light);
+                }
+            }
+        }
+    }
+    VBox.panel,HBox.panel{
+        .bg(light);
+        .radius(4);
+        .padding(5);
     }
 }
-.@{overlay}{ // overlays
-    -fx-background-color:fadeout(@mainColorDark,50%);
-    > VBox,HBox{
-    -fx-background-color:@mainColorLight; 
-    -fx-text-fill:@textColor;
+
+.root{ 
+    >*{
+        -fx-background-color:fadeout(@mainColorDark,60%);
+    }
+    .overlay{
+        -fx-opacity: 0;
     }
     .progress{
-        -fx-background-radius:100;
+        .radius(100);
         >ProgressIndicator {
             -fx-progress-color: @mainColor;
         }
     }
 }
-.gotQuestionWrong{
-    -fx-text-fill:red;
+.courseEditor{
+    >VBox{ -fx-spacing:0;
+           
+           >VBox{
+               .bg(light);
+               -fx-border-color:darken(@mainColor,10%);
+               -fx-border-width: 0 1 1 1 ;
+               .radius(0,0,5,5);
+           }
+    }
+    #answerContainer{
+        ToggleButton{
+            -fx-background-color:desaturate(red,30%);
+            -fx-text-fill:white;
+            &:selected{
+                -fx-background-color:limegreen;
+            }
+        }
+    }
 }
-.gotQuestionCorrect{
-    -fx-text-fill:green;
+.background(){
+    .bg(dark);
+    -fx-background-size: 30% !important;
+}
+.courseResult(){
+    .courseResult{
+        .scroll-bar:horizontal{
+            -fx-opacity:0;
+        }
+          .gotQuestionWrong{
+                    -fx-text-fill: desaturate(red,50%);
+                }
+                .gotQuestionCorrect{
+                    -fx-text-fill: desaturate(green,50%);
+                }
+        .panel{ 
+            .padding(20,10,0,10);
+            -fx-background-color: transparent; 
+            >.scroll-pane,>.scroll-pane>.viewport{
+                -fx-background-color: transparent;
+            }
+            .summaryContainer{
+                .bg(light);
+            }
+            .scroll-pane,.viewport,.list-view{
+                .radius(5,5,0,0);
+                
+                 -fx-background-insets:none;
+               
+            }
+            .resultContainer{
+                .padding(10);
+                .bg(light);
+                .radius(5);
+                #resultQuestion{
+                    .padding(0,0,5,0);
+                    .txt();
+                    .borderD(light,30%);
+                    -fx-border-width:0;
+                    -fx-font-size:15;
+                }
+                #resultAnswersContainer{
+                    .padding(5,0);
+                    >*{
+                        .padding(5);
+                        .radius(5);
+                        .bgD(light,10%);
+                    }
+                }
+                >Label{
+                    -fx-font-size:15;
+                    .padding(0);
+                    .borderD(light,30%);
+                    -fx-border-width:1 0 0 0;
+                }
+                #explanation{
+                    .radius(5);
+                     .padding(5);
+                        .bgD(light,10%);
+                    -fx-font-size:12;
+                    -fx-border-width:0;
+                }
+            }
+            .list-view .cell:filled{
+                -fx-font-weight:bold;
+                .border();
+                .padding(10);
+                -fx-border-width: 0 0 1 0;
+                &:hover,&:selected{
+                    .bg(dark);
+                    .txt(light);
+                    -fx-cursor:hand;
+                }
+                &:selected{
+                   
+                 .bg();
+                }
+            }
+        }
+    }
+}
+.courseActive(){
+    .courseActive{
+        .padding(0,10,10,10);
+    }
+    .courseActive .panel{
+        .padding(10);
+        -fx-background-color:transparent;
+        >VBox{
+            .bg(light);
+        }
+        Label{
+            -fx-font-size:12pt;
+            -fx-font-weight:bold;
+        }
+        #answerContainer  *{
+            .padding(4);
+            -fx-font-size:10pt;
+        }
+        #courseProgress{
+            .padding(20,0);
+        }
+    }
+}
+.navPanel(){
+    .navpanel{
+        >*{ .padding(0);
+            Button{ 
+                .radius(0,0,50,50);
+                .padding(5,30,10,30);
+                -fx-border-width: 1 0 0 0;
+                -fx-border-color:darken(@mainColor,5%);
+                .bgD(light,10%); 
+                .txt(dark);
+                &:hover{.bgD(light,50%); .txt(light);}
+            }
+        }
+    }
+}
+.home(){
+    .main{
+        .mainCourseControlls{
+          .radius(0,4,4,0);
+          .padding(10);
+        }
+        .scroll-pane,.viewport{
+            .bg(light);
+            .radius(0,5,0,0);
+            FlowPane{
+                .padding(0);
+            }
+        }
+        .courseListItem{
+            -fx-border-color: fadeout(@mainColor,0%);
+            .radius(4);
+            .bgD(light,5%);
+            .txt(dark);
+            GridPane{
+                
+                >*{
+                  .padding(5,5,5,5);
+                }
+            }
+            .title{
+                .bg();
+                .txt(light);
+                .padding(5,5,5,5);
+                .radius(2,2,30,2);
+            }
+            #controls{
+                .bg();
+                .radius(100,0,0,0);
+            }
+            Button{
+                .bg(light);
+                .txt(dark);
+                &:hover{
+                    .bgD(normal,10%);
+                    .txt(light);
+                }
+            }
+            /*-fx-padding: 15 20;*/
+        }
+        .userList {
+            .padding(0,5,0,0);
+            -fx-spacing:0;
+            TextField{
+                .radius(5,5,0,0);
+                .padding(7,10);
+            }
+            .scroll-pane,.viewport{
+                .padding(0);
+                .list-view{
+                   .padding(0,1,0,1);
+                }
+                .cell{
+                   .padding(0);
+                   .bg(light);
+                   >HBox{
+                       .borderL(dark,50%);
+                       .bgL(dark,60%);
+                       -fx-border-width: 0 0 1 0;
+                   }
+                }
+            }
+        }
+    }
+}
+.head(){
+    .bg();
+    .txt(light);
+    .screenTitle{
+        .padding(15,0,0,20);
+    }
+}
+.footer(){
+    .bg();
+    .txt(light); 
 }

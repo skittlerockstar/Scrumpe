@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CEQuestionItemController">
+<TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CEQuestionController">
    <graphic>
-      <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+      <HBox maxWidth="1.7976931348623157E308">
          <children>
             <Label fx:id="questionLabel" maxHeight="1.7976931348623157E308" maxWidth="400.0" text="%ce_question_title" />
             <Button fx:id="deleteQBtn" mnemonicParsing="false" text="%ce_question_delete" />
@@ -29,7 +29,7 @@
                               <Insets top="5.0" />
                            </VBox.margin>
                         </TextArea>
-                        <HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+                        <HBox maxWidth="1.7976931348623157E308">
                            <children>
                               <Button fx:id="addAnswer" mnemonicParsing="false" text="%ce_question_add_answer" />
                               <Button fx:id="deleteAllAnswers" mnemonicParsing="false" text="%ce_question_delete_all_answers" />

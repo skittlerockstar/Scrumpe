@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -20,50 +21,28 @@ import org.mongodb.morphia.annotations.Reference;
 public class Question extends BaseEntity {
 
     @Property("question")
-    private String question;
-    @Property("description")
-    private String explanation;
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-    @Reference
-    private List<Answer> answers;
+    private String question = "";
+    public String getQuestion() {return question;}
+    public void setQuestion(String question) {this.question = question;}
     
+    @Property("description")
+    private String explanation = "";
+    public String getExplanation() {return explanation;}
+    public void setExplanation(String explanation) {this.explanation = explanation;}
+
+    @Reference
+    private List<Answer> answers = new ArrayList<>();
+    public List<Answer> getAnswers() {return answers;}
+    public void setAnswers(List<Answer> answers) {this.answers = answers;}
+   
     @Property("correctAnswers")
-    private ObjectId[] correctAnswerIds;
-
-    public ObjectId[] getCorrectAnswerIds() {
-        return correctAnswerIds;
-    }
-
-    public void setCorrectAnswerIds(ObjectId[] correctAnswerIds) {
-        this.correctAnswerIds = correctAnswerIds;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
+    private List<ObjectId> correctAnswerIds = new ArrayList<>();
+    public List<ObjectId> getCorrectAnswerIds() {return correctAnswerIds;}
+    public void setCorrectAnswerIds(List<ObjectId> correctAnswerIds) { this.correctAnswerIds = correctAnswerIds; }
+    
     @Override
     public String toString() {
-        return "Question{" + "question=" + question + ", explanation=" + explanation + ", answers=" + answers + ", correctAnswerIds=" + Arrays.toString(correctAnswerIds) + '}';
+        return "Question{" +getId()+ "question=" + question + ", explanation=" + explanation + ", answers=" + answers + ", correctAnswerIds=" + '}';
     }
     
 }

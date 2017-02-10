@@ -12,7 +12,7 @@ import javafx.scene.Node;
  * @author Max Verhoeven
  */
 public abstract class ComponentBase extends UIComponent{
-    public void setAdminComponents(){
+    public void setAdminComps(){
         if(this instanceof AdminComponents){
             ((AdminComponents)this).setAdminParts();
         }

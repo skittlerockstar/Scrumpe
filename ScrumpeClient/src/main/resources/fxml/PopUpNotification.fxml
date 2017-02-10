@@ -10,7 +10,7 @@
 
 <VBox alignment="CENTER" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="popup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.OverlayScreen.PopUpNotificationController">
    <children>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="500.0" VBox.vgrow="NEVER">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="500.0" styleClass="panel" VBox.vgrow="NEVER">
          <children>
             <Label fx:id="errorText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="ERR" wrapText="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
@@ -27,7 +27,7 @@
                         <Button fx:id="dismiss" mnemonicParsing="false" text="%popup_dismiss" />
                      </children>
                   </HBox>
-                  <HBox fx:id="confirmBox" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox fx:id="confirmBox" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Button fx:id="confirmYes" mnemonicParsing="false" text="%popup_confirm_yes" />
                         <Button fx:id="confirmNo" mnemonicParsing="false" text="%popup_confirm_no" />

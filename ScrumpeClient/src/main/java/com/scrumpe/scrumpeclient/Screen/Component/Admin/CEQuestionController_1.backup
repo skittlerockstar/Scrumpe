@@ -6,23 +6,22 @@
 package com.scrumpe.scrumpeclient.Screen.Component.Admin;
 
 import com.scrumpe.scrumpeclient.DB.DAO.AnswerDAO;
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.scrumpe.scrumpeclient.DB.DAO.QuestionDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
-import com.scrumpe.scrumpeclient.Utils.ExcelUploader;
-import com.scrumpe.scrumpeclient.Utils.ExcelUploader.CourseEnum;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,6 +29,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -40,7 +40,7 @@ import org.bson.types.ObjectId;
  *
  * @author Max Verhoeven
  */
-public class CEQuestionItemController extends ComponentBase {
+public class CEQuestionController extends ComponentBase {
 
     ObservableList<TitledPane> panes;
     boolean isEditing = false;
@@ -53,6 +53,11 @@ public class CEQuestionItemController extends ComponentBase {
     @FXML
     private VBox answerContainer;
     CourseEditorController cec;
+    Question question;
+    public Question getQuestion() {
+        return question;
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -67,9 +72,14 @@ public class CEQuestionItemController extends ComponentBase {
         deleteAllAnswers.setOnAction((event) -> {
             answerContainer.getChildren().clear();
         });
-        questionTextField.onKeyReleasedProperty().set((event) -> {
-            String s = questionTextField.getText();
-            questionLabel.setText(s.replace("\n", "").replace("\r", ""));
+        questionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            question.setQuestion(newValue);
+        });
+        explanationField.textProperty().addListener((observable, oldValue, newValue) -> {
+            question.setExplanation(newValue);
+        });
+        answerContainer.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
+           handleAnswerChanges(c);
         });
     }
 
@@ -80,23 +90,37 @@ public class CEQuestionItemController extends ComponentBase {
     void setData(ObservableList<TitledPane> panes) {
         this.panes = panes;
     }
-    public void setExistingData(Object data){
-        HashMap<ExcelUploader.CourseEnum, Object> question = (HashMap<ExcelUploader.CourseEnum, Object>) data;
-        questionLabel.setText((String) question.get(CourseEnum.Question));
-        questionTextField.setText((String) question.get(CourseEnum.Question));
-        explanationField.setText((String)question.get(CourseEnum.Description));
-        setExistingAnswers(question.get(CourseEnum.Answers));
+    public void setExistingData(Question data){
+        question =  data;
+        questionLabel.setText(question.getQuestion());
+        questionTextField.setText(question.getQuestion());
+        explanationField.setText(question.getExplanation());
+        if(question.getAnswers() == null) question.setAnswers(new ArrayList<>());
+        setExistingAnswers(question.getAnswers());
     }
     private void editQuestion(boolean editing) {
     }
 
     private void addAnswer() {
-        addAnswer("Answer",false);
+        addAnswer(null);
     }
-    private void addAnswer(String answerTitle,Boolean correct) {
+    private void addAnswer(Answer ans) {
+        if(ans == null){
+            ans = new Answer();
+        }
+        String answerTitle = ans.getAnswer();
+        boolean correct = ans.isCorrectForExcel;
+        if(ans.getId()!=null){
+            for(ObjectId oid : question.getCorrectAnswerIds()){
+                if(oid.equals(ans.getId())){
+                    correct = true;
+                }
+            }
+        }
         HBox answer = new HBox();
         TextField answerfield = new TextField(answerTitle);
         Button deleteAnswer = new Button("Delete");
+        answer.setUserData(ans);
         deleteAnswer.setOnAction((event) -> {
             answerContainer.getChildren().remove(answer);
         });
@@ -132,32 +156,29 @@ public class CEQuestionItemController extends ComponentBase {
 
     }
 
-    private void setExistingAnswers(Object get) {
-        HashMap<String,Boolean> answers = (HashMap<String,Boolean>) get;
-        for (Map.Entry<String, Boolean> entry : answers.entrySet()) {
-            String key = entry.getKey();
-            Boolean value = entry.getValue();
-            addAnswer(key, value);
+    private void setExistingAnswers(List<Answer> answers) {
+        for (Iterator<Answer> iterator = answers.iterator(); iterator.hasNext();) {
+            Answer next = iterator.next();
+            addAnswer(next);
         }
     }
-    public void getQuestions(CourseEditorController cec){
-        this.cec = cec;
+    public Question getQuestions(){
         ObservableList<Node> children = answerContainer.getChildren();
         AnswerDAO dao = data.getDAO(AnswerDAO.class);
-        List<Answer> anslist = new ArrayList<>();
-        List<Answer> correctAnswers = new ArrayList<>();
-        for (Iterator<Node> iterator = children.iterator(); iterator.hasNext();) {
-            HBox next = (HBox) iterator.next();
-            TextField ans = (TextField) next.getChildren().get(0);
-            ToggleButton isCorrect = (ToggleButton) next.getChildren().get(1);
-           Answer s = new Answer();
-           s.setAnswer(ans.getText());
-           anslist.add(s);
-           if(isCorrect.isSelected()){
-               correctAnswers.add(s);
-           }
-        }
-         dao.createAnswers(new DAOCallBackImpl(this,correctAnswers), anslist);
+//        //check if 
+//        
+//        List<Answer> anslist = new ArrayList<>();
+//        List<Answer> correctAnswers = new ArrayList<>();
+//        for (Iterator<Node> iterator = children.iterator(); iterator.hasNext();) {
+//            HBox next = (HBox) iterator.next();
+//            TextField ans = (TextField) next.getChildren().get(0);
+//            ToggleButton isCorrect = (ToggleButton) next.getChildren().get(1);
+//            if(isCorrect.isSelected()){
+//               correctAnswers.add(s);
+//            }
+//        }
+//         dao.createAnswers(new DAOCallBackImpl(this,correctAnswers), anslist);
+return null;
     }
     public void saveQuestion(Question q){
         q.setQuestion(questionLabel.getText());
@@ -168,22 +189,61 @@ public class CEQuestionItemController extends ComponentBase {
     public void returnQuestion(Question q){
         cec.addQtoCourse(q);
     }
-    private static class DAOCallBackImpl implements DAOCallBack<Answer> {
 
-        CEQuestionItemController cb;
+    @Override
+    public void onChanged() {
+    }
+
+    private void handleAnswerChanges(ListChangeListener.Change<? extends Node> c) {
+        boolean next = c.next();
+        List<? extends Node> removed = c.getRemoved();
+        List<? extends Node> addedSubList = c.getAddedSubList();
+        for (Node node : removed) {
+            HBox hbox = (HBox)node;
+            ObservableList<Node> children = hbox.getChildren();
+           
+            int indexOf = c.getFrom();
+            question.getAnswers().remove(indexOf);
+        }
+        for (Node node : addedSubList) {
+            HBox hbox = (HBox)node;
+            Answer newA = (Answer) hbox.getUserData();
+            ObservableList<Node> children = hbox.getChildren();
+            TextField get = (TextField) children.get(0);
+            ToggleButton get2 = (ToggleButton) children.get(1);
+            get2.addEventHandler(MouseEvent.MOUSE_RELEASED, (event) -> {
+                List<Answer> answers = question.getAnswers();
+                    newA.isCorrectForExcel = get2.isSelected();
+                    question.getAnswers().set(question.getAnswers().indexOf(newA), newA);
+            });
+              
+            get.textProperty().addListener((observable, oldValue, newValue) -> {
+                newA.setAnswer(newValue);
+                question.getAnswers().set(question.getAnswers().indexOf(newA), newA);
+            });
+            if(!question.getAnswers().contains((Answer)hbox.getUserData())){
+                question.getAnswers().add(newA);
+            }
+        }
+    }
+
+    void hidePane(boolean hide) {
+        if(hide){
+          
+        }else{
+        }
+    }
+    
+    private static class DAOCallBackImpl implements DAOCallBack<List<Answer>> {
+
+        CEQuestionController cb;
         private List<Answer> correct;
-        public DAOCallBackImpl(CEQuestionItemController cb,List<Answer> correct) {
+        public DAOCallBackImpl(CEQuestionController cb,List<Answer> correct) {
             this.cb = cb;
             this.correct = correct;
         }
-
         @Override
-        public void dbResult(Answer result) {
-            
-        }
-
-        @Override
-        public void dbResults(List<Answer> results) {
+        public void dbResult(List<Answer> results) {
             Question q = new Question();
             q.setAnswers(results);
             List<ObjectId> correctAns = new ArrayList<>();
@@ -201,8 +261,8 @@ public class CEQuestionItemController extends ComponentBase {
     }
 
     private static class DAOCallBackImpl1 implements DAOCallBack<Question> {
-        CEQuestionItemController cec;
-        public DAOCallBackImpl1(CEQuestionItemController cec) {
+        CEQuestionController cec;
+        public DAOCallBackImpl1(CEQuestionController cec) {
         this.cec = cec;
         }
 
@@ -210,11 +270,6 @@ public class CEQuestionItemController extends ComponentBase {
         public void dbResult(Question result) {
             cec.returnQuestion(result);
         }
-
-        @Override
-        public void dbResults(List<Question> results) {
-            
-        }
     }
-
 }
+

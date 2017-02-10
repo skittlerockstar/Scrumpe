@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.DAO;
 
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
@@ -50,7 +51,7 @@ public class AnswerDAO extends DAO<Answer,String> {
             return  ans;
         }));
     }
-     public void createAnswers(DAOCallBack<Answer> callback,List<Answer> anss){
+     public void createAnswers(DAOCallBack<List<Answer>> callback,List<Answer> anss){
         accessDB(callback,task(() -> {
             anss.forEach((ans) -> {
                 Key<Answer> save = save(ans);

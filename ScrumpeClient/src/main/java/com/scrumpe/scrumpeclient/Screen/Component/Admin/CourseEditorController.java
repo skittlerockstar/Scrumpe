@@ -6,7 +6,8 @@
 package com.scrumpe.scrumpeclient.Screen.Component.Admin;
 
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
-import com.scrumpe.scrumpeclient.DB.DAO.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import com.scrumpe.scrumpeclient.MainApp;
@@ -14,20 +15,20 @@ import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.ExcelUploader;
-import com.scrumpe.scrumpeclient.Utils.ExcelUploader.CourseEnum;
 import com.scrumpe.scrumpeclient.Utils.RGX;
-import java.awt.font.NumericShaper.Range;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,6 +36,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class
@@ -44,7 +46,7 @@ import javafx.scene.layout.AnchorPane;
 public class CourseEditorController extends ComponentBase implements DAOCallBack<Course> {
 
     @FXML
-    private TextField courseTitle, minimumScore;
+    private TextField courseTitle, minimumScore, searchQuestion;
     @FXML
     private TextArea courseDescription;
     @FXML
@@ -54,15 +56,25 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     @FXML
     private Accordion questionContainer;
     final FileChooser fileChooser = new FileChooser();
-    CEQuestionItemController controller;
+    CEQuestionController controller;
     List<Question> questions = new ArrayList<>();
+    Course currentCourse;
+
+    public void setCurrentCourse(Course currentCourse) {
+        this.currentCourse = currentCourse;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        FileChooser.ExtensionFilter excelFilter = new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(excelFilter);
+        currentCourse = new Course();
         setHandlers();
+        searchQuestion.setManaged(false);
+        searchQuestion.setVisible(false);
     }
 
     @Override
@@ -73,16 +85,14 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         AnchorPane.setRightAnchor(componentRoot, 0.0);
     }
 
-    private void addQuestionField(Object data) {
+    private void addQuestionField(Question data) {
         ObservableList<TitledPane> panes = questionContainer.getPanes();
-        FXMLLoader l = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CEQuestionItem, true);
-        TitledPane s = (TitledPane) l.getRoot();
-        controller = l.getController();
+        FXMLLoader CEQI = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CEQuestionItem, true);
+        TitledPane s = (TitledPane) CEQI.getRoot();
+        controller = CEQI.getController();
         s.setUserData(controller);
         panes.add(s);
-        if (data != null) {
-            controller.setExistingData(data);
-        }
+        controller.setExistingData(data);
         controller.setData(panes);
         updateQuestionCount();
         handleScoreInput();
@@ -93,8 +103,8 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
 
     private void setMinScorePercentage(int minNr, int maxNr) {
-        float max = (float)maxNr;
-         float min = (float)minNr;
+        float max = (float) maxNr;
+        float min = (float) minNr;
         if (min != 0 && max != 0) {
             if ((int) min > (int) max) {
                 min = max;
@@ -104,81 +114,83 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
             ans = 100 / ans;
             percentage.setText("(" + ans + "%)");
             percentage.setOpacity(0.5);
+        }else{
+            percentage.setText("(0%)");
         }
     }
 
-    private void saveCourse() {
+    private void prepareCourseForDB() {
+        currentCourse.getQuestions().clear();
+        if(currentCourse.getId()==null) removeDeletedQuestions();
         ObservableList<TitledPane> panes = questionContainer.getPanes();
-        panes.forEach((next) -> {
-            ((CEQuestionItemController) next.getUserData()).getQuestions(this);
-        });
+        panes.stream().forEach((cc)-> ((CEQuestionController)cc.getUserData()).prepareQuestionForDB(this));
     }
 
     private void discardCourse() {
-        componentRoot.setVisible(false);
-        componentRoot.setMouseTransparent(true);
+        throwConfirmError("Are you sure you want to discard changes?", (event) -> {
+            show(false);
+            deleteAllQuestions();
+        }, (event) ->{});
     }
 
-    private void insertExcelData(HashMap<CourseEnum, Object> course) {
-        String[] courseinfo = (String[]) course.get(CourseEnum.CourseInfo);
-        courseTitle.setText(courseinfo[0]);
-        courseDescription.setText(courseinfo[1]);
-
-        List<Object> questions = (List<Object>) course.get(CourseEnum.Questions);
-        for (Object question : questions) {
+    private void insertData(Course course) {
+        currentCourse = course;
+        courseTitle.setText(course.getCourseTitle());
+        courseDescription.setText(course.getCourseDescription());
+        List<Question> posQ = ((course.getQuestions() != null) ? course.getQuestions() : new ArrayList<>());
+        questions = posQ;
+        for (Question question : questions) {
             addQuestionField(question);
         }
-        minimumScore.setText(courseinfo[2]);
+        minimumScore.setText(course.getMinimumScore() + "");
         handleScoreInput();
     }
 
-    private void saveCourse(List<Question> results) {
-        Course c = new Course();
-        c.setCourseTitle(courseTitle.getText());
-        c.setCourseDescription(courseDescription.getText());
-        c.setMinimumScore(Integer.parseInt(minimumScore.getText()));
-        c.setQuestions(results);
-        CourseDAO dao = data.getDAO(CourseDAO.class);
-        dao.saveCourse(this, c);
-    }
+
 
     @Override
     public void dbResult(Course result) {
-        if (result == null) presentNote("Sorry something went wrong... please contact the admin.");
-        else{
-            discardCourse();
+        if (result == null) {
+            presentNote("Sorry something went wrong... please contact the admin.");
+        } else {
+            clearCE();
+            show(false);
             ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.Main, true);
         }
         ScreenManager.getInstance().showLoadingScreen(false);
     }
-
-    @Override
-    public void dbResults(List<Course> results) {
-
-    }
-
-    public void addQtoCourse(Question q) {
-        questions.add(q);
-        if (questions.size() == questionContainer.getPanes().size()) {
-            saveCourse(questions);
-        }
-    }
-
-    public void show(boolean show) {
-        componentRoot.setVisible(show);
-        componentRoot.setMouseTransparent(!show);
-    }
-
     public void editCourse(Course c) {
-
+        insertData(c);
+        show(true);
     }
 
     private void generateCourseFromExcel() {
-        File file = fileChooser.showOpenDialog(MainApp.getRootStage());
-        HashMap<CourseEnum, Object> course;
-        course = ((file != null) ? ExcelUploader.readExcel(file) : null);
-        if (course != null) insertExcelData(course); 
-        else presentNote("File is not readable");
+        final File file = fileChooser.showOpenDialog(MainApp.getRootStage());
+        ScreenManager screenM = ScreenManager.getInstance();
+        screenM.showLoadingScreen(true);
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                return ExcelUploader.readExcel(file);
+            }
+        };
+        task.setOnSucceeded((event) -> {
+            try {
+                Course c = (Course) task.get();
+                insertData(c);
+            } catch (Exception e) {
+                screenM.showNotification(e.toString(), true);
+            } finally {
+                screenM.showLoadingScreen(false);
+            }
+        });
+        task.setOnFailed((event) -> {
+            screenM.showNotification(task.getException().getMessage(), true);
+            screenM.showLoadingScreen(false);
+        });
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     private void deleteAllQuestions() {
@@ -188,34 +200,110 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
 
     private void handleScoreInput() {
-        String mTxt = minimumScore.getText(); 
-        if(mTxt.equals("")) return;                    
+        String mTxt = minimumScore.getText();
+        if (mTxt.equals("")) {
+            return;
+        }
         int qSize = questionContainer.getPanes().size();
         int minNr = ((mTxt.matches(RGX.INT)) ? Integer.parseInt(mTxt) : qSize);
-        if(minNr > qSize || minNr < 0 ) minNr = qSize;
+        if (minNr > qSize || minNr < 0) {
+            minNr = qSize;
+        }
         minimumScore.setText(String.valueOf(minNr));
-        setMinScorePercentage(minNr,qSize);
+        setMinScorePercentage(minNr, qSize);
     }
 
     private void setHandlers() {
-        saveCourse.setOnAction((event) -> {
-            saveCourse();
+        saveCourse.setOnAction((e) -> prepareCourseForDB());
+        discardCourse.setOnAction((e) -> discardCourse());
+        addQuestionBtn.setOnAction((e) -> addQuestionField(new Question()));
+        deleteAllQBtn.setOnAction((e) -> deleteAllQuestions());
+        uploadExcelBtn.setOnAction((e) -> generateCourseFromExcel());
+        minimumScore.setOnKeyReleased((e) -> handleScoreInput());
+        //courseTitle.textProperty().addListener((o, old, newV) -> currentCourse.setCourseTitle(newV));
+        //courseTitle.textProperty().addListener((o, old, newV) -> currentCourse.setCourseDescription(newV));
+        minimumScore.textProperty().addListener((o, old, newValue) -> {
+            if (newValue.matches(RGX.INT)) {
+                currentCourse.setMinimumScore(Integer.parseInt(newValue));
+            }
         });
-        discardCourse.setOnAction((event) -> {
-            discardCourse();
+        questionContainer.getPanes().addListener((ListChangeListener.Change<? extends Node> c) -> {
+            handleQuestionChanges(c);
         });
-        addQuestionBtn.setOnAction((event) -> {
-            addQuestionField(null);
-        });
-        deleteAllQBtn.setOnAction((event) -> {
-            deleteAllQuestions();
-        });
-        uploadExcelBtn.setOnAction((event) -> {
-            generateCourseFromExcel();
-        });
-        minimumScore.setOnKeyReleased((event) -> {
-            handleScoreInput();
-        });
+        searchQuestion.textProperty().addListener((ob, o, n) -> searchForQuestion(n));
     }
 
+    @Override
+    public void onChanged() {
+    }
+
+    public void clearCE() {
+        currentCourse = new Course();
+        deleteAllQuestions();
+        courseDescription.clear();
+        courseTitle.clear();
+        minimumScore.clear();
+        show(false);
+    }
+
+    private void checkCourse() {
+        if (currentCourse.getQuestions() == null) {
+            currentCourse.setQuestions(new ArrayList<Question>());
+        }
+        ObservableList<TitledPane> panes = questionContainer.getPanes();
+        for (Iterator<TitledPane> iterator = panes.iterator(); iterator.hasNext();) {
+            TitledPane next = iterator.next();
+            CEQuestionController userData = (CEQuestionController) next.getUserData();
+            Question question = userData.getQuestion();
+            currentCourse.getQuestions().add(question);
+        }
+    }
+
+    private void handleQuestionChanges(ListChangeListener.Change<? extends Node> c) {
+        updateQuestionCount();
+        handleScoreInput();
+    }
+
+    private void searchForQuestion(String x) {
+        String n = x.toLowerCase();
+        questionContainer.getPanes().stream()
+                .peek((t) -> hidePane(t))
+                .filter((t) -> ((CEQuestionController) t.getUserData()).getQuestion().getQuestion().toLowerCase().contains(n))
+                .forEach((z) -> showPane(z));
+    }
+
+    private void hidePane(TitledPane t) {
+        int size = questionContainer.getPanes().size();
+        t.setPrefHeight(0);
+        t.setMinHeight(0);
+        t.setMaxHeight(0);
+        t.setManaged(false);
+        t.setExpanded(true);
+    }
+
+    private void showPane(TitledPane t) {
+        t.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        t.setMinHeight(Region.USE_COMPUTED_SIZE);
+        t.setMaxHeight(Region.USE_COMPUTED_SIZE);
+          t.setExpanded(false);
+           t.setTranslateY(10);
+    }
+
+    private void removeDeletedQuestions() {
+    }
+    public void saveCourse(){
+         CourseDAO dao = DBManager.getInstance().getDAO(CourseDAO.class);
+         currentCourse.setCourseTitle(courseTitle.getText());
+         currentCourse.setCourseDescription(courseDescription.getText());
+        dao.saveCourse((o) -> {
+            dbResult(o);
+        }, currentCourse);
+    }
+
+    void callback(Question o) {
+        currentCourse.getQuestions().add(o);
+        if(currentCourse.getQuestions().size() == questionContainer.getPanes().size()){
+            saveCourse();
+        }
+    }
 }

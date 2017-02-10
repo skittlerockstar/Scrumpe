@@ -5,6 +5,7 @@
  */
 package com.scrumpe.scrumpeclient.DB.DAO;
 
+import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.User;
@@ -30,7 +31,7 @@ public class UserDAO extends DAO<User,String>{
     public UserDAO(Class<User> entityClass, MongoClient mongoClient, Morphia morphia, String dbName) {
         super(entityClass, mongoClient, morphia, dbName);
     }
-     public void getUsers(DAOCallBack<User> callback){
+     public void getUsers(DAOCallBack<List<User>> callback){
         accessDB(callback,taskList(() -> {
             Query<User> query = super.createQuery();
             List<User> courseTitleAndIDS = query.asList();

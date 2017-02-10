@@ -6,15 +6,22 @@
 package com.scrumpe.scrumpeclient.DB;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javafx.concurrent.Task;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
@@ -40,6 +47,7 @@ public class DBManager {
     private static final int CON_PORT_DEB = 27017,
                              CON_PORT  = 57078;
 
+    
     public Datastore getDatastore() {
         return datastore;
     }
@@ -53,9 +61,14 @@ public class DBManager {
     }
 
     private DBManager() {
+        MongoClientOptions.Builder options = MongoClientOptions.builder();
+        MongoClientOptions connectTimeout = options.serverSelectionTimeout(3000).build();
         if (DEBUG) {
             DATABASE = "Scrumpe";
-            mongoClient = new MongoClient("localhost", 27017);
+            ServerAddress sa = new ServerAddress("localhost", 27017);
+            mongoClient = new MongoClient(new ArrayList<ServerAddress>() {
+                { add(sa);}
+            },connectTimeout);
             morphia = new Morphia();
             morphia.mapPackage(MAP_PACKAGE);
             datastore = morphia.createDatastore(mongoClient, "Scrumpe");
@@ -67,11 +80,11 @@ public class DBManager {
             },
             new ArrayList<MongoCredential>() {
                 {add(mc);}
-            });
+            },connectTimeout);
+            
             morphia = new Morphia();
             morphia.mapPackage(MAP_PACKAGE);
             datastore = morphia.createDatastore(mongoClient, DATABASE);
-           
         }
     }
 
@@ -103,4 +116,7 @@ public class DBManager {
             MAP_PACKAGE = preferences.get("MAP_PACKAGE", null);//"com.scrumpe.scrumpeclient.DB";
             MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB";
     }
+}
+interface ConnectedCallback{
+    
 }

@@ -19,13 +19,14 @@ import javafx.fxml.FXMLLoader;
  */
 public class ComponentFactory {
     public static enum ComponentType{
-        CourseListItem,CourseEditor,CEQuestionItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
+        CourseListItem,CourseEditor,CourseControlls,CEQuestionItem,MainDescription,Navigation,ScreenTitle,UserList,UserListItem
     }
     private static final String XML_ROOT_DIR = "/fxml/Component/";
     private static final String XML_ADMIN_DIR = "/fxml/Component/Admin/";
     private static HashMap<ComponentType,String> components = new HashMap<ComponentType,String>();
     static{
         components.put(ComponentType.CourseListItem, XML_ROOT_DIR+"CourseListItem.fxml");
+        components.put(ComponentType.CourseControlls, XML_ROOT_DIR+"CourseControlls.fxml");
         components.put(ComponentType.CourseEditor, XML_ADMIN_DIR+"CourseEditor.fxml");
         components.put(ComponentType.CEQuestionItem, XML_ADMIN_DIR+"CEQuestionItem.fxml");
         components.put(ComponentType.MainDescription, XML_ROOT_DIR+"MainDescription.fxml");
@@ -49,7 +50,6 @@ public class ComponentFactory {
                     controller.setup(load.getRoot());
                 }
             } catch (IOException ex) {
-                System.err.println(ex.toString());
                 Logger.getLogger(ComponentFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
