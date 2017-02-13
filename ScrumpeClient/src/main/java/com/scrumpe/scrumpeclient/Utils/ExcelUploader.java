@@ -91,7 +91,7 @@ public class ExcelUploader {
                     break;
                 }
                 ans.setAnswer(getStringVal(next));
-                if (row.getSheet().getRow(row.getRowNum() - 1).getCell(next.getColumnIndex()).getCellTypeEnum() != CellType.BLANK) {
+                if (row.getSheet().getRow(row.getRowNum()+1).getCell(next.getColumnIndex()).getCellTypeEnum() != CellType.BLANK) {
                     ans.isCorrectForExcel = true;
                 }
                 answerList.add(ans);

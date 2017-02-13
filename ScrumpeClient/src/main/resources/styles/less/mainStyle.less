@@ -25,6 +25,20 @@ and open the template in the editor.
         .footer();
     }
 }
+#windowBar{
+    .bgL(normal,10%);
+    
+    >HBox{
+       >Button{
+           .padding(5);
+           .radius(0);
+           .bgL(normal,10%);
+        &:hover{
+            -fx-background-color:rgba(255,255,255,0.2);
+        }
+       }
+    }
+}
 .defaultStyles(){
     .scroll-pane:focused{
         -fx-background-insets: 0;
@@ -50,7 +64,7 @@ and open the template in the editor.
     }
     *{
         .txt();
-        -fx-font-smoothing-type: gray;
+        /*-fx-font-smoothing-type: gray ;*/
         -fx-spacing:4;
     }
     Button{
@@ -142,7 +156,8 @@ and open the template in the editor.
 }
 .background(){
     .bg(dark);
-    -fx-background-size: 30% !important;
+    -fx-background-size: auto 75 !important;
+    
 }
 .courseResult(){
     .courseResult{
@@ -165,41 +180,48 @@ and open the template in the editor.
                 .bg(light);
             }
             .scroll-pane,.viewport,.list-view{
-                .radius(5,5,0,0);
+                .radius(5,5,0,0) !important;
                 
                  -fx-background-insets:none;
                
             }
             .resultContainer{
-                .padding(10);
+                /*.padding(10);*/
                 .bg(light);
-                .radius(5);
+                .radius(7,7,0,0);
                 #resultQuestion{
                     .padding(0,0,5,0);
                     .txt();
                     .borderD(light,30%);
                     -fx-border-width:0;
-                    -fx-font-size:15;
+                    -fx-font-size:18;
                 }
                 #resultAnswersContainer{
                     .padding(5,0);
                     >*{
-                        .padding(5);
-                        .radius(5);
+                        .padding(7);
+                        .radius(2);
+                        -fx-text-alignment:center;
                         .bgD(light,10%);
+                        .txt(dark);
                     }
                 }
                 >Label{
-                    -fx-font-size:15;
-                    .padding(0);
+                    -fx-font-size:12;
+                    .padding(5) !important;
+                    .bg();
+                    .radius(5,5,0,0);
+                    .txt(light) !important;
                     .borderD(light,30%);
                     -fx-border-width:1 0 0 0;
                 }
                 #explanation{
                     .radius(5);
-                     .padding(5);
+                     .padding(5,20)!important;
                         .bgD(light,10%);
-                    -fx-font-size:12;
+                        .txt(dark) !important;
+                        -fx-text-alignment:center !important;
+                    -fx-font-size:16;
                     -fx-border-width:0;
                 }
             }

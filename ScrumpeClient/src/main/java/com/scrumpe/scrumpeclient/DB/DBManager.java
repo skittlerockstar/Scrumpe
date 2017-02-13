@@ -70,6 +70,7 @@ public class DBManager {
                 { add(sa);}
             },connectTimeout);
             morphia = new Morphia();
+            System.err.println(MAP_PACKAGE);
             morphia.mapPackage(MAP_PACKAGE);
             datastore = morphia.createDatastore(mongoClient, "Scrumpe");
         } else {
@@ -113,7 +114,7 @@ public class DBManager {
             CON_P_DEB = preferences.get("CON_P_DEB", null);//"";
             DATABASE = preferences.get("DATABASE", null);//"scrumpe";
             DATABASE_DEB = preferences.get("DATABASE_DEB", null);//"Scrumpe";
-            MAP_PACKAGE = preferences.get("MAP_PACKAGE", null);//"com.scrumpe.scrumpeclient.DB";
+            MAP_PACKAGE = preferences.get("MAP_PACKAGE", "com.scrumpe.scrumpeclient.DB");//"com.scrumpe.scrumpeclient.DB";
             MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB";
     }
 }

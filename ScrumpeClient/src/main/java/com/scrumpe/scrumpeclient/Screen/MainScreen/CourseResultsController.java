@@ -8,6 +8,7 @@ package com.scrumpe.scrumpeclient.Screen.MainScreen;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
+import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Log;
@@ -15,11 +16,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -45,7 +49,7 @@ public class CourseResultsController extends ScreenBase {
     @FXML
     private Label score, requiredScore, resultQuestion, explanation;
     @FXML
-    private VBox resultSummaryList, resultAnswersContainer;
+    private VBox resultSummaryList, resultAnswersContainer,qrescont;
     @FXML
 
     private ListView questionList;
@@ -59,6 +63,7 @@ public class CourseResultsController extends ScreenBase {
     public void initialize(URL url, ResourceBundle rb) {
         yourAnswer.getStyleClass().add("yourAnswer");
         correctAnswer.getStyleClass().add("correctAnswer");
+       
     }
 
     @Override
@@ -83,6 +88,13 @@ public class CourseResultsController extends ScreenBase {
     @Override
     public void setupLayout() {
         HBox.setHgrow(componentRoot, Priority.ALWAYS);
+         Scene scene = MainApp.getRootStage().getScene();
+        scene.widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            qrescont.setPrefWidth(newValue.floatValue()*0.6);
+        });
+        scene.heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+//           ((HBox) qrescont.getParent()).setMinHeight(newValue.floatValue()*0.6);
+        });
     }
 
     public void setResults(Course takenCourse, List<List<ObjectId>> givenAnswers) {
@@ -208,6 +220,7 @@ public class CourseResultsController extends ScreenBase {
     };
 
     private void showQuestionResult(Question question) {
+        qrescont.setPrefWidth(MainApp.getRootStage().getWidth()*0.6);
         resultAnswersContainer.getChildren().clear();
         List<Answer> q = question.getAnswers();
         Log.log(getClass(), Level.SEVERE, givenAnswers.size() + "");
@@ -218,26 +231,34 @@ public class CourseResultsController extends ScreenBase {
         resultAnswersContainer.getChildren().clear();
         VBox.setVgrow(explanation, Priority.ALWAYS);
         explanation.setWrapText(true);
-        explanation.setText("test test test test test test test test test test test test test test test test test test test test test test test test test test ");
+        explanation.setText(question.getExplanation());
+        explanation.setMaxWidth(500);
         for (Answer a : q) {
-            HBox answerContainer = new HBox();
+            VBox answerContainer = new VBox();
             answerContainer.getStyleClass().add("resultAnswers");
             Label ans = new Label(a.getAnswer());
             ans.setWrapText(true);
+            answerContainer.setMaxWidth(500);
             VBox.setVgrow(ans, Priority.ALWAYS);
             ans.setPrefHeight(Region.USE_COMPUTED_SIZE);
             answerContainer.getChildren().add(ans);
+             resultAnswersContainer.getChildren().add(answerContainer);
+             HBox givenResults = new HBox();
             for (ObjectId cid : cIds) {
                 if (cid.equals(a.getId())) {
-                    
+                    Label correctIndicator = new Label("Your Answer");
+                    correctIndicator.getStyleClass().add("correctIndicator");
+                    givenResults.getChildren().add(0,correctIndicator);
                 }
             }
             for (ObjectId oid : oIds) {
                 if (oid.equals(a.getId())) {
-                  
+                   Label trueIndicator = new Label("Correct Answer");
+                    trueIndicator.getStyleClass().add("trueIndicator");
+                    givenResults.getChildren().add(0,trueIndicator);
                 }
             }
-            resultAnswersContainer.getChildren().add(answerContainer);
+           answerContainer.getChildren().add(0,givenResults);
         }
 
     }

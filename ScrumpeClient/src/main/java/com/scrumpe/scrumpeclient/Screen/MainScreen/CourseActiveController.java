@@ -258,7 +258,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void finishCourse() {
-        CourseResultsController u = (CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults);
+        CourseResultsController u = (CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults,true);
         u.setResults(currentCourse, givenAnswers);
         u.showResults();
     }

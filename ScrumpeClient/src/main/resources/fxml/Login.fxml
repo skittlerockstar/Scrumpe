@@ -40,9 +40,9 @@
                            <padding>
                               <Insets bottom="5.0" />
                            </padding>
-                           <cursor>
+<!--                           <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor>
+                           </cursor>-->
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

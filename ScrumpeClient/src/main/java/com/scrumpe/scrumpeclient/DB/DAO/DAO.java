@@ -68,7 +68,12 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
         return new Task<List<T>>() {
             @Override
             public List<T> call() throws Exception {
-                return (List<T>)callable.call();
+                try {
+                    return (List<T>)callable.call();
+                } catch (Exception e) {
+                    System.out.println("DBERROR"+e.toString());
+                }
+                return null;
             }
         };
     }

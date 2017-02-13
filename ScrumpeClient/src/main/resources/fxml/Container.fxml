@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -9,9 +11,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.ContainerController">
+<AnchorPane fx:id="rootOfAll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.ContainerController">
    <children>
-      <BorderPane fx:id="root" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="root" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <bottom>
             <AnchorPane prefHeight="30.0" styleClass="bottom" BorderPane.alignment="BOTTOM_LEFT">
                <children>
@@ -72,6 +74,62 @@
          </top>
       </BorderPane>
       <AnchorPane fx:id="overlay" prefHeight="200.0" prefWidth="200.0" styleClass="overlay" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane fx:id="windowBar" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="suspendBtn" graphicTextGap="1.0" maxHeight="20.0" maxWidth="25.0" minHeight="20.0" minWidth="25.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView mouseTransparent="true" pickOnBounds="true">
+                           <image>
+                              <Image url="@../img/suspend.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="resizeBtn" graphicTextGap="1.0" maxHeight="20.0" maxWidth="25.0" minHeight="20.0" minWidth="25.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fx:id="resizeImg" mouseTransparent="true" pickOnBounds="true">
+                           <image>
+                              <Image url="@../img/Resize2.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="exitBtn" graphicTextGap="1.0" maxHeight="20.0" maxWidth="25.0" minHeight="20.0" minWidth="25.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView mouseTransparent="true" pickOnBounds="true">
+                           <image>
+                              <Image url="@../img/exit.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
    </children>
    <stylesheets>
       <URL value="@../../../target/classes/styles/css/mainStyle.css" />

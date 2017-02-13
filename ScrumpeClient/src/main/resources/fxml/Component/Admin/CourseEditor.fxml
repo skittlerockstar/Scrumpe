@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="courseEditor" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" styleClass="courseEditor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController">
+<AnchorPane id="courseEditor" maxWidth="-Infinity" styleClass="courseEditor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController">
    <children>
-      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar maxWidth="700.0" nodeOrientation="RIGHT_TO_LEFT">
+            <MenuBar maxWidth="1400.0" nodeOrientation="RIGHT_TO_LEFT">
               <menus>
                   <Menu mnemonicParsing="false">
                      <graphic>
@@ -26,7 +26,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <VBox maxWidth="700.0" minHeight="500.0">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1400.0" minHeight="500.0" VBox.vgrow="ALWAYS">
                <children>
                   <HBox>
                      <children>
@@ -76,7 +76,7 @@
                         <TextArea fx:id="courseDescription" maxWidth="1.7976931348623157E308" prefColumnCount="1" prefRowCount="3" promptText="%course_editor_description_prompt" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                  <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                      <children>
                         <HBox VBox.vgrow="NEVER">
                            <children>
@@ -89,9 +89,9 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="200.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <content>
-                              <Accordion fx:id="questionContainer" maxWidth="1.7976931348623157E308" />
+                              <Accordion fx:id="questionContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </content>
                         </ScrollPane>
                      </children>

@@ -68,7 +68,8 @@ public class ScreenManager {
             try {
                 screenManager = new ScreenManager();
             } catch (Exception e) {
-                Log.log(ScreenManager.class,Level.SEVERE, e.toString());
+                System.err.println(e);
+                Log.log(ScreenManager.class,Level.SEVERE, e.getCause().toString());
             }
         }
         return screenManager;
@@ -117,7 +118,8 @@ public class ScreenManager {
                 .getChildren()
                 .add(
                         loadingScreen.getRoot());
-        ((OverlayBase) loadingScreen.getController()).setup(loadingScreen.getRoot());
+        OverlayBase controller = loadingScreen.getController();
+        controller.setup(loadingScreen.getRoot());
         
         // Load Error Notification screen
         FXMLLoader errorNotification = overlayScreenList.get(OverlayScreen.Notification);
@@ -137,6 +139,7 @@ public class ScreenManager {
             FXMLLoader toLoad = screenList.get(screen);
             if(reload){
                 toLoad = new FXMLLoader(toLoad.getLocation());
+                toLoad.setResources(Lang.getLangSet());
                 toLoad.load();
                 screenList.replace(screen, toLoad);
             }
@@ -146,7 +149,7 @@ public class ScreenManager {
             controller.setup(node);
             controller.onChanged();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.toString());
         }
         
         return controller;

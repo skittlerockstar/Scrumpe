@@ -6,6 +6,7 @@
 package com.scrumpe.scrumpeclient;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.LessRT;
+import com.scrumpe.scrumpeclient.Utils.Resizer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -24,23 +26,28 @@ public class MainApp extends Application implements EventHandler<KeyEvent>{
         return rootStage;
     }
     //TODO move to settings class;
-    private static final int SCREEN_MIN_WIDTH = 800;
-    private static final int SCREEN_MIN_HEIGHT = 600;
+    private static final int SCREEN_MIN_WIDTH = 1280;
+    private static final int SCREEN_MIN_HEIGHT = 800;
     //end
     
     @Override
     public void start(Stage stage) throws Exception {
+         stage.initStyle(StageStyle.UNDECORATED);
         LessRT.Setup(MainApp.class);
         rootStage = stage;
         LessRT.compileShit();
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();
+        
         Scene scene = new Scene(root);
+       
+
         stage.setScene(scene);  
         stage.setMinWidth(SCREEN_MIN_WIDTH);
         stage.setMinHeight(SCREEN_MIN_HEIGHT);
         stage.setMaximized(true);
         sm.loadScreen(ScreenManager.MainScreen.Login);
+        Resizer.addResizeListener(stage);
         stage.show();
         root.addEventHandler(KeyEvent.KEY_PRESSED, this);
     }
