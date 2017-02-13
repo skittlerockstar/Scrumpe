@@ -186,7 +186,7 @@ and open the template in the editor.
                
             }
             .resultContainer{
-                /*.padding(10);*/
+                
                 .bg(light);
                 .radius(7,7,0,0);
                 #resultQuestion{
@@ -204,6 +204,22 @@ and open the template in the editor.
                         -fx-text-alignment:center;
                         .bgD(light,10%);
                         .txt(dark);
+                    }
+                    .trueIndicator{
+                        .txt(dark);
+                        /*.bg();*/
+                        -fx-text-fill:desaturate(limegreen,30%);
+                        .padding(2,5);
+                        .radius(50);
+                    }
+                    .correctIndicator{
+                        .txt(light);
+                        -fx-background-color:desaturate(limegreen,30%);
+                        .padding(2,5);
+                        .radius(50);
+                        &.no{
+                            -fx-background-color:desaturate(red,30%) !important;
+                        }
                     }
                 }
                 >Label{
@@ -244,25 +260,36 @@ and open the template in the editor.
     }
 }
 .courseActive(){
-    .courseActive{
+    #QuestionContainer >VBox{
         .padding(0,10,10,10);
     }
+    #QuestionContainer{
+    }
     .courseActive .panel{
-        .padding(10);
+        .radius(20,5,5,5) !important;
+        .padding(0);
         -fx-background-color:transparent;
         >VBox{
+            .radius(20,5,5,5) !important;
             .bg(light);
         }
         Label{
+            .bg();
+            .txt(light);
+            .radius(15,0,15,0);
+            .padding(5,10);
             -fx-font-size:12pt;
             -fx-font-weight:bold;
         }
-        #answerContainer  *{
+        #answerContainer {
+            .padding(10);
+            >*{
             .padding(4);
             -fx-font-size:10pt;
+            }
         }
         #courseProgress{
-            .padding(20,0);
+            
         }
     }
 }

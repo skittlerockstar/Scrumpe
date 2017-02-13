@@ -31,7 +31,7 @@ import org.mongodb.morphia.dao.BasicDAO;
  * @author Max Verhoeven
  */
 public class DBManager {
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     private static DBManager instance;
     private final MongoClient mongoClient;

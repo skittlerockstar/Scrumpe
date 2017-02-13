@@ -244,18 +244,22 @@ public class CourseResultsController extends ScreenBase {
             answerContainer.getChildren().add(ans);
              resultAnswersContainer.getChildren().add(answerContainer);
              HBox givenResults = new HBox();
-            for (ObjectId cid : cIds) {
-                if (cid.equals(a.getId())) {
-                    Label correctIndicator = new Label("Your Answer");
-                    correctIndicator.getStyleClass().add("correctIndicator");
-                    givenResults.getChildren().add(0,correctIndicator);
-                }
-            }
+             boolean isTrueA = false;
             for (ObjectId oid : oIds) {
                 if (oid.equals(a.getId())) {
                    Label trueIndicator = new Label("Correct Answer");
                     trueIndicator.getStyleClass().add("trueIndicator");
                     givenResults.getChildren().add(0,trueIndicator);
+                    isTrueA = true;
+                }
+            }
+            for (ObjectId cid : cIds) {
+                if (cid.equals(a.getId())) {
+                    Label correctIndicator = new Label("Your Answer");
+                    String y = (isTrueA?"yes":"no");
+                    correctIndicator.getStyleClass().add("correctIndicator");
+                    correctIndicator.getStyleClass().add(y);
+                    givenResults.getChildren().add(correctIndicator);
                 }
             }
            answerContainer.getChildren().add(0,givenResults);

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.scrumpe.scrumpeclient.DB.Entity;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
@@ -39,7 +39,7 @@ public class Course extends BaseEntity {
         this.courseDescription = courseDescription;
     }
     @Reference
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
     public String getCourseTitle() {
         return courseTitle;
     }

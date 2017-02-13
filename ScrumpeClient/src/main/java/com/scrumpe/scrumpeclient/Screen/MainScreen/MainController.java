@@ -106,8 +106,7 @@ public class MainController extends ScreenBase implements DAOCallBack<List<Cours
             courseEditorScreen = (CourseEditorController) u2;
             courseEditorScreen.show(false);
             ((AnchorPane) ScreenManager.getInstance().getRoot()).getChildren().add(1, courseEditor.getRoot());
-            setCourseControlls();
-            initSearch();
+            
         }
     }
 
@@ -125,7 +124,7 @@ public class MainController extends ScreenBase implements DAOCallBack<List<Cours
             c.setCourse(course);
             courseContainer.getChildren().add(n.getRoot());
         }
-        
+        setCourseControlls();initSearch();
     }
 
     private void setCourseControlls() {

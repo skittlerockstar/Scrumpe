@@ -59,7 +59,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     CEQuestionController controller;
     List<Question> questions = new ArrayList<>();
     Course currentCourse;
-
+    private boolean isEditing = false;
     public void setCurrentCourse(Course currentCourse) {
         this.currentCourse = currentCourse;
     }
@@ -120,6 +120,11 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
 
     private void prepareCourseForDB() {
+        if(courseTitle.getText().length() < 4){
+            presentNote("You don't have a title for this course");
+            return;
+        }
+        if(currentCourse == null) currentCourse =new Course();
         currentCourse.getQuestions().clear();
         if(currentCourse.getId()==null) removeDeletedQuestions();
         ObservableList<TitledPane> panes = questionContainer.getPanes();
@@ -134,7 +139,8 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
 
     private void insertData(Course course) {
-        currentCourse = course;
+        if(isEditing) currentCourse.getQuestions().addAll(course.getQuestions());
+        else currentCourse = course;
         courseTitle.setText(course.getCourseTitle());
         courseDescription.setText(course.getCourseDescription());
         List<Question> posQ = ((course.getQuestions() != null) ? course.getQuestions() : new ArrayList<>());
@@ -161,6 +167,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
     public void editCourse(Course c) {
         insertData(c);
+        isEditing = true;
         show(true);
     }
 
@@ -238,6 +245,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
 
     public void clearCE() {
+        isEditing = false;
         currentCourse = new Course();
         deleteAllQuestions();
         courseDescription.clear();

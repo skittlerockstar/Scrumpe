@@ -5,16 +5,22 @@
  */
 package com.scrumpe.scrumpeclient.Screen.Base;
 
+import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
 import javafx.scene.Node;
 
 /**
  *
  * @author Max Verhoeven
  */
-public abstract class ComponentBase extends UIComponent{
-    public void setAdminComps(){
-        if(this instanceof AdminComponents){
-            ((AdminComponents)this).setAdminParts();
+public abstract class ComponentBase extends UIComponent {
+
+    public void setAdminComps() {
+        if (UserDAO.getLoggedInUser() != null) {
+            if (UserDAO.getLoggedInUser().isIsAdmin()) {
+                if (this instanceof AdminComponents) {
+                    ((AdminComponents) this).setAdminParts();
+                }
+            }
         }
     }
 }

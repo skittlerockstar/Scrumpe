@@ -33,7 +33,10 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
     public void handle(WorkerStateEvent event) {
         screen.showLoadingScreen(false);
         Object x = currentTask.getValue();
-                current.dbResult(currentTask.getValue());
+        if(current != null){
+        current.dbResult(
+                currentTask.getValue());
+        }
     }
     public void accessDB(DAOCallBack source, Task task){
         screen.showLoadingScreen(true);
@@ -44,7 +47,8 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
         });
         task.setOnFailed((event) -> {
             screen.showLoadingScreen(false);
-            screen.showNotification("Failed to connect to Database. Please try again later"+event.toString(), true);
+              screen.showNotification("Failed to connect to Database. Please try again later", true);
+           System.err.println(event.toString());
         });
         Thread th = new Thread(task);
         th.setDaemon(true);
@@ -58,7 +62,8 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
                 try {
                     return callable.call();
                 } catch (Exception e) {
-                    System.out.println("DBERROR"+e.toString());
+                    System.err.println(e.toString());
+                      screen.showNotification("Failed to connect to Database. Please try again later", true);
                 }
                 return null;
             }

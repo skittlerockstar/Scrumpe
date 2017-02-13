@@ -114,6 +114,7 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
             ScreenManager sm = ScreenManager.getInstance();
             sm.loadScreen(ScreenManager.MainScreen.Main, true);
             ContainerController cc = sm.getRootLoader().getController();
+            System.err.println(result.toString());
             cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
         } else {
             presentNote("Wrong Credentials");

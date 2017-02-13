@@ -6,6 +6,7 @@
 package com.scrumpe.scrumpeclient.Screen.Base;
 
 import com.scrumpe.scrumpeclient.DB.DAO.UserDAO;
+import com.scrumpe.scrumpeclient.DB.Entity.User;
 import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 /**
  *
@@ -103,10 +103,12 @@ public abstract class ScreenBase extends UIComponent {
         loadHeader();
         loadTitle();
         loadNavigation();
-        if(UserDAO.getLoggedInUser() !=null){
-           // if(!UserDAO.getLoggedInUser().isIsAdmin()){
+        System.out.println(UserDAO.getLoggedInUser());
+        User logged =UserDAO.getLoggedInUser();
+        if(logged !=null){
+            if(logged.isIsAdmin()){
                 setAdminComponents();
-          //  }
+            }
         }
     }
 

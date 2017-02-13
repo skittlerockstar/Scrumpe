@@ -38,7 +38,6 @@ public class MainApp extends Application implements EventHandler<KeyEvent>{
         LessRT.compileShit();
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();
-        
         Scene scene = new Scene(root);
        
 

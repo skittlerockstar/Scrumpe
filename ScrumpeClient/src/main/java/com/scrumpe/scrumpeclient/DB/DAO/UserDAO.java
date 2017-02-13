@@ -22,7 +22,7 @@ import org.mongodb.morphia.query.Query;
  */
 public class UserDAO extends DAO<User,String>{
 
-    private static User loggedInUser;
+        private static User loggedInUser;
 
     public static User getLoggedInUser() {
         return loggedInUser;
