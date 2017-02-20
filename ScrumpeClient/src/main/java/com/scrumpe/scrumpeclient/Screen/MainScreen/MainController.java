@@ -86,13 +86,12 @@ public class MainController extends ScreenBase implements DAOCallBack<List<Cours
                  
             }
         } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void addCourses() throws IOException {
         CourseDAO courseDAO = data.getDAO(CourseDAO.class);
-        courseDAO.getCourses(this);
+        courseDAO.getCourses(this,"questions");
     }
 
     @Override

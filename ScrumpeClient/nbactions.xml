@@ -76,7 +76,8 @@
                 <packaging>*</packaging>
             </packagings>
             <goals>
-                <goal>org.apache.maven.plugins:maven-shade-plugin:exec</goal>
+                <goal>package</goal>
+                <goal>org.apache.maven.plugins:maven-shade-plugin:shade</goal>
                 
             </goals>
         </action>

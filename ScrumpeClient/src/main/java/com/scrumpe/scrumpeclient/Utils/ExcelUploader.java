@@ -91,8 +91,12 @@ public class ExcelUploader {
                     break;
                 }
                 ans.setAnswer(getStringVal(next));
+                Sheet row1 = row.getSheet();
+                Row row2 = row1.getRow(row.getRowNum()+1);
+                if(row2!=null){
                 if (row.getSheet().getRow(row.getRowNum()+1).getCell(next.getColumnIndex()).getCellTypeEnum() != CellType.BLANK) {
                     ans.isCorrectForExcel = true;
+                }
                 }
                 answerList.add(ans);
             }
@@ -101,7 +105,8 @@ public class ExcelUploader {
     }
 
     private static boolean isTemplate(Sheet datatypeSheet) {
-        Row row = datatypeSheet.getRow(0);
+        int firstRowNum = datatypeSheet.getFirstRowNum();
+        Row row = datatypeSheet.getRow(firstRowNum);
         Cell cell = row.getCell(0);
         String val = cell.getStringCellValue();
         return val.equals("Course Title");
@@ -109,6 +114,9 @@ public class ExcelUploader {
 
     private static String getStringVal(Cell cell) throws Exception {
         try {
+            if(cell == null){
+                return "";
+            }else
             return cell.getStringCellValue();
         } catch (Exception e) {
             try {

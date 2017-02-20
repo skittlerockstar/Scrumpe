@@ -4,15 +4,20 @@
  * and open the template in the editor.
  */
 package com.scrumpe.scrumpeclient;
+
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import com.scrumpe.scrumpeclient.Utils.LessRT;
 import com.scrumpe.scrumpeclient.Utils.Resizer;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -20,8 +25,10 @@ import javafx.stage.StageStyle;
  *
  * @author Max Verhoeven
  */
-public class MainApp extends Application implements EventHandler<KeyEvent>{
+public class MainApp extends Application implements EventHandler<KeyEvent> {
+
     private static Stage rootStage;
+
     public static Stage getRootStage() {
         return rootStage;
     }
@@ -29,28 +36,26 @@ public class MainApp extends Application implements EventHandler<KeyEvent>{
     private static final int SCREEN_MIN_WIDTH = 1280;
     private static final int SCREEN_MIN_HEIGHT = 800;
     //end
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-         stage.initStyle(StageStyle.UNDECORATED);
-        LessRT.Setup(MainApp.class);
+//        stage.initStyle(StageStyle.UNDECORATED);
+//        LessRT.Setup(MainApp.class);
         rootStage = stage;
-        LessRT.compileShit();
+//        LessRT.compileShit();
         ScreenManager sm = ScreenManager.getInstance();
         Parent root = (Parent) sm.getRoot();
         Scene scene = new Scene(root);
-       
 
-        stage.setScene(scene);  
+        stage.setScene(scene);
         stage.setMinWidth(SCREEN_MIN_WIDTH);
         stage.setMinHeight(SCREEN_MIN_HEIGHT);
         stage.setMaximized(true);
         sm.loadScreen(ScreenManager.MainScreen.Login);
-        Resizer.addResizeListener(stage);
+//        Resizer.addResizeListener(stage);
         stage.show();
         root.addEventHandler(KeyEvent.KEY_PRESSED, this);
     }
-    
 
     /**
      * @param args the command line arguments
@@ -61,10 +66,12 @@ public class MainApp extends Application implements EventHandler<KeyEvent>{
 
     @Override
     public void handle(KeyEvent event) {
-        KeyCode key = event.getCode();
-        if(key == KeyCode.CONTROL){
-            LessRT.compileShit();
-        }
+//        KeyCode key = event.getCode();
+//        if(key == KeyCode.CONTROL){
+//            LessRT.compileShit();
+//        }
     }
-    
+
+ 
+
 }

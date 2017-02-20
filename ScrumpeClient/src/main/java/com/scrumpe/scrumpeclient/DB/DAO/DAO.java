@@ -7,6 +7,7 @@ package com.scrumpe.scrumpeclient.DB.DAO;
 
 import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
+import com.mongodb.WriteResult;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,9 +34,11 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
     public void handle(WorkerStateEvent event) {
         screen.showLoadingScreen(false);
         Object x = currentTask.getValue();
-        if(current != null){
-        current.dbResult(
-                currentTask.getValue());
+        if(current != null && x !=null){
+            if(x instanceof WriteResult){
+                x = null;
+            }
+            current.dbResult(x);
         }
     }
     public void accessDB(DAOCallBack source, Task task){
@@ -48,7 +51,6 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
         task.setOnFailed((event) -> {
             screen.showLoadingScreen(false);
               screen.showNotification("Failed to connect to Database. Please try again later", true);
-           System.err.println(event.toString());
         });
         Thread th = new Thread(task);
         th.setDaemon(true);
@@ -63,7 +65,7 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
                     return callable.call();
                 } catch (Exception e) {
                     System.err.println(e.toString());
-                      screen.showNotification("Failed to connect to Database. Please try again later", true);
+//                      screen.showNotification("Failed to connect to Database. Please try again later", true);
                 }
                 return null;
             }
@@ -76,7 +78,7 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
                 try {
                     return (List<T>)callable.call();
                 } catch (Exception e) {
-                    System.out.println("DBERROR"+e.toString());
+//                    System.out.println("DBERROR"+e.toString());
                 }
                 return null;
             }

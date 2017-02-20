@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="rootOfAll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.ContainerController">
    <children>
-      <BorderPane fx:id="root" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+      <BorderPane fx:id="root" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
             <AnchorPane prefHeight="30.0" styleClass="bottom" BorderPane.alignment="BOTTOM_LEFT">
                <children>
@@ -132,7 +132,6 @@
       </AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../../../target/classes/styles/css/mainStyle.css" />
       <URL value="@../styles/css/mainStyle.css" />
    </stylesheets>
 </AnchorPane>

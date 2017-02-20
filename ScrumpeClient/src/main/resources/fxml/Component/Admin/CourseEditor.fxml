@@ -83,7 +83,11 @@
                               <Button fx:id="addQuestionBtn" mnemonicParsing="false" text="%course_editor_add_question" />
                               <Button fx:id="deleteAllQBtn" mnemonicParsing="false" text="%course_editor_delete_all" />
                               <Button fx:id="uploadExcelBtn" mnemonicParsing="false" text="%course_editor_upload_excel" />
-                              <TextField fx:id="searchQuestion" promptText="%course_editor_search_prompt" />
+                              <TextField fx:id="searchQuestion" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" maxWidth="0.0" promptText="%course_editor_search_prompt" scaleShape="false" visible="false" />
+                              <Label maxHeight="1.7976931348623157E308" onMouseClicked="#downloadTemplate" styleClass="downloadExcel" text="Download Excel Template" textFill="#005eff" underline="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Label>
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />

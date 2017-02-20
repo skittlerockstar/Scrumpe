@@ -51,26 +51,9 @@ public class ContainerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Stage rootStage = MainApp.getRootStage();
-        final Delta dragDelta = new Delta();
-        windowBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                // record a delta distance for the drag and drop operation.
-                dragDelta.x = rootStage.getX() - mouseEvent.getScreenX();
-                dragDelta.y = rootStage.getY() - mouseEvent.getScreenY();
-            }
-        });
-        windowBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                rootStage.setX(mouseEvent.getScreenX() + dragDelta.x);
-                rootStage.setY(mouseEvent.getScreenY() + dragDelta.y);
-            }
-        });
-        suspendBtn.setOnAction((x)-> iconify(rootStage));
-            resizeBtn.setOnAction((x) -> resize(rootStage));
-        exitBtn.setOnAction((x) -> exit());
+        windowBar.setVisible(false);
+        windowBar.setManaged(false);
+       addMenuBar();
     }
 
     private void exit() {
@@ -90,6 +73,29 @@ public class ContainerController implements Initializable {
 
     private void iconify(Stage rootStage) {
         rootStage.setIconified(true);
+    }
+
+    private void addMenuBar() {
+         Stage rootStage = MainApp.getRootStage();
+         final Delta dragDelta = new Delta();
+        windowBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // record a delta distance for the drag and drop operation.
+                dragDelta.x = rootStage.getX() - mouseEvent.getScreenX();
+                dragDelta.y = rootStage.getY() - mouseEvent.getScreenY();
+            }
+        });
+        windowBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                rootStage.setX(mouseEvent.getScreenX() + dragDelta.x);
+                rootStage.setY(mouseEvent.getScreenY() + dragDelta.y);
+            }
+        });
+        suspendBtn.setOnAction((x)-> iconify(rootStage));
+            resizeBtn.setOnAction((x) -> resize(rootStage));
+        exitBtn.setOnAction((x) -> exit());
     }
 
     class Delta {

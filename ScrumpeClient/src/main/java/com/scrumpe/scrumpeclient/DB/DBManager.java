@@ -39,7 +39,7 @@ public class DBManager {
     private final Morphia morphia;
     private final Datastore datastore;
     static Preferences preferences = 
-      Preferences.userNodeForPackage(DBManager.class);
+      Preferences.userRoot();
     private static String CON_HOST_DEB ,CON_HOST ,CON_U ,CON_U_DEB ,CON_P ,
                           CON_P_DEB ,DATABASE ,DATABASE_DEB ,MAP_PACKAGE ,
                           MAP_PACKAGE_DEB;
@@ -97,7 +97,6 @@ public class DBManager {
             ctor = daoClass.getConstructor(Class.class, MongoClient.class, Morphia.class, String.class);
             object = ctor.newInstance(new Object[]{x, mongoClient, morphia, DATABASE});
         } catch (Exception ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
         }
         return (T)object;
     }
@@ -106,16 +105,16 @@ public class DBManager {
 
     }
     private static void setupCredentials() {
-            CON_HOST_DEB =  preferences.get("CON_HOST_DEB", null); // localhost
-            CON_HOST = preferences.get("CON_HOST", null);//"ds157078.mlab.com";
-            CON_U = preferences.get("CON_U", null);//"scrumpe";
-            CON_U_DEB = preferences.get("CON_U_DEB", null);// "";
-            CON_P = preferences.get("CON_P", null);//"scrumpe";
-            CON_P_DEB = preferences.get("CON_P_DEB", null);//"";
-            DATABASE = preferences.get("DATABASE", null);//"scrumpe";
-            DATABASE_DEB = preferences.get("DATABASE_DEB", null);//"Scrumpe";
+            CON_HOST_DEB =  preferences.get("CON_HOST_DEB", "localhost"); // localhost
+            CON_HOST = preferences.get("CON_HOST", "ds157078.mlab.com");//"ds157078.mlab.com";
+            CON_U = preferences.get("CON_U", "scrumpe");//"scrumpe";
+            CON_U_DEB = preferences.get("CON_U_DEB", "");// "";
+            CON_P = preferences.get("CON_P", "scrumpe");//"scrumpe";
+            CON_P_DEB = preferences.get("CON_P_DEB", "");//"";
+            DATABASE = preferences.get("DATABASE", "scrumpe");//"scrumpe";
+            DATABASE_DEB = preferences.get("DATABASE_DEB", "Scrumpe");//"Scrumpe";
             MAP_PACKAGE = preferences.get("MAP_PACKAGE", "com.scrumpe.scrumpeclient.DB");//"com.scrumpe.scrumpeclient.DB";
-            MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", null);//"com.scrumpe.scrumpeclient.DB";
+            MAP_PACKAGE_DEB = preferences.get("MAP_PACKAGE_DEB", "com.scrumpe.scrumpeclient.DB");//"com.scrumpe.scrumpeclient.DB";
     }
 }
 interface ConnectedCallback{

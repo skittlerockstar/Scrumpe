@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 public class Log {
     
     public static void log(Class<?> c,Level l, String message){ 
-        Logger.getLogger(c.getName()).log(l, message);
     }
     
 }

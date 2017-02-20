@@ -18,37 +18,14 @@
                      <children>
                         <VBox fx:id="QuestionContainer" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="panel" VBox.vgrow="NEVER">
                            <children>
-                              <Label fx:id="activeQuestion" maxWidth="1.7976931348623157E308" text="Time to fix that. Here's a start. ... Choose the Maven NetBeans Platform Application Archetype and click Next: ... Note: Follow these steps to set up the classpath correctly for using the NetBeans Platform in IntelliJ IDEA. Use the .... how to exclude certain module dependencies when using a specific cluster." wrapText="true" VBox.vgrow="ALWAYS">
+                              <Label fx:id="activeQuestion" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
                               </Label>
                               <VBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <VBox fx:id="answerContainer" maxWidth="1.7976931348623157E308">
-                                       <children>
-                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </RadioButton>
-                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </RadioButton>
-                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </RadioButton>
-                                          <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="RadioButton" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </RadioButton>
-                                       </children>
-                                    </VBox>
+                                    <VBox fx:id="answerContainer" maxWidth="1.7976931348623157E308" />
                                     <HBox alignment="TOP_CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
                                        <children>
                                           <ProgressBar fx:id="courseProgress" prefWidth="300.0" progress="0.0" HBox.hgrow="ALWAYS" />

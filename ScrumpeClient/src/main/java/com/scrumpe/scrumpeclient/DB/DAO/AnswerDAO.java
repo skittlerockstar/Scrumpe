@@ -29,7 +29,7 @@ public class AnswerDAO extends DAO<Answer,String> {
             return super.findOneId(key,value);
         }));
     }
-     public void deleteAnswers(DAOCallBack<Question> callback,List<Answer> answers){
+     public void deleteAnswers(DAOCallBack<List<Answer>> callback,List<Answer> answers){
         accessDB(callback, taskList(() -> {
             for (Answer answer : answers) {
                 delete(answer);

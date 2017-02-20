@@ -21,12 +21,14 @@ import com.scrumpe.scrumpeclient.Screen.Component.Admin.CourseEditorController;
 import com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController;
 import com.scrumpe.scrumpeclient.Screen.MainScreen.MainController;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import org.bson.types.ObjectId;
 
 /**
  * FXML Controller class
@@ -50,7 +52,11 @@ public class CourseListItemController extends ComponentBase implements AdminComp
     public void setCourse(Course i) {
         course = i;
         courseTitle.setText(i.getCourseTitle());
-        questionCount.setText(i.getQuestions().size() + "");
+        
+         CourseDAO q = data.getDAO(CourseDAO.class);
+        q.getQuestionCount((o) -> {
+            questionCount.setText(o+"");
+        }, i.getId());
         minimumScore.setText(i.getMinimumScore() + "");
         courseDescription.setText(i.getCourseDescription());
     }
@@ -104,12 +110,6 @@ public class CourseListItemController extends ComponentBase implements AdminComp
 
     private void deleteCourse() {
         CourseDAO cDao = data.getDAO(CourseDAO.class);
-        QuestionDAO qDao = data.getDAO(QuestionDAO.class);
-        AnswerDAO aDao = data.getDAO(AnswerDAO.class);
-        course.getQuestions().forEach((q) -> {
-            aDao.deleteAnswers(null, q.getAnswers());
-        });
-        qDao.deleteQuestions(null, course.getQuestions());
         cDao.deleteCourse(new DAOCallBack<Course>(){
             @Override
             public void dbResult(Course result) {

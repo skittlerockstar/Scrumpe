@@ -75,6 +75,9 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
                 return tryLoadCourse(currentCourse);
             }
         };
+        loadCourse.setOnFailed((event) -> {
+            presentNote("err");
+        });
         loadCourse.setOnSucceeded((event) -> {
             ScreenManager.getInstance().showLoadingScreen(false);
             componentRoot.setVisible(true);

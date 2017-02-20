@@ -43,7 +43,6 @@ public class LessRT {
             cssFile = new File(f2.getPath());
            
         } catch (URISyntaxException ex) {
-            Logger.getLogger(LessRT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public static void compileShit(){

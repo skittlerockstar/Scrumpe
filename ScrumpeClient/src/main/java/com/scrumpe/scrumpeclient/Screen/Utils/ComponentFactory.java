@@ -50,7 +50,6 @@ public class ComponentFactory {
                     controller.setup(load.getRoot());
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ComponentFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return load;

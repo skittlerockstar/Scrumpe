@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,6 +51,7 @@ public class CEQuestionController extends ComponentBase {
     ObservableList<TitledPane> panes;
     boolean isEditing = false;
     boolean isDBRunning = false;
+    boolean waitForNext =false;
     @FXML
     private Button deleteQBtn, addAnswer, deleteAllAnswers;
     @FXML
@@ -58,6 +61,7 @@ public class CEQuestionController extends ComponentBase {
     @FXML
     private VBox answerContainer;
     CourseEditorController cec;
+    List<Answer> aUpForDeletion = new ArrayList<>();
     Question question = new Question();
     public Question getQuestion() { return question; }
     
@@ -66,7 +70,7 @@ public class CEQuestionController extends ComponentBase {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          deleteQBtn.setOnAction((event) -> panes.remove(componentRootAsTitlePane));
+          deleteQBtn.setOnAction((event) -> removeQuestion());
           addAnswer.setOnAction((e) ->addAnswer(new Answer()));
           deleteAllAnswers.setOnAction((e)->answerContainer.getChildren().clear());
           questionTextField.textProperty().addListener((ob, ov, nv) ->questionLabel.setText(nv));
@@ -107,6 +111,8 @@ public class CEQuestionController extends ComponentBase {
     }
 
     private void deleteAnswer(HBox ans) {
+        Answer userData = (Answer) ans.getUserData();
+        aUpForDeletion.add(userData);
         answerContainer.getChildren().remove(ans);
     }
     private void editAnswer(HBox answer, String nv) {
@@ -127,34 +133,38 @@ public class CEQuestionController extends ComponentBase {
         this.question.getCorrectAnswerIds().clear();
         this.question.getAnswers().clear();
         ObservableList<Node> children = answerContainer.getChildren();
+        List<Answer> finalAnswerList = new ArrayList<>();
+        
         for (Node node : children) {
             Answer a = (Answer) node.getUserData();
             a.setAnswer(((TextField)((HBox)node).getChildren().get(0)).getText());
+            boolean b = ((ToggleButton)((HBox)node).getChildren().get(1)).isSelected();
+            a.isCorrectForExcel = b;
             Node get = ((HBox)node).getChildren().get(1);
-            saveAnswer(a,((ToggleButton)get).isSelected());
+            finalAnswerList.add(a);
         }
+            saveAnswers(finalAnswerList,cec);
         }else{
             componentRootAsTitlePane.setExpanded(true);
             questionTextField.requestFocus();
         }
     }
 
-    public void saveAnswer(Answer a,boolean isCorrectA) {
+    public void saveAnswers(List<Answer> a,CourseEditorController cec) {
         AnswerDAO dao = DBManager.getInstance().getDAO(AnswerDAO.class);
-        final boolean corr = isCorrectA;
-        dao.createAnswer((o) -> {
-            question.getAnswers().add(o);
-            if(corr) {
-                question.getCorrectAnswerIds().add(o.getId());
-                System.out.println(question.getCorrectAnswerIds());
+        dao.createAnswers((o) -> {
+                for (Answer answer : o) {
+                if(answer.isCorrectForExcel){
+                    question.getCorrectAnswerIds().add(answer.getId());
+                }
             }
-            if(question.getAnswers().size() == answerContainer.getChildren().size()){
+                question.getAnswers().addAll(o);
                 String text = questionTextField.getText();
                 question.setQuestion(text);
                 String text1 = explanationField.getText();
                 question.setExplanation(text1);
-                saveQuestion();
-            }
+                removeAnswers();
+                cec.callback(question);
         }, a);
     }
 
@@ -213,6 +223,28 @@ public class CEQuestionController extends ComponentBase {
             presentNote("You don't have at least 1 correct answers for question:\n"+question.getQuestion());
         }
         return hasCorrectAnswer;
+    }
+
+    private void setWait() {
+        waitForNext = false;
+    }
+    private void removeAnswers(){
+        if(aUpForDeletion.size() == 0) return;
+            AnswerDAO ad = data.getDAO(AnswerDAO.class);
+            for (Answer answer : aUpForDeletion) {
+                question.getCorrectAnswerIds().remove(answer.getId());
+            }
+            question.getAnswers().removeAll(aUpForDeletion);
+            ad.deleteAnswers((o) -> {
+            }, aUpForDeletion);
+    }
+    private void removeQuestion() {
+        cec.qUpForDeletion.add(question);
+        panes.remove(componentRootAsTitlePane);
+    }
+
+    void setCec(CourseEditorController aThis) {
+        cec = aThis;
     }
 
 

@@ -30,7 +30,7 @@ public class Question extends BaseEntity {
     public String getExplanation() {return explanation;}
     public void setExplanation(String explanation) {this.explanation = explanation;}
 
-    @Reference
+    @Reference(lazy=true)
     private List<Answer> answers = new ArrayList<>();
     public List<Answer> getAnswers() {return answers;}
     public void setAnswers(List<Answer> answers) {this.answers = answers;}

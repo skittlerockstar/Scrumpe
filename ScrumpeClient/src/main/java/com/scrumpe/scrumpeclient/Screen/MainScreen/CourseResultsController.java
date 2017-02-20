@@ -170,7 +170,6 @@ public class CourseResultsController extends ScreenBase {
                 }
             }
             if (!questionIsCorrect) {
-
                 Label l = (Label) listItems.get(i);
                 l.getStyleClass().add("gotQuestionWrong");
                 percentage -= step;
@@ -195,13 +194,11 @@ public class CourseResultsController extends ScreenBase {
         boolean answerIsGiven = false;
         ObjectId ansId = a.getId();
         for (ObjectId corAn : corAns) {
-            Log.log(getClass(), Level.SEVERE, corAn.toString());
             if (corAn.toString().equals(ansId.toString())) {
                 answerIsCorrect = true;
             }
         }
         for (ObjectId givAn : givAns) {
-            Log.log(getClass(), Level.SEVERE, givAn.toString());
             if (givAn.toString().equals(ansId.toString())) {
                 answerIsGiven = true;
             }
@@ -245,7 +242,7 @@ public class CourseResultsController extends ScreenBase {
              resultAnswersContainer.getChildren().add(answerContainer);
              HBox givenResults = new HBox();
              boolean isTrueA = false;
-            for (ObjectId oid : oIds) {
+            for (ObjectId oid : cIds) {
                 if (oid.equals(a.getId())) {
                    Label trueIndicator = new Label("Correct Answer");
                     trueIndicator.getStyleClass().add("trueIndicator");
@@ -253,7 +250,7 @@ public class CourseResultsController extends ScreenBase {
                     isTrueA = true;
                 }
             }
-            for (ObjectId cid : cIds) {
+            for (ObjectId cid : oIds) {
                 if (cid.equals(a.getId())) {
                     Label correctIndicator = new Label("Your Answer");
                     String y = (isTrueA?"yes":"no");

@@ -7,6 +7,7 @@ package com.scrumpe.scrumpeclient.Screen.Component.Admin;
 
 import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
 import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
+import com.scrumpe.scrumpeclient.DB.DAO.QuestionDAO;
 import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
@@ -16,9 +17,13 @@ import com.scrumpe.scrumpeclient.Screen.Utils.ComponentFactory;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.ExcelUploader;
 import com.scrumpe.scrumpeclient.Utils.RGX;
+import java.awt.Desktop;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +42,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import org.bson.types.ObjectId;
 
 /**
  * FXML Controller class
@@ -58,10 +64,15 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     final FileChooser fileChooser = new FileChooser();
     CEQuestionController controller;
     List<Question> questions = new ArrayList<>();
+    List<Question> preparedQuestions = new ArrayList<>();
+    public List<Question> qUpForDeletion = new ArrayList<>();
     Course currentCourse;
     private boolean isEditing = false;
     public void setCurrentCourse(Course currentCourse) {
-        this.currentCourse = currentCourse;
+        CourseDAO cd = DBManager.getInstance().getDAO(CourseDAO.class);
+        cd.getCourse((o) -> {
+            this.currentCourse = (Course) o;
+        }, null, currentCourse.getId());
     }
 
     /**
@@ -90,6 +101,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         FXMLLoader CEQI = ComponentFactory.createComponent(this, ComponentFactory.ComponentType.CEQuestionItem, true);
         TitledPane s = (TitledPane) CEQI.getRoot();
         controller = CEQI.getController();
+        controller.setCec(this);
         s.setUserData(controller);
         panes.add(s);
         controller.setExistingData(data);
@@ -130,10 +142,13 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         ObservableList<TitledPane> panes = questionContainer.getPanes();
         panes.stream().forEach((cc)-> ((CEQuestionController)cc.getUserData()).prepareQuestionForDB(this));
     }
-
+    public void saveQuestions(){
+        
+    }
     private void discardCourse() {
         throwConfirmError("Are you sure you want to discard changes?", (event) -> {
             show(false);
+            isEditing = false;
             deleteAllQuestions();
         }, (event) ->{});
     }
@@ -166,9 +181,16 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         ScreenManager.getInstance().showLoadingScreen(false);
     }
     public void editCourse(Course c) {
-        insertData(c);
+        qUpForDeletion.clear();
+        questionContainer.getPanes().clear();
+        CourseDAO cd = DBManager.getInstance().getDAO(CourseDAO.class);
+        cd.getCourse((o) -> {
+            this.currentCourse = (Course) o;
+            insertData((Course) o);
         isEditing = true;
         show(true);
+        }, null, c.getId());
+        
     }
 
     private void generateCourseFromExcel() {
@@ -192,6 +214,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
             }
         });
         task.setOnFailed((event) -> {
+            System.err.println(task.getException().toString());
             screenM.showNotification(task.getException().getMessage(), true);
             screenM.showLoadingScreen(false);
         });
@@ -301,17 +324,50 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
     }
     public void saveCourse(){
          CourseDAO dao = DBManager.getInstance().getDAO(CourseDAO.class);
+         QuestionDAO qdao = DBManager.getInstance().getDAO(QuestionDAO.class);
          currentCourse.setCourseTitle(courseTitle.getText());
          currentCourse.setCourseDescription(courseDescription.getText());
+         currentCourse.getQuestions().removeAll(qUpForDeletion);
+         qdao.deleteQuestions(null, qUpForDeletion);
         dao.saveCourse((o) -> {
             dbResult(o);
         }, currentCourse);
     }
 
-    void callback(Question o) {
-        currentCourse.getQuestions().add(o);
-        if(currentCourse.getQuestions().size() == questionContainer.getPanes().size()){
+    void callback(Question q) {
+        preparedQuestions.add(q);
+        if(questionContainer.getPanes().size() == preparedQuestions.size()){
+            QuestionDAO dao = DBManager.getInstance().getDAO(QuestionDAO.class);
+        dao.saveQuestions((qs) -> {
+            currentCourse.getQuestions().addAll(qs);
             saveCourse();
+        }, preparedQuestions);
+        }
+    }
+    @FXML
+    private void downloadTemplate(){
+        try {
+            URL resource = getClass().getResource("/template/template.xlsx");
+            File f = new File(resource.toURI());
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save file");
+            fileChooser.setInitialFileName("Scrumpe_Template.xlsx");
+            File savedFile = fileChooser.showSaveDialog(MainApp.getRootStage());
+            try {
+                if(savedFile.exists()){
+                    Files.delete(savedFile.toPath());
+                }
+                Files.copy(f.toPath(), savedFile.toPath());
+                if (Desktop.isDesktopSupported()) {
+                    System.err.println(savedFile.getAbsolutePath());
+                        Desktop.getDesktop().browse(savedFile.getParentFile().toURI());
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+                presentNote("Oops something went wrong. Please contact the admin");
+            }
+        } catch (URISyntaxException ex) {
+            presentNote("Oops something went wrong. Please contact the admin");
         }
     }
 }

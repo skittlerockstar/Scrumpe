@@ -18,9 +18,9 @@ public class Course extends BaseEntity {
 
     @Property("title")
     private String courseTitle = "";
-     @Property("description")
+    @Property("description")
     private String courseDescription = "";
-      @Property("requiredScore")
+    @Property("requiredScore")
     private int minimumScore = 0;
 
     public int getMinimumScore() {
@@ -38,7 +38,7 @@ public class Course extends BaseEntity {
     public void setCourseDescription(String courseDescription) {
         this.courseDescription = courseDescription;
     }
-    @Reference
+    @Reference(lazy=true)
     private List<Question> questions = new ArrayList<>();
     public String getCourseTitle() {
         return courseTitle;
