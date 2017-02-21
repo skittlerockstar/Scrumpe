@@ -30,7 +30,7 @@ public class CourseControllsController extends ComponentBase implements AdminCom
      */
     @FXML
     private TextField courseSearch;
-    private Button addCourseBtn;
+    private Button addCourseBtn,search,clearSearch;
     private List<FXMLLoader> courses;
     public static CourseEditorController courseEditor;
     @Override
@@ -42,6 +42,17 @@ public class CourseControllsController extends ComponentBase implements AdminCom
 
     @Override
     public void setupLayout() {
+                search = new Button("Search");
+        search.setOnAction((event) -> {
+            filterCourse(courseSearch.getText());
+        });
+        clearSearch = new Button("Clear");
+        clearSearch.setOnAction((event) -> {
+            filterCourse("");
+            search.setText("");
+        });
+        super.componentRoot.getChildren().add(search);
+        super.componentRoot.getChildren().add(clearSearch);
     }
 
     @Override

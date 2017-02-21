@@ -9,15 +9,15 @@ import com.scrumpe.scrumpeclient.DB.DAO.CourseDAO;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Course;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
-import com.scrumpe.scrumpeclient.MainApp;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
-import com.scrumpe.scrumpeclient.Screen.Base.UIComponent;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.animation.Animation.Status;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,7 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import org.bson.types.ObjectId;
 
 /**
@@ -52,8 +52,9 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     private Double progressPercentageStep;
 
     @FXML
-    private Label activeQuestion;
-
+    private Label activeQuestion,time;
+    private int passedMinutes,passedSeconds;
+    private Timeline tt;
     @FXML
     private VBox answerContainer;
     private ToggleGroup currentToggleGroup;
@@ -65,10 +66,13 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
 
     //TODO replace this with a real record in DB
     private List<List<ObjectId>> givenAnswers;
-
     private List<ObjectId> currentGivenAnswers = new ArrayList<>();
 
     public void setCurrentCourse(Course currentCourse) {
+        componentRoot.setVisible(false);
+        passedMinutes = 0;
+        passedSeconds = -1;
+        time.setText("");
         Task loadCourse = new Task() {
             @Override
             protected Object call() throws Exception {
@@ -148,6 +152,7 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
     }
 
     private void initCourse() {
+        startTimer();
         givenAnswers = new ArrayList<>();
         currentGivenAnswers = new ArrayList<>();
         currentQuestionNumber = 0;
@@ -262,12 +267,33 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
 
     private void finishCourse() {
         CourseResultsController u = (CourseResultsController) ScreenManager.getInstance().loadScreen(ScreenManager.MainScreen.CourseResults,true);
-        u.setResults(currentCourse, givenAnswers);
+        u.setResults(currentCourse, givenAnswers,time);
         u.showResults();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    private void startTimer() {
+        if(tt!=null){
+            if(tt.getStatus() == Status.RUNNING){
+                    tt.stop();
+            }
+        }
+        tt = new Timeline(new KeyFrame(Duration.seconds(1.0),(event) -> {
+              passedSeconds++;
+                if(passedSeconds == 60){
+                    passedMinutes++;
+                    passedSeconds = 0;
+                }
+                updateTimeLabel();
+                startTimer();
+        }));
+        tt.play();
+    }
+    private void updateTimeLabel(){
+        time.setText("Time passed: "+String.format("%02d", passedMinutes)+":"+String.format("%02d", passedSeconds));
     }
 
 }

@@ -64,7 +64,8 @@ public class ExcelUploader {
         while (iterator.hasNext()) {
             Row next = iterator.next();
             if (next.getRowNum() >= 4 && next.getRowNum() % 2 == 0) {
-                if (next.getCell(0).getCellTypeEnum() == CellType.BLANK) {
+                Cell n = next.getCell(0);
+                if (n == null || next.getCell(0).getCellTypeEnum() == CellType.BLANK) {
                     break;
                 }
                 Question question = new Question();
@@ -120,7 +121,7 @@ public class ExcelUploader {
             return cell.getStringCellValue();
         } catch (Exception e) {
             try {
-                return cell.getNumericCellValue() + "";
+                return (int)cell.getNumericCellValue() + "";
             } catch (Exception ee) {
                 throw new Exception(cell.getNumericCellValue() + " "
                         + "Row " + (cell.getRowIndex() + 1) + ",Cell" + cell.getColumnIndex() + EXC_NO_STRING);

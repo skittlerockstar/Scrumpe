@@ -12,6 +12,7 @@ import com.scrumpe.scrumpeclient.DB.DBManager;
 import com.scrumpe.scrumpeclient.DB.Entity.Answer;
 import com.scrumpe.scrumpeclient.DB.Entity.Question;
 import com.scrumpe.scrumpeclient.Screen.Base.ComponentBase;
+import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,6 +152,7 @@ public class CEQuestionController extends ComponentBase {
     }
 
     public void saveAnswers(List<Answer> a,CourseEditorController cec) {
+        ScreenManager.getInstance().showLoadingScreen(true);
         AnswerDAO dao = DBManager.getInstance().getDAO(AnswerDAO.class);
         dao.createAnswers((o) -> {
                 for (Answer answer : o) {
@@ -193,9 +195,8 @@ public class CEQuestionController extends ComponentBase {
         }, question);
     }
 
-    private boolean checkRequirements() {
+    public boolean checkRequirements() {
         componentRootAsTitlePane.getStyleClass().remove("err");
-        
         if(questionTextField.getText().equals("")){
              presentNote("One of your questions... has no question.");
              componentRootAsTitlePane.getStyleClass().add("err");

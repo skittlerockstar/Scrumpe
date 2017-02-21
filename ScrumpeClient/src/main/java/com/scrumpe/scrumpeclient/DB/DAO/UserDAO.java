@@ -41,7 +41,7 @@ public class UserDAO extends DAO<User,String>{
     public void tryLogin(DAOCallBack source,String email, String password) {
         accessDB(source,task(() -> {
             Query<User> q = super.createQuery();
-            q.filter("email = ", email);
+            q.filter("email = ", email.toLowerCase());
             q.filter("password = ", Escurity.hash(password));
             loggedInUser = findOne(q);
             return loggedInUser;

@@ -47,7 +47,7 @@ public class CourseResultsController extends ScreenBase {
     private Course takenCourse;
     private List<List<ObjectId>> givenAnswers;
     @FXML
-    private Label score, requiredScore, resultQuestion, explanation;
+    private Label score, requiredScore, resultQuestion, explanation,timePassed;
     @FXML
     private VBox resultSummaryList, resultAnswersContainer,qrescont;
     @FXML
@@ -97,9 +97,10 @@ public class CourseResultsController extends ScreenBase {
         });
     }
 
-    public void setResults(Course takenCourse, List<List<ObjectId>> givenAnswers) {
+    public void setResults(Course takenCourse, List<List<ObjectId>> givenAnswers,Label time) {
         this.takenCourse = takenCourse;
         this.givenAnswers = givenAnswers;
+        this.timePassed.setText(time.getText());
     }
 
     public void showResults() {

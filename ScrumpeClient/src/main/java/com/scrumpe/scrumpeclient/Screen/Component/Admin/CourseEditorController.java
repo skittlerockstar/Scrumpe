@@ -140,7 +140,15 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         currentCourse.getQuestions().clear();
         if(currentCourse.getId()==null) removeDeletedQuestions();
         ObservableList<TitledPane> panes = questionContainer.getPanes();
-        panes.stream().forEach((cc)-> ((CEQuestionController)cc.getUserData()).prepareQuestionForDB(this));
+        boolean isValid = true;
+        for (TitledPane pane : panes) {
+           if(!((CEQuestionController)pane.getUserData()).checkRequirements()){
+               isValid = false;
+           }
+        }
+        if(isValid){
+            panes.stream().forEach((cc)-> ((CEQuestionController)cc.getUserData()).prepareQuestionForDB(this));
+        }
     }
     public void saveQuestions(){
         
@@ -336,6 +344,7 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
 
     void callback(Question q) {
         preparedQuestions.add(q);
+        ScreenManager.getInstance().showLoadingScreen(true);
         if(questionContainer.getPanes().size() == preparedQuestions.size()){
             QuestionDAO dao = DBManager.getInstance().getDAO(QuestionDAO.class);
         dao.saveQuestions((qs) -> {
@@ -354,7 +363,8 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
             fileChooser.setInitialFileName("Scrumpe_Template.xlsx");
             File savedFile = fileChooser.showSaveDialog(MainApp.getRootStage());
             try {
-                if(savedFile.exists()){
+                if(savedFile !=null){
+                    if(savedFile.exists())
                     Files.delete(savedFile.toPath());
                 }
                 Files.copy(f.toPath(), savedFile.toPath());

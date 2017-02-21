@@ -6,20 +6,13 @@
 package com.scrumpe.scrumpeclient;
 
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
-import com.scrumpe.scrumpeclient.Utils.Resizer;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  *
@@ -41,6 +34,8 @@ public class MainApp extends Application implements EventHandler<KeyEvent> {
     public void start(Stage stage) throws Exception {
 //        stage.initStyle(StageStyle.UNDECORATED);
 //        LessRT.Setup(MainApp.class);
+        stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/img/Scrumpe.png")));
+        stage.setTitle("Scrumpe! A scrum practice exam application.");
         rootStage = stage;
 //        LessRT.compileShit();
         ScreenManager sm = ScreenManager.getInstance();

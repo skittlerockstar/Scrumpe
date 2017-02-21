@@ -10,6 +10,15 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="courseActive" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.scrumpe.scrumpeclient.Screen.MainScreen.CourseActiveController">
    <children>
+      <AnchorPane fx:id="timeContainer" maxWidth="300.0">
+         <children>
+            <Label fx:id="time" alignment="CENTER" contentDisplay="CENTER" style="-fx-background-color: white; -fx-background-radius: 5;" text="Time passed:" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
       <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
             <VBox alignment="CENTER" fillWidth="false" HBox.hgrow="NEVER">

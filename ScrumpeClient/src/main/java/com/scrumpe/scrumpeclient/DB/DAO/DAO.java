@@ -34,7 +34,7 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
     public void handle(WorkerStateEvent event) {
         screen.showLoadingScreen(false);
         Object x = currentTask.getValue();
-        if(current != null && x !=null){
+        if(current != null){
             if(x instanceof WriteResult){
                 x = null;
             }
