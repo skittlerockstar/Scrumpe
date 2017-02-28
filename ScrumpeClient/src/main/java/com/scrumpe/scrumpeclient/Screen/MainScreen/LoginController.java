@@ -19,7 +19,9 @@ import javafx.scene.layout.Priority;
 import com.scrumpe.scrumpeclient.Screen.Base.ScreenBase;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
 import com.scrumpe.scrumpeclient.Utils.Escurity;
+import com.scrumpe.scrumpeclient.Utils.IPLookup;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -51,6 +53,7 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        super.title = "";
         emailField.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 try {
@@ -85,6 +88,17 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
     @Override
     public void setupLayout() {
         HBox.setHgrow(componentRoot, Priority.NEVER);
+        Object get = System.getProperties().get("os.name");
+        if (!get.toString().toLowerCase().contains("windows")) {
+            String err = "Sorry... due to a temporary fix, this app is only available for Windows at this time. Want to try anyway ?";
+            throwConfirmError(err,
+                    (event) -> {
+                    },
+                    (event) -> {
+                        Platform.exit();
+                    }
+            );
+        }
     }
 
     @Override
@@ -94,6 +108,7 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
 
     @Override
     public void setTitle() {
+
     }
 
     @FXML
@@ -111,10 +126,15 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
     @Override
     public void dbResult(User result) {
         if (result != null) {
-            ScreenManager sm = ScreenManager.getInstance();
-            sm.loadScreen(ScreenManager.MainScreen.Main, true);
-            ContainerController cc = sm.getRootLoader().getController();
-            cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
+            if (IPLookup.isLocal() || result.isIsAdmin()) {
+                ScreenManager sm = ScreenManager.getInstance();
+                sm.loadScreen(ScreenManager.MainScreen.Main, true);
+                ContainerController cc = sm.getRootLoader().getController();
+
+                cc.loggedInUser.setText("Welcome " + result.getFirstName() + " " + result.getLastName());
+            }else{
+                presentNote("Sorry, you need to be connected to the office WIFI to use this app.");
+            }
         } else {
             presentNote("Wrong Credentials");
         }
@@ -124,4 +144,12 @@ public class LoginController extends ScreenBase implements DAOCallBack<User> {
         UserDAO uDAO = data.getDAO(UserDAO.class);
         uDAO.tryLogin(this, emailField.getText(), passField.getText());
     }
+
+    @Override
+    public void onChanged() {
+        ContainerController cc = ScreenManager.getInstance().getRootLoader().getController();
+        cc.loggedInUser.setText("Not logged in");
+        super.onChanged(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

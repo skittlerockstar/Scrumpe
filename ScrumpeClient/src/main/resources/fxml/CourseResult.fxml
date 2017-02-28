@@ -26,8 +26,8 @@
                                        </font>
                                     </Label>
                                     <VBox fx:id="resultAnswersContainer" alignment="TOP_CENTER" />
-                                    <Label maxWidth="1.7976931348623157E308" text="Explanation:" />
-                                    <Label fx:id="explanation" maxWidth="1.7976931348623157E308" text="Label" />
+                                    <Label maxWidth="1.7976931348623157E308" text="Explanation:" visible="false" />
+                                    <Label fx:id="explanation" maxWidth="1.7976931348623157E308" text="Label" visible="false" />
                                  </children>
                               </VBox>
                            </children>
@@ -42,7 +42,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Label text="%resultscreen_result_head">
+                              <Label fx:id="result_head" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%resultscreen_result_head" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

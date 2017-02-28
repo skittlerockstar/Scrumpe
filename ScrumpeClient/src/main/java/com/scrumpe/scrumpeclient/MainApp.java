@@ -6,11 +6,13 @@
 package com.scrumpe.scrumpeclient;
 
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import com.scrumpe.scrumpeclient.Utils.LessRT;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -66,7 +68,5 @@ public class MainApp extends Application implements EventHandler<KeyEvent> {
 //            LessRT.compileShit();
 //        }
     }
-
- 
 
 }

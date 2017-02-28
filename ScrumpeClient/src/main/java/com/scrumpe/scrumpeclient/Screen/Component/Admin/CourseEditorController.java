@@ -20,7 +20,11 @@ import com.scrumpe.scrumpeclient.Utils.RGX;
 import java.awt.Desktop;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -42,7 +46,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import org.bson.types.ObjectId;
+import org.lesscss.deps.org.apache.commons.io.IOUtils;
 
 /**
  * FXML Controller class
@@ -354,20 +358,15 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
         }
     }
     @FXML
-    private void downloadTemplate(){
-        try {
-            URL resource = getClass().getResource("/template/template.xlsx");
-            File f = new File(resource.toURI());
+    private void downloadTemplate() throws FileNotFoundException{
+            InputStream in = getClass().getResourceAsStream("/template/template.xlsx");
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save file");
             fileChooser.setInitialFileName("Scrumpe_Template.xlsx");
             File savedFile = fileChooser.showSaveDialog(MainApp.getRootStage());
+            OutputStream out = new FileOutputStream(savedFile);
             try {
-                if(savedFile !=null){
-                    if(savedFile.exists())
-                    Files.delete(savedFile.toPath());
-                }
-                Files.copy(f.toPath(), savedFile.toPath());
+                IOUtils.copy(in,out);
                 if (Desktop.isDesktopSupported()) {
                     System.err.println(savedFile.getAbsolutePath());
                         Desktop.getDesktop().browse(savedFile.getParentFile().toURI());
@@ -376,8 +375,6 @@ public class CourseEditorController extends ComponentBase implements DAOCallBack
                 System.out.println(ex.toString());
                 presentNote("Oops something went wrong. Please contact the admin");
             }
-        } catch (URISyntaxException ex) {
-            presentNote("Oops something went wrong. Please contact the admin");
-        }
+            
     }
 }

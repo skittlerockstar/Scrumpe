@@ -53,7 +53,7 @@ public class ContainerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         windowBar.setVisible(false);
         windowBar.setManaged(false);
-       addMenuBar();
+//       addMenuBar();
     }
 
     private void exit() {

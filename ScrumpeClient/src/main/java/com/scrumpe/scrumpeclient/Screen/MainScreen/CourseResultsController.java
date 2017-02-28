@@ -183,8 +183,10 @@ public class CourseResultsController extends ScreenBase {
         int minScore = takenCourse.getMinimumScore();
         score.setText(correctQ+" ("+percentage + "%)");
         if(correctQ >= minScore){
+            presentNote("Congratulations! You passed this course.\n\nOn the right side you can find a summary and the list of questions.\nClick on one of them to see the details.");
             score.getStyleClass().add("gotQuestionCorrect");
         }else{
+            presentNote("Sorry... You failed this course.\n\nOn the right side you can find a summary and the list of questions.\nClick on one of them to see the details.");
             score.getStyleClass().add("gotQuestionWrong");
         }
         requiredScore.setText(minScore+" ("+minScore*step+"%)");

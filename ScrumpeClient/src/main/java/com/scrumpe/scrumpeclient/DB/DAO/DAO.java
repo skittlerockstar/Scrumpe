@@ -9,6 +9,7 @@ import com.scrumpe.scrumpeclient.DB.DAO.Callback.DAOCallBack;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 import com.scrumpe.scrumpeclient.Screen.Utils.ScreenManager;
+import com.scrumpe.scrumpeclient.Utils.IPLookup;
 import java.util.List;
 import java.util.concurrent.Callable;
 import javafx.concurrent.Task;
@@ -42,6 +43,15 @@ public abstract class DAO<T,K> extends BasicDAO<T,K> implements EventHandler<Wor
         }
     }
     public void accessDB(DAOCallBack source, Task task){
+        if(UserDAO.getLoggedInUser() != null && !UserDAO.getLoggedInUser().isIsAdmin()){
+             if(!IPLookup.isLocal()){
+                 UserDAO.logOut();
+                 screen.loadScreen(ScreenManager.MainScreen.Login,true);
+                 screen.showNotification("Sorry, you need to be connected to the office WIFI to use this app.", true);
+                 screen.showLoadingScreen(false);
+                 return;
+             }
+        }
         screen.showLoadingScreen(true);
         current = source;
         currentTask = task;

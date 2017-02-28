@@ -73,24 +73,13 @@ public class CourseActiveController extends ScreenBase implements EventHandler<A
         passedMinutes = 0;
         passedSeconds = -1;
         time.setText("");
-        Task loadCourse = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                return tryLoadCourse(currentCourse);
-            }
-        };
-        loadCourse.setOnFailed((event) -> {
-            presentNote("err");
-        });
-        loadCourse.setOnSucceeded((event) -> {
+        CourseDAO cd = (CourseDAO) data.getDAO(CourseDAO.class);
+        cd.getCourse((o) -> {
+            this.currentCourse = o;
             ScreenManager.getInstance().showLoadingScreen(false);
             componentRoot.setVisible(true);
             initCourse();
-        });
-        Thread th = new Thread(loadCourse);
-        th.setDaemon(true);
-        th.start();
-
+        }, "_id",currentCourse.getId() );
         //  initCourse();
     }
 

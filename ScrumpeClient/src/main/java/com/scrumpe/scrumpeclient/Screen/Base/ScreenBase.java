@@ -30,7 +30,7 @@ import javafx.scene.layout.BorderPane;
  */
 public abstract class ScreenBase extends UIComponent {
     protected String screenDescription;
-    protected String title;
+    protected String title ;
     private Label screenTitle;
     protected boolean init = false;
     private final HashMap<MainScreen,Button> navigation= new HashMap<>();
